@@ -6,6 +6,7 @@ Application web simple et efficace basée sur l’**algorithme de répétition e
 ### Comment fonctionne l'application ?
 
 Simple et efficace, vous aide à apprendre et mémoriser du contenu grâce à des flashcards, en utilisant un système de répétition espacée scientifiquement reconnu. Elle s’adapte à vos performances pour afficher les cartes au bon moment.
+
 👉 **Accéder à l’application ici :** _link to the app_
 
 ### 🧠 C'est quoi le SM-2 ?
