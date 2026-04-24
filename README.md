@@ -22,7 +22,7 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 - 📖 **Répétition espacée (algorithme SM-2)** pour un apprentissage optimisé
 
 **en cours...**
-- 📊 **Suivi de progression et statistiques** pour visualiser les cartes les moins bien maîtrisées et admirer son score !
+- 📊 **Suivi de progression et statistiques** pour visualiser les cartes les moins maîtrisées et admirer son score !
 - 📖 **Session d'étude suivie et barre de progression** pour des séances efficaces et regulières 
 - ⚙️ **Sessions d’étude personnalisables** pour costumiser vos sessions
 - 📤 **Export** pour récupérer vos cartes et les partager
