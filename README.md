@@ -1,6 +1,6 @@
 # 📚 Flashy
 
-Application web de fiche révision simple, légère et sans connexion basée sur l’**algorithme de répétition espacée SM-2** pour améliorer la mémisation sur le long terme.
+Flashy est une application web de fiches révisions facile d'utilisation et sans connexion basée sur l’**algorithme de répétition espacée SM-2** pour améliorer la mémisation sur le long terme.
 
 ---
 ### Comment fonctionne l'application ?
