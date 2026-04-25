@@ -32,12 +32,6 @@ function save(){
 }
 
 // =====================
-function goHome(){
-    document.getElementById("stats").style.display = "none";
-    document.getElementById("study").style.display = "block";
-}
-
-// =====================
 function getSelectedDecks(){
     let boxes = document.querySelectorAll(".decks input");
     return [...boxes].filter(b => b.checked).map(b => b.value);
@@ -231,20 +225,6 @@ function resetProgress(){
     if(!confirm("Reset all progress?")) return;
     localStorage.removeItem("cards");
     location.reload();
-}
-
-// =====================
-function toggleStats(){
-    let el = document.getElementById("stats");
-    let study = document.getElementById("study");
-
-    if(el.style.display==="block"){
-        el.style.display="none";
-        study.style.display="block";
-    } else {
-        study.style.display="none";
-        el.style.display="block";
-    }
 }
 
 

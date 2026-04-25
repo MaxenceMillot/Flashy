@@ -21,16 +21,23 @@ header {
 /* CARD */
 .card {
     background: white;
+    width: 500px;
     padding: 20px;
     border-radius: 18px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 
-     /* ✅ fixed total height */
-    height: 420px;
-
-    /* 🔥 prevent layout jump */
+    height: 375px;
     overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: fit-content;
+    min-width: 400px;
+    max-width: 600px;  
+    margin: 40px auto;
 }
 
 /* IMAGE */
@@ -52,7 +59,44 @@ header {
     box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
 
-/* OVERLAY BACKDROP */
+/* ANSWER */
+.answer {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #111;
+
+    /* min-height: 50px; */
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.answer.visible {
+    opacity: 1;
+}
+
+/* BUTTONS */
+.buttons {
+    text-align: center;
+}
+
+button {
+    margin: 6px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* COLORS */
+.btn-show { background:#444; color:white; }
+.fail { background:#e74c3c; color:white; }
+.partial { background:#f39c12; color: rgb(53, 53, 53); }
+.hard { background:#3498db; color:white; }
+.easy { background:#27ae60; color:white; }
+
+
+/* IMAGE OVERLAY BACKDROP */
 .zoom-overlay {
     position: fixed;
     inset: 0;
@@ -97,44 +141,6 @@ header {
     transform: scale(1);
 }
 
-/* ANSWER */
-.answer {
-    margin-top: 10px;
-    font-size: 20px;
-    color: #111;
-
-    /* 🔥 reserve space EVEN WHEN HIDDEN */
-    min-height: 80px;
-
-    opacity: 0;
-    transition: opacity 0.2s ease;
-}
-
-.answer.visible {
-    opacity: 1;
-}
-
-/* BUTTONS */
-.buttons {
-    margin-top: 12px;
-    text-align: center;
-}
-
-button {
-    margin: 6px;
-    padding: 10px 14px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-}
-
-/* COLORS */
-.btn-show { background:#444; color:white; }
-.fail { background:#e74c3c; color:white; }
-.partial { background:#f39c12; color:white; }
-.hard { background:#3498db; color:white; }
-.easy { background:#27ae60; color:white; }
-
 /* DECKS */
 .decks {
     margin-top: 15px;
@@ -144,11 +150,6 @@ button {
     font-size: 12px;
     color: #888;
     margin-top: 5px;
-}
-
-/* STATS */
-.stats {
-    display: none;
 }
 
 /* QoL */

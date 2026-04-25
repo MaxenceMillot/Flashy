@@ -14,49 +14,40 @@
     <div>Flashy</div>
 
     <div class="header-actions">
-        <a href="add.html" class="link-btn">➕ Add cards</a>
 
-        <button onclick="goHome()">Home</button>
-        <button onclick="resetProgress()">Reset</button>
-        <button onclick="toggleStats()">Stats</button>
     </div>
 </header>
 
 <div class="container">
+    <!-- STUDY -->
+    <div id="study">
 
-<!-- STUDY -->
-<div id="study">
-
-    <div class="card" id="card">
-        <img id="img" alt="flashcard image">
-        <div class="answer" id="answer"></div>
-    </div>
-
-
-    <div class="buttons">
-
-        <!-- STEP 1: reveal -->
-        <button id="btnShow" class="btn-show" onclick="showAnswer()">
-            Show answer
-        </button>
-
-        <!-- STEP 2: grading (hidden by default) -->
-        <div id="gradeButtons" style="display:none;">
-            <button class="fail" onclick="grade(1)">Failed</button>
-            <button class="partial" onclick="grade(3)">Partial</button>
-            <button class="hard" onclick="grade(4)">Hard</button>
-            <button class="easy" onclick="grade(5)">Easy</button>
+        <div class="card" id="card">
+            <img id="img" alt="flashcard image">
+            <div class="answer" id="answer"></div>
         </div>
+
+        <div class="buttons">
+            <button id="btnShow" class="btn-show" onclick="showAnswer()">
+                Show answer
+            </button>
+
+            <div id="gradeButtons" style="display:none;">
+                <button class="fail" onclick="grade(1)">Failed</button>
+                <button class="partial" onclick="grade(3)">Partial</button>
+                <button class="hard" onclick="grade(4)">Hard</button>
+                <button class="easy" onclick="grade(5)">Easy</button>
+            </div>
+        </div>
+
     </div>
 
-</div>
+    <!-- DECKS -->
+    <h2>Choix des jeux de carte</h2>
+    <div class="decks" id="deckContainer"></div>
 
-<!-- DECKS -->
-<h2>Choix des jeux de carte</h2>
-<div class="decks" id="deckContainer"></div>
-
-<!-- STATS -->
-<div id="stats" class="stats"></div>
+    <!-- RESET -->
+    <button style="background:#545353; color:white;" onclick="resetProgress()">Reset</button>
 
 </div>
 
