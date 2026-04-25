@@ -3837,7 +3837,7 @@ let cards = [
 {
   id: "Dipladenia,Mandevilla_1",
   deck: "flowers",
-  img: "images/orchids/Dipladenia,Mandevilla_1.webp",
+  img: "images/flowers/Dipladenia,Mandevilla_1.webp",
   text: "Dipladenia,Mandevilla",
   notes: "",
   EF: 2.5,
@@ -3850,7 +3850,7 @@ let cards = [
 {
   id: "Dipladenia,Mandevilla_2",
   deck: "flowers",
-  img: "images/orchids/Dipladenia,Mandevilla_2.jpg",
+  img: "images/flowers/Dipladenia,Mandevilla_2.jpg",
   text: "Dipladenia,Mandevilla",
   notes: "",
   EF: 2.5,
@@ -3863,7 +3863,7 @@ let cards = [
 {
   id: "Dipladenia,Mandevilla_3",
   deck: "flowers",
-  img: "images/orchids/Dipladenia,Mandevilla_3.jpg",
+  img: "images/flowers/Dipladenia,Mandevilla_3.jpg",
   text: "Dipladenia,Mandevilla",
   notes: "",
   EF: 2.5,
@@ -3876,7 +3876,7 @@ let cards = [
 {
   id: "Dipladenia,Mandevilla_4",
   deck: "flowers",
-  img: "images/orchids/Dipladenia,Mandevilla_4.webp",
+  img: "images/flowers/Dipladenia,Mandevilla_4.webp",
   text: "Dipladenia,Mandevilla",
   notes: "",
   EF: 2.5,
@@ -6125,7 +6125,7 @@ let cards = [
 {
   id: "Laurier rose-Nerium oleander_1",
   deck: "flowers",
-  img: "images/orchids/Laurier rose-Nerium oleander_1.webp",
+  img: "images/flowers/Laurier rose-Nerium oleander_1.webp",
   text: "Laurier rose - Nerium oleander",
   notes: "",
   EF: 2.5,
@@ -6138,7 +6138,7 @@ let cards = [
 {
   id: "Laurier rose-Nerium oleander_2",
   deck: "flowers",
-  img: "images/orchids/Laurier rose-Nerium oleander_2.webp",
+  img: "images/flowers/Laurier rose-Nerium oleander_2.webp",
   text: "Laurier rose - Nerium oleander",
   notes: "",
   EF: 2.5,
@@ -6151,7 +6151,7 @@ let cards = [
 {
   id: "Laurier rose-Nerium oleander_3",
   deck: "flowers",
-  img: "images/orchids/Laurier rose-Nerium oleander_3.jpg",
+  img: "images/flowers/Laurier rose-Nerium oleander_3.jpg",
   text: "Laurier rose - Nerium oleander",
   notes: "",
   EF: 2.5,
@@ -6164,7 +6164,7 @@ let cards = [
 {
   id: "Laurier rose-Nerium oleander_4",
   deck: "flowers",
-  img: "images/orchids/Laurier rose-Nerium oleander_4.jpg",
+  img: "images/flowers/Laurier rose-Nerium oleander_4.jpg",
   text: "Laurier rose - Nerium oleander",
   notes: "",
   EF: 2.5,
