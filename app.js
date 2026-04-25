@@ -133,7 +133,7 @@ function showAnswer(){
         answer.classList.add("visible");
     });
 
-    // 👇 SWITCH BUTTONS
+    // SWITCH BUTTONS
     btnShow.style.display = "none";
     gradeButtons.style.display = "block";
 }
