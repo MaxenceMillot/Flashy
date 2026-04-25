@@ -22,6 +22,7 @@ if (saved && Array.isArray(saved)) {
 
 // =====================
 let current = null;
+let nextCard = null;
 let now = Date.now();
 let answerShown = false;
 
@@ -44,7 +45,6 @@ function getSelectedDecks(){
 
 // =====================
 function getNext(){
-
     now = Date.now();
 
     let decks = getSelectedDecks();
@@ -62,7 +62,16 @@ function getNext(){
         return;
     }
 
-    current = pool[Math.floor(Math.random() * pool.length)];
+    // Use preloaded card if exists
+    if(nextCard){
+        current = nextCard;
+    } else {
+        current = pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    // Pick and preload NEXT
+    nextCard = pool[Math.floor(Math.random() * pool.length)];
+    preloadImage(nextCard.img);
 
     render();
 }
@@ -73,21 +82,23 @@ function render(){
     const answer = document.getElementById("answer");
     const img = document.getElementById("img");
 
+    const btnShow = document.getElementById("btnShow");
+    const gradeButtons = document.getElementById("gradeButtons");
+
     if(!current) return;
 
-    //  HARD RESET FIRST (critical)
     answerShown = false;
 
-    // 💥 Force immediate hide BEFORE anything renders
+    // hide answer
     answer.style.display = "none";
     answer.classList.remove("visible");
 
-    // 💥 Force DOM update NOW
+    // reset buttons
+    btnShow.style.display = "inline-block";
+    gradeButtons.style.display = "none";
+
     void answer.offsetHeight;
 
-    // ==========================
-    // Now update content
-    // ==========================
     img.onerror = () => {
         img.onerror = null;
         img.src = "images/placeholder_image_not_found.png";
@@ -101,6 +112,17 @@ function render(){
     `;
 }
 
+function preloadImage(src){
+    if(!src) return;
+
+    const img = new Image();
+    img.src = src;
+
+    if (img.decode) {
+        img.decode().catch(() => {});
+    }
+}
+
 // =====================
 function showAnswer(){
     if(answerShown) return;
@@ -108,14 +130,18 @@ function showAnswer(){
     answerShown = true;
 
     const answer = document.getElementById("answer");
+    const btnShow = document.getElementById("btnShow");
+    const gradeButtons = document.getElementById("gradeButtons");
 
-    // show AFTER it's ready
     answer.style.display = "block";
 
-    // tiny delay ensures clean paint
     requestAnimationFrame(() => {
         answer.classList.add("visible");
     });
+
+    // 👇 SWITCH BUTTONS
+    btnShow.style.display = "none";
+    gradeButtons.style.display = "block";
 }
 
 // =====================
@@ -162,7 +188,6 @@ function grade(q){
 function renderDecks(){
 
     const container = document.getElementById("deckContainer");
-
     const decks = [...new Set(cards.map(c => c.deck))];
 
     container.innerHTML = "";
@@ -170,13 +195,35 @@ function renderDecks(){
     decks.forEach(deck => {
         const label = document.createElement("label");
 
-        label.innerHTML = `
-            <input type="checkbox" value="${deck}" checked>
-            ${deck}
-        `;
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.value = deck;
+        input.checked = true;
+
+        // Update state on change
+        input.addEventListener("change", updateDeckCheckboxState);
+
+        label.appendChild(input);
+        label.append(" " + deck);
 
         container.appendChild(label);
     });
+
+    // initialize state
+    updateDeckCheckboxState();
+}
+
+function updateDeckCheckboxState(){
+
+    const boxes = document.querySelectorAll(".decks input");
+    const checked = [...boxes].filter(b => b.checked);
+
+    // if only 1 checked → disable it
+    boxes.forEach(b => b.disabled = false);
+
+    if(checked.length === 1){
+        checked[0].disabled = true;
+    }
 }
 
 // =====================
@@ -200,6 +247,42 @@ function toggleStats(){
     }
 }
 
+
 // =====================
 renderDecks();
 getNext();
+
+// =====================
+// IMAGE ZOOM OVERLAY
+// =====================
+const zoomOverlay = document.createElement("div");
+zoomOverlay.className = "zoom-overlay";
+
+const zoomImg = document.createElement("img");
+
+zoomOverlay.appendChild(zoomImg);
+document.body.appendChild(zoomOverlay);
+
+// open zoom
+const mainImg = document.getElementById("img");
+
+mainImg.addEventListener("click", () => {
+
+    const src = mainImg.src;
+
+    zoomImg.src = src;
+
+    // Detect PNG and add white background
+    if(src.toLowerCase().endsWith(".png")){
+        zoomImg.classList.add("has-bg");
+    } else {
+        zoomImg.classList.remove("has-bg");
+    }
+
+    zoomOverlay.classList.add("active");
+});
+
+// close zoom
+zoomOverlay.addEventListener("click", () => {
+    zoomOverlay.classList.remove("active");
+});

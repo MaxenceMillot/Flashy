@@ -25,23 +25,89 @@ header {
     border-radius: 18px;
     text-align: center;
     box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+
+     /* ✅ fixed total height */
+    height: 420px;
+
+    /* 🔥 prevent layout jump */
+    overflow: hidden;
 }
 
 /* IMAGE */
 #img {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     max-width: 100%;
     max-height: 320px;
+    object-fit: contain;
     border-radius: 14px;
+}
+
+
+#img.zoomed {
+    transform: scale(1.8);
+    z-index: 1000;
+    position: relative;
+    cursor: zoom-out;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+/* OVERLAY BACKDROP */
+.zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+
+    z-index: 1000;
+}
+
+/* active state */
+.zoom-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* zoomed image */
+.zoom-overlay img {
+    cursor: pointer;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 14px;
+
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+
+/* For transparent images */
+.zoom-overlay img.has-bg {
+    background: #f8f8f8;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* animate in */
+.zoom-overlay.active img {
+    transform: scale(1);
 }
 
 /* ANSWER */
 .answer {
-    opacity: 0;
-    margin-top: 14px;
+    margin-top: 10px;
     font-size: 20px;
-    opacity: 0;
-    transition: 0.2s;
     color: #111;
+
+    /* 🔥 reserve space EVEN WHEN HIDDEN */
+    min-height: 80px;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
 .answer.visible {
@@ -83,4 +149,16 @@ button {
 /* STATS */
 .stats {
     display: none;
+}
+
+/* QoL */
+/* prevent weird behavior on image and buttons */
+img, button, div {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
 }

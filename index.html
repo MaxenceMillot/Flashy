@@ -32,12 +32,21 @@
         <div class="answer" id="answer"></div>
     </div>
 
+
     <div class="buttons">
-        <button class="btn-show" onclick="showAnswer()">Show</button>
-        <button class="fail" onclick="grade(1)">Failed</button>
-        <button class="partial" onclick="grade(3)">Partial</button>
-        <button class="hard" onclick="grade(4)">Hard</button>
-        <button class="easy" onclick="grade(5)">Easy</button>
+
+        <!-- STEP 1: reveal -->
+        <button id="btnShow" class="btn-show" onclick="showAnswer()">
+            Show answer
+        </button>
+
+        <!-- STEP 2: grading (hidden by default) -->
+        <div id="gradeButtons" style="display:none;">
+            <button class="fail" onclick="grade(1)">Failed</button>
+            <button class="partial" onclick="grade(3)">Partial</button>
+            <button class="hard" onclick="grade(4)">Hard</button>
+            <button class="easy" onclick="grade(5)">Easy</button>
+        </div>
     </div>
 
 </div>
