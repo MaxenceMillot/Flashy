@@ -7,6 +7,12 @@ import { initZoom } from "./zoom.js";
 let current = null;
 let nextCard = null;
 
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./service_worker.js")
+        .then(() => console.log("Service Worker registered"))
+        .catch(err => console.error("SW registration failed:", err));
+}
+
 // INIT
 initState();
 renderDecks(cards, el.deckContainer);
