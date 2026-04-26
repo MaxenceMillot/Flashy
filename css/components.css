@@ -1,0 +1,93 @@
+/* BUTTON AREA */
+.buttons {
+    text-align: center;
+}
+
+/* BUTTON BASE */
+button {
+    margin: 6px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+/* BUTTON COLORS */
+.btn-show {
+    background: #444;
+    color: white;
+}
+
+.fail {
+    background: #e74c3c;
+    color: white;
+}
+
+.partial {
+    background: #f39c12;
+    color: rgb(53, 53, 53);
+}
+
+.correct {
+    background: #27ae60;
+    color: white;
+}
+
+/* DECKS */
+.decks {
+    margin-top: 15px;
+}
+
+/* ZOOM OVERLAY */
+.zoom-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+
+    z-index: 1000;
+}
+
+.zoom-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ZOOM IMAGE */
+.zoom-overlay img {
+    cursor: pointer;
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 14px;
+
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+
+/* PNG BACKGROUND FIX */
+.zoom-overlay img.has-bg {
+    background: #f8f8f8;
+    padding: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.zoom-overlay.active img {
+    transform: scale(1);
+}
+
+/* QoL */
+img, button, div {
+    -webkit-tap-highlight-color: transparent;
+}
+
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-touch-callout: none;
+}

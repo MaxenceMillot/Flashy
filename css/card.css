@@ -1,0 +1,57 @@
+/* CARD CONTAINER */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transition: opacity 0.1s ease;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 375px;
+    width: 100%;
+    max-width: 600px;
+    min-width: 400px;
+    margin: 40px auto;
+}
+
+/* FADE ANIMATION */
+.card.fade-out {
+    opacity: 0;
+}
+
+/* IMAGE */
+#img {
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    max-width: 100%;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 14px;
+}
+
+/* ANSWER */
+.answer {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #111;
+
+    min-height: 50px;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.answer.visible {
+    opacity: 1;
+}
+
+/* DECK LABEL INSIDE CARD */
+.deck-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}

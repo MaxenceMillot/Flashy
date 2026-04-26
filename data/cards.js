@@ -1,4 +1,4 @@
-let cards = [
+export const cards = [
 {
   id: "Achillée_1",
   deck: "flowers",

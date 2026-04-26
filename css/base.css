@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #f6f7fb, #eef2f7);
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 14px;
+    background: rgba(20,20,20,0.95);
+    color: white;
+}
+
+/* MAIN LAYOUT */
+.container {
+    padding: 14px;
+}
+
+/* RESET BUTTON (global utility) */
+.reset {
+    background: #545353;
+    color: white;
+}
