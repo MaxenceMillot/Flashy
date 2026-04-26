@@ -92,8 +92,7 @@ button {
 .btn-show { background:#444; color:white; }
 .fail { background:#e74c3c; color:white; }
 .partial { background:#f39c12; color: rgb(53, 53, 53); }
-.hard { background:#3498db; color:white; }
-.easy { background:#27ae60; color:white; }
+.correct { background:#27ae60; color:white; }
 
 
 /* IMAGE OVERLAY BACKDROP */

@@ -25,6 +25,11 @@ let current = null;
 let nextCard = null;
 let now = Date.now();
 let answerShown = false;
+const deckNames = {
+    "flowers": "Fleurs & PLantes",
+    "orchids": "Orchidées",
+    "foliages": "Feuillage"
+};
 
 // =====================
 function save(){
@@ -100,9 +105,11 @@ function render(){
 
     img.src = current.img;
 
+    const deckLabel = deckNames[current.deck] || current.deck;
+
     answer.innerHTML = `
         ${current.text}
-        <div class="deck-label">${current.deck}</div>
+        <div class="deck-label">${deckLabel}</div>
     `;
 }
 
@@ -148,21 +155,21 @@ function grade(q){
     // FORCE RESET BEFORE NEXT CARD
     answerShown = false;
 
-    if(q <= 2){
+    if(q <= 2){ // --- FAILED
         current.repetitions = 0;
         current.interval = 1;
     }
-    else if(q === 3){
+    else if(q === 3){ // --- PARTIAL
         current.repetitions = Math.max(0, current.repetitions - 1);
         current.interval = 1;
     }
-    else if(q === 4){
-        current.repetitions++;
-        if(current.repetitions === 1) current.interval = 1;
-        else if(current.repetitions === 2) current.interval = 4;
-        else current.interval = Math.round(current.interval * current.EF);
-    }
-    else if(q === 5){
+    // else if(q === 4){ // --- HARD
+    //     current.repetitions++;
+    //     if(current.repetitions === 1) current.interval = 1;
+    //     else if(current.repetitions === 2) current.interval = 4;
+    //     else current.interval = Math.round(current.interval * current.EF);
+    // }
+    else if(q === 5){ // --- CORRECT
         current.repetitions++;
         if(current.repetitions === 1) current.interval = 2;
         else if(current.repetitions === 2) current.interval = 6;
