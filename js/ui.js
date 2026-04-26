@@ -22,19 +22,19 @@ export function render(card){
     el.btnShow.style.display = "inline-block";
     el.gradeButtons.style.display = "none";
 
-    el.img.onerror = () => {
-        el.img.onerror = null;
-        el.img.src = "images/placeholder_image_not_found.png";
-    };
-
-    el.img.src = card.img;
-
     const deckLabel = deckNames[card.deck] || card.deck;
 
     el.answer.innerHTML = `
         ${card.text}
         <div class="deck-label">${deckLabel}</div>
     `;
+
+    el.img.src = card.img;
+
+    el.img.onerror = () => {
+        el.img.onerror = null;
+        el.img.src = "images/placeholder_image_not_found.png";
+    };
 }
 
 export function showAnswer(){
@@ -48,11 +48,11 @@ export function showAnswer(){
     el.gradeButtons.style.display = "block";
 }
 
-export function fadeOutIn(callback){
+export function fadeOut(callback){
     el.card.classList.add("fade-out");
+    setTimeout(callback, 150);
+}
 
-    setTimeout(() => {
-        callback();
-        el.card.classList.remove("fade-out");
-    }, 150);
+export function fadeIn(){
+    el.card.classList.remove("fade-out");
 }

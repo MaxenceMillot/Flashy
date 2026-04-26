@@ -1,6 +1,6 @@
 import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
-import { render, showAnswer, fadeOutIn, el } from "./ui.js";
+import { render, showAnswer, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks } from "./decks.js";
 import { initZoom } from "./zoom.js";
 
@@ -19,14 +19,41 @@ renderDecks(cards, el.deckContainer);
 initZoom(el.img);
 
 function next(){
-    fadeOutIn(() => {
-        const result = getNext(getSelectedDecks());
-        if(!result) return;
+    const result = getNext(getSelectedDecks());
+    if(!result) return;
 
-        current = result.current;
-        nextCard = result.nextCard;
+    const newCard = result.current;
+    nextCard = result.nextCard;
 
+    const img = new Image();
+
+    const done = () => {
+        current = newCard;
         render(current);
+
+        // preload next card
+        if (nextCard?.img) {
+            const preloadNext = new Image();
+            preloadNext.src = nextCard.img;
+            preloadNext.decode().catch(() => {});
+        }
+
+        fadeIn();
+    };
+
+    img.onload = async () => {
+        try {
+            await img.decode(); // 👈 HERE
+        } catch(e) {
+            // decode can fail on some browsers, safe to ignore
+        }
+        done();
+    };
+
+    img.onerror = done;
+
+    fadeOut(() => {
+        img.src = newCard.img;
     });
 }
 
