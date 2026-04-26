@@ -9505,7 +9505,7 @@ let cards = [
 {
   id: "Sansevière, langue de belle-mère-Sansevieria cylindrica_3",
   deck: "flowers",
-  img: "Sansevière, langue de belle-mère-Sansevieria cylindrica_3.jpg",
+  img: "images/flowers/Sansevière, langue de belle-mère-Sansevieria cylindrica_3.jpg",
   text: "Sansevière, langue de belle-mère (Sansevieria cylindrica)",
   notes: "",
   EF: 2.5,

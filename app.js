@@ -21,6 +21,13 @@ if (saved && Array.isArray(saved)) {
 }
 
 // =====================
+const el = {
+    img: document.getElementById("img"),
+    answer: document.getElementById("answer"),
+    btnShow: document.getElementById("btnShow"),
+    gradeButtons: document.getElementById("gradeButtons"),
+    deckContainer: document.getElementById("deckContainer")
+};
 let current = null;
 let nextCard = null;
 let now = Date.now();
@@ -44,70 +51,67 @@ function getSelectedDecks(){
 
 // =====================
 function getNext(){
-    now = Date.now();
+    const card = document.getElementById("card");
 
-    let decks = getSelectedDecks();
+    card.classList.add("fade-out");
 
-    let pool = cards.filter(c =>
-        decks.includes(c.deck) && c.due <= now
-    );
+    setTimeout(() => {
 
-    if(pool.length === 0){
-        pool = cards.filter(c => decks.includes(c.deck));
-    }
+        now = Date.now();
+        let decks = getSelectedDecks();
 
-    if(pool.length === 0){
-        console.warn("No cards available");
-        return;
-    }
+        let pool = cards.filter(c =>
+            decks.includes(c.deck) && c.due <= now
+        );
 
-    // Use preloaded card if exists
-    if(nextCard){
-        current = nextCard;
-    } else {
-        current = pool[Math.floor(Math.random() * pool.length)];
-    }
+        if(pool.length === 0){
+            pool = cards.filter(c => decks.includes(c.deck));
+        }
 
-    // Pick and preload NEXT
-    nextCard = pool[Math.floor(Math.random() * pool.length)];
-    preloadImage(nextCard.img);
+        if(pool.length === 0){
+            console.warn("No cards available");
+            return;
+        }
 
-    render();
+        current = nextCard || pool[Math.floor(Math.random() * pool.length)];
+
+        nextCard = pool[Math.floor(Math.random() * pool.length)];
+        preloadImage(nextCard.img);
+
+        render();
+
+        card.classList.remove("fade-out");
+
+    }, 150);
 }
 
 // =====================
 function render(){
-
-    const answer = document.getElementById("answer");
-    const img = document.getElementById("img");
-
-    const btnShow = document.getElementById("btnShow");
-    const gradeButtons = document.getElementById("gradeButtons");
-
-    if(!current) return;
+    if(!current || !current.img) return;
 
     answerShown = false;
 
-    // hide answer
-    answer.style.display = "none";
-    answer.classList.remove("visible");
+    // reset UI
+    el.answer.style.display = "none";
+    el.answer.classList.remove("visible");
 
-    // reset buttons
-    btnShow.style.display = "inline-block";
-    gradeButtons.style.display = "none";
+    el.btnShow.style.display = "inline-block";
+    el.gradeButtons.style.display = "none";
 
-    void answer.offsetHeight;
+    // force reflow (keep your fade working)
+    void el.answer.offsetHeight;
 
-    img.onerror = () => {
-        img.onerror = null;
-        img.src = "images/placeholder_image_not_found.png";
+    // image fallback
+    el.img.onerror = () => {
+        el.img.onerror = null;
+        el.img.src = "images/placeholder_image_not_found.png";
     };
 
-    img.src = current.img;
+    el.img.src = current.img;
 
     const deckLabel = deckNames[current.deck] || current.deck;
 
-    answer.innerHTML = `
+    el.answer.innerHTML = `
         ${current.text}
         <div class="deck-label">${deckLabel}</div>
     `;
@@ -130,19 +134,14 @@ function showAnswer(){
 
     answerShown = true;
 
-    const answer = document.getElementById("answer");
-    const btnShow = document.getElementById("btnShow");
-    const gradeButtons = document.getElementById("gradeButtons");
-
-    answer.style.display = "block";
+    el.answer.style.display = "block";
 
     requestAnimationFrame(() => {
-        answer.classList.add("visible");
+        el.answer.classList.add("visible");
     });
 
-    // SWITCH BUTTONS
-    btnShow.style.display = "none";
-    gradeButtons.style.display = "block";
+    el.btnShow.style.display = "none";
+    el.gradeButtons.style.display = "block";
 }
 
 // =====================
