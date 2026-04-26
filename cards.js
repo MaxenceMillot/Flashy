@@ -5473,45 +5473,6 @@ let cards = [
   custom: false
 },
 {
-  id: "Hellebore_1",
-  deck: "flowers",
-  img: "images/flowers/Hellebore_1.webp",
-  text: "Hellebore",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
-  id: "Hellebore_2",
-  deck: "flowers",
-  img: "images/flowers/Hellebore_2.webp",
-  text: "Hellebore",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
-  id: "Hellebore_3",
-  deck: "flowers",
-  img: "images/flowers/Hellebore_3.jpg",
-  text: "Hellebore",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
   id: "Hibiscus-Hibiscus rosa sinensis_1",
   deck: "flowers",
   img: "images/flowers/Hibiscus-Hibiscus rosa sinensis_1.jpg",
