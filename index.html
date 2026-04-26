@@ -1,67 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flashy</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
-</head>
+        
+        <title>Flashy</title>
+    </head>
 
-<body>
+    <body>
+        <header>
+            <div>Flashy</div>
+        </header>
 
-<header>
-    <div>Flashy</div>
+        <div class="container">
+            <!-- STUDY -->
+            <div id="study">
 
-    <div class="header-actions">
-        <a href="add.html" class="link-btn">➕ Add cards</a>
+                <div class="card" id="card">
+                    <img id="img" alt="flashcard image">
+                    <div class="answer" id="answer"></div>
+                </div>
 
-        <button onclick="goHome()">Home</button>
-        <button onclick="resetProgress()">Reset</button>
-        <button onclick="toggleStats()">Stats</button>
-    </div>
-</header>
+                <div class="buttons">
+                    <button id="btnShow" class="btn-show" onclick="showAnswer()">
+                        Voir la réponse
+                    </button>
 
-<div class="container">
+                    <div id="gradeButtons" style="display:none;">
+                        <button class="fail" onclick="grade(1)">Raté</button>
+                        <button class="partial" onclick="grade(3)">Presque</button>
+                        <button class="correct" onclick="grade(5)">Correct</button>
+                    </div>
+                </div>
 
-<!-- STUDY -->
-<div id="study">
+            </div>
 
-    <div class="card" id="card">
-        <img id="img" alt="flashcard image">
-        <div class="answer" id="answer"></div>
-    </div>
+            <!-- DECKS -->
+            <h2>Choix des jeux de carte</h2>
+            <div class="decks" id="deckContainer"></div>
 
+            <!-- RESET -->
+            <button style="background:#545353; color:white;" onclick="resetProgress()">Reset</button>
 
-    <div class="buttons">
-
-        <!-- STEP 1: reveal -->
-        <button id="btnShow" class="btn-show" onclick="showAnswer()">
-            Show answer
-        </button>
-
-        <!-- STEP 2: grading (hidden by default) -->
-        <div id="gradeButtons" style="display:none;">
-            <button class="fail" onclick="grade(1)">Failed</button>
-            <button class="partial" onclick="grade(3)">Partial</button>
-            <button class="hard" onclick="grade(4)">Hard</button>
-            <button class="easy" onclick="grade(5)">Easy</button>
         </div>
-    </div>
 
-</div>
-
-<!-- DECKS -->
-<h2>Choix des jeux de carte</h2>
-<div class="decks" id="deckContainer"></div>
-
-<!-- STATS -->
-<div id="stats" class="stats"></div>
-
-</div>
-
-<script src="cards.js"></script>
-<script src="app.js"></script>
-
-</body>
+        <script src="cards.js"></script>
+        <script src="app.js"></script>
+    </body>
 </html>
