@@ -1,6 +1,6 @@
 import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
-import { render, showAnswer, fadeOut, fadeIn, el } from "./ui.js";
+import { initHeaderMenu, render, showAnswer, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks } from "./decks.js";
 import { initZoom } from "./zoom.js";
 
@@ -15,6 +15,7 @@ if ("serviceWorker" in navigator) {
 
 // INIT
 initState();
+initHeaderMenu();
 renderDecks(cards, el.deckContainer);
 initZoom(el.img);
 

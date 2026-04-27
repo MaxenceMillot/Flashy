@@ -4,8 +4,28 @@ export const el = {
     btnShow: document.getElementById("btnShow"),
     gradeButtons: document.getElementById("gradeButtons"),
     card: document.getElementById("card"),
-    deckContainer: document.getElementById("deckContainer")
+    deckContainer: document.getElementById("deckContainer"),
+    menuBtn: document.getElementById("menuBtn"),
+    mobileMenu: document.getElementById("mobileMenu")
 };
+
+export function initHeaderMenu() {
+    if (!el.menuBtn || !el.mobileMenu) return;
+
+    el.menuBtn.addEventListener("click", () => {
+        el.mobileMenu.classList.toggle("open");
+        el.menuBtn.classList.toggle("open");
+    });
+
+    // optional: click outside closes menu
+    document.addEventListener("click", (e) => {
+        const isClickInside = el.menuBtn.contains(e.target) || el.mobileMenu.contains(e.target);
+        if (!isClickInside) {
+            el.mobileMenu.classList.remove("open");
+            el.menuBtn.classList.remove("open");
+        }
+    });
+}
 
 const deckNames = {
     flowers: "Fleurs & Plantes",

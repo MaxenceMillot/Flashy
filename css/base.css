@@ -11,27 +11,9 @@ body {
     background: #f6f7fb;
 }
 
-/* HEADER */
-header {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: space-between;
-    padding: 14px 16px;
-    background: rgba(20,20,20,0.95);
-    color: white;
-}
-
 /* MAIN LAYOUT */
 .container {
     padding: 14px;
-}
-
-/* FOR MOBILE */
-@media (max-width: 600px) {
-    .container {
-        padding-bottom: 90px; /* space for sticky buttons */
-    }
 }
 
 /* STUDY WRAPPER */
@@ -41,7 +23,7 @@ header {
     align-items: center;
 }
 
-/* RESET BUTTON (global utility) */
+/* RESET BUTTON */
 .reset {
     background: #545353;
     color: white;
