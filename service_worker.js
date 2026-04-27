@@ -1,4 +1,4 @@
-const CACHE_NAME = "flashy";
+const CACHE_NAME = "flashy-v1";
 
 const APP_SHELL = [
     "./",
