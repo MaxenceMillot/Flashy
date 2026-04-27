@@ -49,10 +49,22 @@ export function showAnswer(){
 }
 
 export function fadeOut(callback){
-    el.card.classList.add("fade-out");
-    setTimeout(callback, 150);
+    const card = el.card;
+
+    function handleEnd(e){
+        if (e.propertyName !== "opacity") return;
+
+        card.removeEventListener("transitionend", handleEnd);
+        callback();
+    }
+
+    card.addEventListener("transitionend", handleEnd);
+    card.classList.add("fade-out");
 }
 
 export function fadeIn(){
-    el.card.classList.remove("fade-out");
+    // ensure next frame so browser registers state change
+    requestAnimationFrame(() => {
+        el.card.classList.remove("fade-out");
+    });
 }
