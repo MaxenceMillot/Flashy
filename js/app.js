@@ -6,6 +6,7 @@ import { initZoom } from "./zoom.js";
 
 let current = null;
 let nextCard = null;
+let isTransitioning = false;
 
 if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("./service_worker.js")
@@ -55,7 +56,9 @@ async function next() {
             loadImage(nextCard.img);
         }
 
-        fadeIn();
+        fadeIn(() => {
+            isTransitioning = false; // 🔓 UNLOCK
+        });
     });
 }
 
@@ -63,8 +66,12 @@ async function next() {
 el.btnShow.addEventListener("click", showAnswer);
 
 el.gradeButtons.addEventListener("click", (e) => {
+    if (isTransitioning) return; // BLOCK SPAM
+
     const btn = e.target.closest("button");
     if(!btn) return;
+
+    isTransitioning = true; // LOCK
 
     const grade = Number(btn.dataset.grade);
 
