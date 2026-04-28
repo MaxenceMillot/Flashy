@@ -35,68 +35,48 @@ const deckNames = {
     foliages: "Feuillage"
 };
 
-export function render(card){
-    if(!card) return;
+export function render(card, { onImageReady } = {}) {
+    if (!card) return;
 
-    // Reset answer state
+    // Reset UI
     el.answer.style.display = "none";
     el.answer.classList.remove("visible");
 
     el.btnShow.style.display = "inline-block";
     el.gradeButtons.style.display = "none";
-    setButtonsDisabled(false);
-
-    const deckLabel = deckNames[card.deck] || card.deck;
 
     el.answer.innerHTML = `
         ${card.text}
-        <div class="deck-label">${deckLabel}</div>
+        <div class="deck-label">${card.deck}</div>
     `;
 
-    const wrapper = el.img.parentElement;
+    el.img.onload = null;
+    el.img.onerror = null;
 
-    // RESET STATE
-    wrapper.classList.remove("loaded");
-    el.img.classList.remove("loaded");
+    let handled = false;
 
-    let slowHintTimer;
+    function done() {
+        if (handled) return;
+        handled = true;
 
-    // SLOW LOADING HINT (NO TIMEOUT Fallback)
-    slowHintTimer = setTimeout(() => {
-        if (!el.img.classList.contains("loaded")) {
-            wrapper.classList.add("slow"); // subtle visual cue
-        }
-    }, 2000); // 2s feels natural
+        el.card.classList.remove("loading");
 
-    // LOAD SUCCESS
-    el.img.onload = () => {
-        clearTimeout(slowHintTimer);
+        if (onImageReady) onImageReady();
+    }
 
-        wrapper.classList.remove("slow");
-        el.img.classList.add("loaded");
-        wrapper.classList.add("loaded");
-    };
+    el.img.onload = done;
 
-    // ERROR FALLBACK
     el.img.onerror = () => {
-        clearTimeout(slowHintTimer);
-
-        el.img.onerror = null;
         el.img.src = "images/placeholder_image_not_found.png";
-
-        wrapper.classList.remove("slow");
-        el.img.classList.add("loaded");
-        wrapper.classList.add("loaded");
+        done();
     };
 
-    // SET IMAGE
+    // Set src LAST
     el.img.src = card.img;
 
-    // CACHED IMAGE SAFETY
-    if (el.img.complete) {
-        clearTimeout(slowHintTimer);
-        el.img.classList.add("loaded");
-        wrapper.classList.add("loaded");
+    // Handle cached images (VERY IMPORTANT)
+    if (el.img.complete && el.img.naturalWidth !== 0) {
+        requestAnimationFrame(done);
     }
 }
 
@@ -112,14 +92,10 @@ export function showAnswer(){
 }
 
 export function setButtonsDisabled(disabled) {
-    // Show answer button
     el.btnShow.disabled = disabled;
 
-    // Grade buttons
     const buttons = el.gradeButtons.querySelectorAll("button");
-    buttons.forEach(btn => {
-        btn.disabled = disabled;
-    });
+    buttons.forEach(btn => btn.disabled = disabled);
 }
 
 export function fadeOut(callback){
@@ -127,7 +103,6 @@ export function fadeOut(callback){
 
     function handleEnd(e){
         if (e.propertyName !== "opacity") return;
-
         card.removeEventListener("transitionend", handleEnd);
         callback();
     }
@@ -160,6 +135,5 @@ export function fadeIn(callback){
         card.classList.remove("fade-out");
     });
 
-    // fallback safety
     setTimeout(done, 300);
 }
