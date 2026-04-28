@@ -13,7 +13,7 @@ export function initZoom(imgElement){
 
         zoomImg.src = src;
 
-        if(src.toLowerCase().endsWith(".png")){
+        if(src.toLowerCase().endsWith(".png") || src.toLowerCase().endsWith(".webp") ){
             zoomImg.classList.add("has-bg");
         } else {
             zoomImg.classList.remove("has-bg");

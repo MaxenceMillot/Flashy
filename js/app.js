@@ -64,67 +64,83 @@ renderDecks(cards, el.deckContainer);
 initZoom(el.img);
 
 // Load image with decode safety
+// TODO : remove
 function preloadImage(src) {
     return new Promise((resolve) => {
+        if (!src) return resolve();
+
         const img = new Image();
 
         img.onload = async () => {
             try { await img.decode(); } catch(e) {}
             resolve(src);
         };
-
-        img.onerror = () => resolve(src);
+        img.onerror = () => {
+            resolve("images/placeholder_image_not_found.png");
+        };
 
         img.src = src;
+
+        if (img.decode) {
+            img.decode().then(() => resolve(src)).catch(() => resolve(src));
+        }
     });
 }
 
 // NEXT CARD FLOW
-function next() {
-    const result = getNext(getSelectedDecks());
-    if (!result) return;
-
-    const newCard = result.current;
-    nextCard = result.nextCard;
-
-    fadeOut(() => {
-        current = newCard;
-        render(current);
-
-        console.log("if (nextCard?.img)")
-        if (nextCard?.img) {
-        console.log("preloadImage")
-            preloadImage(nextCard.img);
-        console.log("preloadImage DONE")
-        }
-
-        console.log("fadeIn")
-        console.log("isTransitioning: "+isTransitioning);
-        fadeIn(() => {
-            isTransitioning = false;
-            setButtonsDisabled(false);
-        });
-        console.log("fadeIn DONE")
-        console.log("isTransitioning: "+isTransitioning);
-    });
-}
-
-// EVENTS
-el.btnShow.addEventListener("click", showAnswer);
-
-el.gradeButtons.addEventListener("click", (e) => {
-    console.log("in click event");
-    console.log("isTransitioning: "+isTransitioning);
-    console.log("current: ");
-    console.log(current);
-    if (isTransitioning || !current) return;
-
-    const btn = e.target.closest("button");
-    if (!btn) return;
+async function next() {
+    if (isTransitioning) return;
 
     isTransitioning = true;
     setButtonsDisabled(true);
 
+    const result = getNext(getSelectedDecks());
+    if (!result) return;
+
+    // use stored nextCard if available
+    const newCard = nextCard || result.current;
+
+    // prepare NEXT one
+    nextCard = result.nextCard;
+
+    // preload NEXT card (for future)
+    if (nextCard?.img) {
+        const img = new Image();
+        img.src = nextCard.img;
+    }
+
+    // 1. Fade out
+    await new Promise(r => fadeOut(r));
+
+    // 2. Activate skeleton
+    el.card.classList.add("loading");
+
+    // 3. Render
+    current = newCard;
+
+    render(current, {
+        onImageReady: () => {
+            isTransitioning = false;
+            setButtonsDisabled(false);
+        }
+    });
+
+    // 4. Fade in
+    await new Promise(r => fadeIn(r));
+}
+
+// EVENTS
+el.btnShow.addEventListener("click", () => {
+    if (el.card.classList.contains("loading")) return;
+    showAnswer();
+});
+
+el.gradeButtons.addEventListener("click", (e) => {
+    console.log("isTransitioning in clickListener: "+isTransitioning)
+    if (isTransitioning || !current || el.card.classList.contains("loading")) return;
+
+    const btn = e.target.closest("button");
+    if (!btn) return;
 
     const grade = Number(btn.dataset.grade);
 
