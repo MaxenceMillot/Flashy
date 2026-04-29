@@ -63,30 +63,6 @@ initHeaderMenu();
 renderDecks(cards, el.deckContainer);
 initZoom(el.img);
 
-// Load image with decode safety
-// TODO : remove
-function preloadImage(src) {
-    return new Promise((resolve) => {
-        if (!src) return resolve();
-
-        const img = new Image();
-
-        img.onload = async () => {
-            try { await img.decode(); } catch(e) {}
-            resolve(src);
-        };
-        img.onerror = () => {
-            resolve("images/placeholder_image_not_found.png");
-        };
-
-        img.src = src;
-
-        if (img.decode) {
-            img.decode().then(() => resolve(src)).catch(() => resolve(src));
-        }
-    });
-}
-
 // NEXT CARD FLOW
 async function next() {
     if (isTransitioning) return;
