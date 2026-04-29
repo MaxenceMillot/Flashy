@@ -9,6 +9,16 @@ let current = null;
 let nextCard = null;
 let isTransitioning = false;
 
+
+// REGISTER SERVICE WORKER
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service_worker.js")
+            .then(() => console.log("Service Worker registered"))
+            .catch(err => console.error("SW registration failed:", err));
+    });
+}
+
 /*
 / DETECT PWA
 */
@@ -17,9 +27,14 @@ function isInstalledPWA() {
         || window.navigator.standalone === true;
 }
 
-/*
-/ PRE LOAD AREA {
-*/
+// AFTER 5s PRELOAD ALL IMAGES IF PWA
+setTimeout(() => {
+    if (isInstalledPWA()) {
+        console.log("Preloading all images...");
+        preloadAllImages();
+    }
+}, 5000);
+
 // PRELOAD ALL IMAGES (in cache)
 function preloadAllImages() {
     const images = cards.map(c => c.img);
@@ -37,25 +52,6 @@ function preloadAllImages() {
     queue();
     console.log("Preloading DONE");
 }
-
-setTimeout(() => {
-    if (isInstalledPWA()) {
-        console.log("Preloading all images...");
-        preloadAllImages();
-    }
-}, 2000);
-
-// SW
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service_worker.js")
-            .then(() => console.log("Service Worker registered"))
-            .catch(err => console.error("SW registration failed:", err));
-    });
-}
-/*
-/ END PRELOAD }
-*/
 
 // INIT
 initState();
