@@ -1,14 +1,7 @@
-const PLACEHOLDER = "images/placeholder_image_not_found.png";
+export const PLACEHOLDER = "images/placeholder_image_not_found.png";
 
 export function loadImage(src, { timeout = 5000, retries = 1 } = {}) {
     return new Promise((resolve) => {
-
-        // offline → instant fallback
-        if (!navigator.onLine) {
-            resolve(PLACEHOLDER);
-            return;
-        }
-
         let attempts = 0;
         let finished = false;
 

@@ -57,7 +57,7 @@ button:active:not(:disabled) {
     gap: 12px;
 
     width: 100%;
-    max-width: 420px; /* ✅ closer to card visual width */
+    max-width: 420px;
     margin: 0 auto;
 }
 
@@ -66,8 +66,16 @@ button:active:not(:disabled) {
     flex: 1;
     text-align: center;
 
-    /* ✅ better than min-width: keeps equality without breaking flex */
     padding: 12px 8px;
+}
+
+/* ===================== */
+/* SKIP BUTTON */
+/* ===================== */
+.btn-skip {
+    background: #444;
+    color: white;
+    width: 150px;
 }
 
 /* ===================== */
@@ -93,6 +101,15 @@ button:active:not(:disabled) {
     }
 
     .btn-show {
+        width: 100%;
+        max-width: 320px;
+
+        padding: 16px;
+        font-size: 16px;
+        border-radius: 14px;
+    }
+
+    .btn-skip {
         width: 100%;
         max-width: 320px;
 

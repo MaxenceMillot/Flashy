@@ -83,7 +83,7 @@
     opacity: 1;
 }
 
-/* MOBILE (keep fixed height to avoid layout shift) */
+/* MOBILE */
 @media (max-width: 600px) {
     .card {
         height: 320px;
