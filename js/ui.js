@@ -1,7 +1,11 @@
+import { getDeckLabel } from "./decks.js";
+
+
 export const el = {
     img: document.getElementById("img"),
     answer: document.getElementById("answer"),
     btnShow: document.getElementById("btnShow"),
+    btnSkip: document.getElementById("btnSkip"),
     gradeButtons: document.getElementById("gradeButtons"),
     card: document.getElementById("card"),
     deckContainer: document.getElementById("deckContainer"),
@@ -29,12 +33,6 @@ export function initHeaderMenu() {
     });
 }
 
-const deckNames = {
-    flowers: "Fleurs & Plantes",
-    orchids: "Orchidées",
-    foliages: "Feuillage"
-};
-
 // =======================
 // RENDER
 // =======================
@@ -44,12 +42,12 @@ export function render(card) {
     el.answer.style.display = "none";
     el.answer.classList.remove("visible");
 
-    el.btnShow.style.display = "inline-block";
+    showNormalMode();
     el.gradeButtons.style.display = "none";
 
     el.answer.innerHTML = `
         ${card.text}
-        <div class="deck-label">${card.deck}</div>
+        <div class="deck-label">${getDeckLabel(card.deck)}</div>
     `;
 }
 
@@ -77,6 +75,24 @@ export function showAnswer(){
 
     el.btnShow.style.display = "none";
     el.gradeButtons.style.display = "flex";
+}
+
+export function showNormalMode() {
+    el.btnSkip.style.display = "none";
+    el.btnShow.style.display = "inline-block";
+}
+
+export function showSkipMode() {
+    el.btnShow.style.display = "none";
+    el.gradeButtons.style.display = "none";
+    el.btnSkip.style.display = "inline-block";
+
+    el.answer.innerHTML = `
+        <div style="color:#888;font-size:14px;">
+            Erreur : image non disponible
+        </div>
+    `;
+    el.answer.style.display = "block";
 }
 
 export function setButtonsDisabled(disabled) {

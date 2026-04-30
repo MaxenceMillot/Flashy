@@ -1,13 +1,26 @@
 import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
-import { loadImage } from "./imageLoader.js";
-import { initHeaderMenu, render, setCardImage, startLoading, stopLoading, showAnswer, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
+import { loadImage, PLACEHOLDER } from "./imageLoader.js";
+import { initHeaderMenu, render, setCardImage, startLoading, stopLoading, showAnswer, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks } from "./decks.js";
 import { initZoom } from "./zoom.js";
 
 let current = null;
 let nextCard = null;
 let isTransitioning = false;
+
+
+// REGISTER SERVICE WORKER
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service_worker.js")
+            .then(() => console.log("Service Worker registered"))
+            .catch(err => console.error("SW registration failed:", err));
+    });
+}
+
+// LOAD ICONS FROM LIBRARY
+lucide.createIcons();
 
 /*
 / DETECT PWA
@@ -17,9 +30,14 @@ function isInstalledPWA() {
         || window.navigator.standalone === true;
 }
 
-/*
-/ PRE LOAD AREA {
-*/
+// AFTER 5s PRELOAD ALL IMAGES IF PWA
+setTimeout(() => {
+    if (isInstalledPWA()) {
+        console.log("Preloading all images...");
+        preloadAllImages();
+    }
+}, 5000);
+
 // PRELOAD ALL IMAGES (in cache)
 function preloadAllImages() {
     const images = cards.map(c => c.img);
@@ -37,25 +55,6 @@ function preloadAllImages() {
     queue();
     console.log("Preloading DONE");
 }
-
-setTimeout(() => {
-    if (isInstalledPWA()) {
-        console.log("Preloading all images...");
-        preloadAllImages();
-    }
-}, 2000);
-
-// SW
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service_worker.js")
-            .then(() => console.log("Service Worker registered"))
-            .catch(err => console.error("SW registration failed:", err));
-    });
-}
-/*
-/ END PRELOAD }
-*/
 
 // INIT
 initState();
@@ -98,6 +97,11 @@ async function next() {
     setCardImage(finalSrc);
     stopLoading();
 
+    // ERROR : image not found > SKIP MODE
+    if (finalSrc === PLACEHOLDER) {
+        showSkipMode();
+    }
+
     // 6. Fade IN
     await new Promise(r => fadeIn(r));
 
@@ -118,8 +122,6 @@ el.btnShow.addEventListener("click", () => {
     showAnswer();
 });
 
-// el.btnShow.addEventListener("click", showAnswer);
-
 // GRADE BUTTON
 el.gradeButtons.addEventListener("click", (e) => {
     if (isTransitioning || !current || el.card.classList.contains("loading")) return;
@@ -133,8 +135,16 @@ el.gradeButtons.addEventListener("click", (e) => {
     next();
 });
 
+// SKIP BUTTON
+el.btnSkip.addEventListener("click", () => {
+    if (isTransitioning) return;
+
+    el.btnSkip.style.display = "none";
+    next();
+});
+
 // RESET BUTTON
-document.getElementById("resetBtn").addEventListener("click", () => {
+document.getElementById("btnReset").addEventListener("click", () => {
     if (confirm("Reset all progress?")) {
         localStorage.removeItem("cards");
         location.reload();

@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/icons/icon_16.png">
     <link rel="icon" href="images/icons/favicon.ico">
     <link rel="apple-touch-icon" href="images/icons/icon_192.png">
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <title>Flashy</title>
 </head>
@@ -27,25 +28,66 @@
     </div>
 
     <div class="header-right">
-        <button class="info-btn">Info</button>
 
+        <!-- Desktop actions -->
+        <div class="desktop-nav">
+            <!-- <button class="nav-btn">
+                <i data-lucide="book-copy"></i>
+                Mes Cartes
+            </button>
+            <button class="nav-btn">
+                <i data-lucide="chart-line"></i>
+                Mes Statistiques
+            </button>
+            <button class="nav-btn warning">
+                <i data-lucide="bug"></i>
+                Signaler un bug
+            </button> -->
+            <button class="nav-btn">
+                <i data-lucide="construction"></i>
+                En travaux...
+            </button>
+        </div>
+
+        <!-- Hamburger (mobile only) -->
         <button class="hamburger" id="menuBtn" aria-label="menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
+
     </div>
 
 </header>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-item">Info</button>
+<!-- Dropdown menu (mobile only) -->
+<div class="dropdown-menu" id="mobileMenu">
+    <!-- <button class="dropdown-item">
+        <i data-lucide="download"></i>
+        Télécharger l'application
+    </button>
+
+    <button class="dropdown-item">
+        <i data-lucide="info"></i>
+        Infos
+    </button>
+    <button class="dropdown-item warning">
+        <i data-lucide="bug"></i>
+        Signaler un Bug
+    </button> -->
+    <button class="dropdown-item warning">
+        <i data-lucide="construction"></i>
+        En travaux...
+    </button>
 </div>
 
 <div class="container">
 
     <div id="study">
+        <h1>Révisions Référentiel Fleuriste 2026</h1>
+
+        <h2>Choix des cartes</h2>
+        <div class="decks" id="deckContainer"></div>
 
         <div class="card" id="card">
             <div class="image-wrapper">
@@ -57,6 +99,9 @@
 
         <div class="buttons">
             <button id="btnShow" class="btn-show">Voir la réponse</button>
+            <button id="btnSkip" class="btn-skip" style="display:none;">
+                Passer cette carte
+            </button>
 
             <div id="gradeButtons" style="display:none;">
                 <button class="fail" data-grade="1">Raté</button>
@@ -67,10 +112,7 @@
 
     </div>
 
-    <h2>Choix des cartes</h2>
-    <div class="decks" id="deckContainer"></div>
-
-    <button id="resetBtn" class="reset">Reset</button>
+    <button id="btnReset" class="btn-reset">Reset</button>
 
 </div>
 

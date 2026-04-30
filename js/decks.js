@@ -14,12 +14,22 @@ export function renderDecks(cards, container){
         input.addEventListener("change", updateState);
 
         label.appendChild(input);
-        label.append(" " + deck);
+        label.append(" " + getDeckLabel(deck));
 
         container.appendChild(label);
     });
 
     updateState();
+}
+
+const deckNames = {
+    flowers: "Fleurs & Plantes",
+    orchids: "Orchidées",
+    foliages: "Feuillage"
+};
+
+export function getDeckLabel(deck) {
+    return deckNames[deck] || deck;
 }
 
 function updateState(){

@@ -11,17 +11,15 @@
     align-items: center;
 
     height: 375px;
-    width: 100%;
+    width: calc(100% - 80px);
     max-width: 600px;
-    margin: 40px 0;
 
-    /* performance + smooth animation */
     will-change: opacity, transform;
     transform: translateZ(0);
     transition: opacity 0.25s ease, transform 0.25s ease;
 
     position: relative;
-    overflow: hidden; /* ensures shimmer stays inside */
+    overflow: hidden;
 }
 
 /* Skeleton active state */
@@ -83,7 +81,7 @@
     opacity: 1;
 }
 
-/* MOBILE (keep fixed height to avoid layout shift) */
+/* MOBILE */
 @media (max-width: 600px) {
     .card {
         height: 320px;
