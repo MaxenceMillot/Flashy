@@ -11,9 +11,6 @@
     gap: 12px;
 }
 
-/* ===================== */
-/* BUTTON BASE */
-/* ===================== */
 button {
     padding: 10px 14px;
     border: none;
@@ -36,20 +33,7 @@ button:active:not(:disabled) {
     transform: scale(0.96);
 }
 
-/* ===================== */
-/* SHOW BUTTON */
-/* ===================== */
-.btn-show {
-    background: #444;
-    color: white;
 
-    width: 150px;
-    max-width: 90%;
-}
-
-/* ===================== */
-/* GRADE BUTTONS */
-/* ===================== */
 #gradeButtons {
     display: flex;
     justify-content: center;
@@ -61,7 +45,6 @@ button:active:not(:disabled) {
     margin: 0 auto;
 }
 
-/* Equal size buttons */
 #gradeButtons button {
     display: flex;
     align-items: center;
@@ -84,7 +67,6 @@ button:active:not(:disabled) {
     flex-shrink: 0;
 
     transition: all 0.18s ease;
-
 }
 
 #gradeButtons button:hover svg {
@@ -92,23 +74,27 @@ button:active:not(:disabled) {
     transform: scale(1.05);
 }
 
-/* ===================== */
-/* SKIP BUTTON */
-/* ===================== */
+.btn-show {
+    background: #444;
+    color: white;
+
+    width: 150px;
+    max-width: 90%;
+}
+
 .btn-skip {
     background: #444;
     color: white;
     width: 150px;
 }
 
-/* RESET BUTTON */
 .btn-reset {
     background: #545353;
     color: white;
 }
 
 /* ===================== */
-/* MOBILE */
+/* SMALL DEVICES */
 /* ===================== */
 @media (max-width: 600px) {
     .buttons {
@@ -164,7 +150,7 @@ button:active:not(:disabled) {
 }
 
 /* ===================== */
-/* SMALL DEVICES */
+/* X-SMALL DEVICES */
 /* ===================== */
 @media (max-width: 430px) {
     #gradeButtons button {
@@ -173,9 +159,6 @@ button:active:not(:disabled) {
     }
 }
 
-/* ===================== */
-/* BUTTON COLORS */
-/* ===================== */
 .fail {
     background: #e74c3c;
     color: white;
@@ -241,7 +224,7 @@ button:active:not(:disabled) {
 .chip {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 
     padding: 8px 14px;
 
@@ -280,24 +263,18 @@ button:active:not(:disabled) {
     transform: scale(1.05);
 }
 
-/* ===================== */
-/* SELECTED (PRIMARY STATE) */
-/* ===================== */
 .chip.selected {
-    background: #e8f0ff;              /* light blue */
-    color: rgba(0, 0, 0, 0.85);      /* soft black (not harsh) */
+    background: #e8f0ff;
+    color: rgba(0, 0, 0, 0.85);
     border-color: #c7d7ff;
 
     box-shadow: 0 1px 2px rgba(0,0,0,0.06);
 }
 
 .chip.selected svg {
-    opacity: 0.9; /* keep it readable but not too strong */
+    opacity: 0.9;
 }
 
-/* ===================== */
-/* ACTIVE PRESS */
-/* ===================== */
 .chip:active {
     transform: scale(0.96);
 }
@@ -306,28 +283,39 @@ button:active:not(:disabled) {
     transform: scale(0.97);
 }
 
-/* ===================== */
-/* DISABLED */
-/* ===================== */
+
 .chip.disabled {
     cursor: default;
     pointer-events: none;
 }
 
-/* 🔥 KEY FIX: selected + disabled */
 .chip.selected.disabled {
-    background: #dbe7ff;          /* slightly muted blue */
-    color: rgba(0, 0, 0, 0.65);      /* dimmed but still readable */
+    background: #dbe7ff;
+    color: rgba(0, 0, 0, 0.65);
     border-color: #b6ccff;
 
     /* subtle “locked” feel */
     box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
 }
 
-
-/* optional: slight visual cue it's locked */
 .chip.selected.disabled svg {
     opacity: 0.9;
+}
+
+/* SMALLER CHIPS ON MOBILE */
+@media (max-width: 600px) {
+    .chip {
+        padding: 5px 9px;
+    }
+
+    .chip svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .decks {
+        gap: 6px;
+    }
 }
 
 /* ===================== */

@@ -1,6 +1,6 @@
 import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
-import { loadImage, PLACEHOLDER } from "./imageLoader.js";
+import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
 import { initZoom } from "./zoom.js";
@@ -10,9 +10,10 @@ let current = null;
 let nextCard = null;
 let isTransitioning = false;
 let deferredPrompt = null;
+const isInStandalone = isInStandaloneMode();
 
+// Prevent automatic prompt to install PWA app
 window.addEventListener("beforeinstallprompt", (e) => {
-    // Stop the automatic browser prompt to install the app
     e.preventDefault();
 
     // Save it for later
@@ -32,41 +33,25 @@ if ("serviceWorker" in navigator) {
 lucide.createIcons();
 
 // HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
-// if(isInStandaloneMode){
-//     el.btnDownload.style.display = "none";
-// }
+if(isInStandalone){
+    el.btnDownload.style.display = "none";
+}
 
 // AFTER 5s PRELOAD ALL IMAGES IF PWA
 setTimeout(() => {
-    if (isInStandaloneMode()) {
+    if (isInStandalone) {
         console.log("Preloading all images...");
         preloadAllImages();
     }
 }, 5000);
-
-// PRELOAD ALL IMAGES (in cache)
-function preloadAllImages() {
-    const images = cards.map(c => c.img);
-    let i = 0;
-
-    function queue() {
-        if (i >= images.length) return;
-
-        const img = new Image();
-        img.src = images[i++];
-
-        setTimeout(queue, 15);
-    }
-
-    queue();
-    console.log("Preloading DONE");
-}
 
 // INIT
 initState();
 initHeaderMenu();
 renderDecks(cards, el.deckContainer);
 initZoom(el.img);
+
+setTimeout(5000)
 
 // =======================
 // NEXT CARD FLOW
@@ -89,19 +74,27 @@ async function next() {
     // 2. Start skeleton placeholder (delayed to avoid flash)
     const skeletonTimer = setTimeout(() => {
         startLoading();
-    }, 120);
+    }, 80);
 
     // 3. Set answer text (hidden)
     current = newCard;
     setAnswerText(current);
+    
+    // 7. Fadein animation
+    setTimeout(() => {
+       new Promise(r => fadeIn(r));
+    }, 80);
+    // await new Promise(r => fadeIn(r));
 
     // 4. Load image
     const finalSrc = await loadImage(newCard.img);
 
     // 5. Apply image
     clearTimeout(skeletonTimer);
-    setCardImage(finalSrc);
-    stopLoading();
+    setTimeout(() => {
+        setCardImage(finalSrc);
+        stopLoading();
+    }, 80);
 
     // 6. standard behavior OR skip mode 
     if (finalSrc === PLACEHOLDER) {
@@ -109,9 +102,6 @@ async function next() {
     } else {
         showNormalMode();
     }
-
-    // 7. Fadein animation
-    await new Promise(r => fadeIn(r));
 
     // 8. Unlock UI
     isTransitioning = false;
@@ -183,7 +173,7 @@ el.btnDownload.addEventListener("click", async () => {
 
     if (!deferredPrompt){
         console.error("could not trigger manual download : deferredPrompt is null")
-        alert("Pour installer l'application: Utilisez le menu du navigateur (⋮) Puis “Ajouter à l'écran d'accueil”")
+        alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
         return;
     }
 
