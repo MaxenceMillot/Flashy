@@ -10,9 +10,10 @@ let current = null;
 let nextCard = null;
 let isTransitioning = false;
 let deferredPrompt = null;
+const isInStandalone = isInStandaloneMode();
 
+// Prevent automatic prompt to install PWA app
 window.addEventListener("beforeinstallprompt", (e) => {
-    // Stop the automatic browser prompt to install the app
     e.preventDefault();
 
     // Save it for later
@@ -32,13 +33,13 @@ if ("serviceWorker" in navigator) {
 lucide.createIcons();
 
 // HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
-// if(isInStandaloneMode){
-//     el.btnDownload.style.display = "none";
-// }
+if(isInStandalone){
+    el.btnDownload.style.display = "none";
+}
 
 // AFTER 5s PRELOAD ALL IMAGES IF PWA
 setTimeout(() => {
-    if (isInStandaloneMode()) {
+    if (isInStandalone) {
         console.log("Preloading all images...");
         preloadAllImages();
     }
@@ -183,7 +184,7 @@ el.btnDownload.addEventListener("click", async () => {
 
     if (!deferredPrompt){
         console.error("could not trigger manual download : deferredPrompt is null")
-        alert("Pour installer l'application: Utilisez le menu du navigateur (⋮) Puis “Ajouter à l'écran d'accueil”")
+        alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
         return;
     }
 

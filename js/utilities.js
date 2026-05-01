@@ -3,7 +3,9 @@ export function isIos() {
 }
 // STANDALONE = PWA APP
 export function isInStandaloneMode() {
-    return window.matchMedia("(display-mode: standalone)").matches
-        || window.navigator.standalone === true;
-}
+    if (isIos()) {
+        return window.navigator.standalone === true;
+    }
 
+    return window.matchMedia("(display-mode: standalone)").matches;
+}
