@@ -34,15 +34,14 @@ export function initHeaderMenu() {
 }
 
 // =======================
-// RENDER
+// SET ANSWER
 // =======================
-export function render(card) {
+export function setAnswerText(card) {
     if (!card) return;
 
     el.answer.style.display = "none";
     el.answer.classList.remove("visible");
 
-    showNormalMode();
     el.gradeButtons.style.display = "none";
 
     el.answer.innerHTML = `

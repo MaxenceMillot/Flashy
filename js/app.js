@@ -1,7 +1,7 @@
 import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
 import { loadImage, PLACEHOLDER } from "./imageLoader.js";
-import { initHeaderMenu, render, setCardImage, startLoading, stopLoading, showAnswer, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
+import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks } from "./decks.js";
 import { initZoom } from "./zoom.js";
 
@@ -77,19 +77,19 @@ async function next() {
     const newCard = nextCard || result.current;
     nextCard = result.nextCard;
 
-    // 1. Fade OUT
+    // 1. Fadeout animation
     await new Promise(r => fadeOut(r));
 
-    // 2. Render text immediately
-    current = newCard;
-    render(current);
-
-    // 3. Start skeleton (delayed to avoid flash)
+    // 2. Start skeleton placeholder (delayed to avoid flash)
     const skeletonTimer = setTimeout(() => {
         startLoading();
     }, 120);
 
-    // 4. Load image (async, controlled)
+    // 3. Set answer text (hidden)
+    current = newCard;
+    setAnswerText(current);
+
+    // 4. Load image
     const finalSrc = await loadImage(newCard.img);
 
     // 5. Apply image
@@ -97,19 +97,21 @@ async function next() {
     setCardImage(finalSrc);
     stopLoading();
 
-    // ERROR : image not found > SKIP MODE
+    // 6. standard behavior OR skip mode 
     if (finalSrc === PLACEHOLDER) {
         showSkipMode();
+    } else {
+        showNormalMode();
     }
 
-    // 6. Fade IN
+    // 7. Fadein animation
     await new Promise(r => fadeIn(r));
 
-    // 7. Unlock UI
+    // 8. Unlock UI
     isTransitioning = false;
     setButtonsDisabled(false);
 
-    // 8. Preload next (non-blocking)
+    // 9. Preload next (non-blocking)
     if (nextCard?.img) {
         loadImage(nextCard.img);
     }
