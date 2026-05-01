@@ -33,9 +33,7 @@ export function initHeaderMenu() {
     });
 }
 
-// =======================
-// SET ANSWER
-// =======================
+
 export function setAnswerText(card) {
     if (!card) return;
 
@@ -44,9 +42,24 @@ export function setAnswerText(card) {
 
     el.gradeButtons.style.display = "none";
 
+    const finalText = formatAnswerText(card.text);
+
     el.answer.innerHTML = `
-        ${card.text}
+        ${finalText}
         <div class="deck-label">${getDeckLabel(card.deck)}</div>
+    `;
+}
+
+function formatAnswerText(text) {
+    const separator = " - ";
+
+    if (!text.includes(separator)) return text;
+
+    const [before, after] = text.split(separator);
+
+    return `
+        ${before} - 
+        <span class="mandatory-latin">${after}</span>
     `;
 }
 

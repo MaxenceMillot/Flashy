@@ -2,7 +2,7 @@ import { initState, cards } from "./state.js";
 import { getNext, gradeCard } from "./scheduler.js";
 import { loadImage, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
-import { renderDecks, getSelectedDecks } from "./decks.js";
+import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
 import { initZoom } from "./zoom.js";
 
 let current = null;
@@ -116,6 +116,21 @@ async function next() {
         loadImage(nextCard.img);
     }
 }
+
+// DECK CHANGE CALLBACK
+setDeckChangeCallback(() => {
+    // Invalidate next preloaded image
+    nextCard = null;
+
+    // recompute next preloaded image
+    const result = getNext(getSelectedDecks());
+    if (result?.nextCard?.img) {
+        nextCard = result.nextCard;
+
+        // preload correct image
+        loadImage(nextCard.img);
+    }
+});
 
 // EVENTS
 // SHOW ANSWER BUTTON

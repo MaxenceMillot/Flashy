@@ -1,50 +1,97 @@
-export function renderDecks(cards, container){
-    const decks = [...new Set(cards.map(c => c.deck))];
-
-    container.innerHTML = "";
-
-    decks.forEach(deck => {
-        const label = document.createElement("label");
-
-        const input = document.createElement("input");
-        input.type = "checkbox";
-        input.value = deck;
-        input.checked = true;
-
-        input.addEventListener("change", updateState);
-
-        label.appendChild(input);
-        label.append(" " + getDeckLabel(deck));
-
-        container.appendChild(label);
-    });
-
-    updateState();
-}
-
 const deckNames = {
     flowers: "Fleurs & Plantes",
     orchids: "Orchidées",
     foliages: "Feuillage"
 };
+const deckConfig = {
+    flowers: {
+        label: "Fleurs & Plantes",
+        icon: "flower-2"
+    },
+    orchids: {
+        label: "Orchidées",
+        icon: "sprout"
+    },
+    foliages: {
+        label: "Feuillage",
+        icon: "leaf"
+    }
+};
+let selectedDecks = new Set();
+let onDeckChange = null;
 
 export function getDeckLabel(deck) {
     return deckNames[deck] || deck;
 }
 
-function updateState(){
-    const boxes = document.querySelectorAll(".decks input");
-    const checked = [...boxes].filter(b => b.checked);
+export function getSelectedDecks() {
+    return Array.from(selectedDecks);
+}
 
-    boxes.forEach(b => b.disabled = false);
+export function setDeckChangeCallback(cb) {
+    onDeckChange = cb;
+}
 
-    if(checked.length === 1){
-        checked[0].disabled = true;
+export function renderDecks(cards, container){
+    const decks = [...new Set(cards.map(c => c.deck))];
+
+    container.innerHTML = "";
+    selectedDecks = new Set(decks);
+
+    decks.forEach(deck => {
+        const chip = document.createElement("button");
+        chip.className = "chip selected";
+        chip.dataset.deck = deck;
+
+        const config = deckConfig[deck] || { label: deck, icon: "tag" };
+
+        chip.innerHTML = `
+            <i data-lucide="${config.icon}" class="chip-icon"></i>
+            <span>${config.label}</span>
+        `;
+
+        chip.addEventListener("click", () => {
+            toggleDeck(deck, chip);
+        });
+
+        container.appendChild(chip);
+    });
+
+    lucide.createIcons();
+}
+
+function toggleDeck(deck, chip) {
+    // Prevent removing last remaining deck
+    if (selectedDecks.size === 1 && selectedDecks.has(deck)) {
+        return;
+    }
+
+    if (selectedDecks.has(deck)) {
+        selectedDecks.delete(deck);
+        chip.classList.remove("selected");
+    } else {
+        selectedDecks.add(deck);
+        chip.classList.add("selected");
+    }
+
+    updateStateUI();
+
+    if (onDeckChange) {
+        onDeckChange([...selectedDecks]);
     }
 }
 
-export function getSelectedDecks(){
-    return [...document.querySelectorAll(".decks input")]
-        .filter(b => b.checked)
-        .map(b => b.value);
+function updateStateUI() {
+    const chips = document.querySelectorAll(".deck-filters .chip");
+
+    chips.forEach(chip => {
+        const deck = chip.dataset.deck;
+
+        // Disable if it's the last selected
+        if (selectedDecks.size === 1 && selectedDecks.has(deck)) {
+            chip.classList.add("disabled");
+        } else {
+            chip.classList.remove("disabled");
+        }
+    });
 }
