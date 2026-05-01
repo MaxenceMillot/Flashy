@@ -8,7 +8,7 @@ export async function loadImage(src, { timeout = 5000, retries = 1 } = {}) {
 
     // --- DEBUG ---
     console.log("START sleep");
-    await sleep(450);
+    await sleep(300);
     console.log("END sleep");
     // --- DEBUG ---
 

@@ -80,7 +80,6 @@ async function next() {
     // 3. Set answer text (hidden)
     current = newCard;
     setAnswerText(current);
-
     
     // 7. Fadein animation
     setTimeout(() => {
