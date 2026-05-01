@@ -84,8 +84,7 @@
 @media (max-width: 600px) {
     .card {
         height: 320px;
-        margin: 20px auto;
-        padding: 15px;
+        margin-top: 20px;
     }
 
     .container {
@@ -133,7 +132,7 @@
 /* MOBILE IMAGE */
 @media (max-width: 600px) {
     #img {
-        max-height: 220px;
+        max-height: 250px;
     }
 }
 
