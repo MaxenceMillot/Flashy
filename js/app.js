@@ -4,11 +4,20 @@ import { loadImage, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
 import { initZoom } from "./zoom.js";
+import { isInStandaloneMode, isIos } from "./utilities.js";
 
 let current = null;
 let nextCard = null;
 let isTransitioning = false;
+let deferredPrompt = null;
 
+window.addEventListener("beforeinstallprompt", (e) => {
+    // Stop the automatic browser prompt to install the app
+    e.preventDefault();
+
+    // Save it for later
+    deferredPrompt = e;
+});
 
 // REGISTER SERVICE WORKER
 if ("serviceWorker" in navigator) {
@@ -22,17 +31,14 @@ if ("serviceWorker" in navigator) {
 // LOAD ICONS FROM LIBRARY
 lucide.createIcons();
 
-/*
-/ DETECT PWA
-*/
-function isInstalledPWA() {
-    return window.matchMedia("(display-mode: standalone)").matches
-        || window.navigator.standalone === true;
+// HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
+if(isInStandaloneMode){
+    el.btnDownload.style.display = "none";
 }
 
 // AFTER 5s PRELOAD ALL IMAGES IF PWA
 setTimeout(() => {
-    if (isInstalledPWA()) {
+    if (isInStandaloneMode()) {
         console.log("Preloading all images...");
         preloadAllImages();
     }
@@ -167,6 +173,27 @@ document.getElementById("btnReset").addEventListener("click", () => {
         location.reload();
     }
 });
+
+// DOWNLOAD BUTTON
+el.btnDownload.addEventListener("click", async () => {
+    if (isIos()) {
+        alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
+        return;
+    }
+
+    if (!deferredPrompt){
+        console.error("could not trigger manual download : deferredPrompt is null")
+        alert("Pour installer l'application: Utilisez le menu du navigateur (⋮) Puis “Ajouter à l'écran d'accueil”")
+        return;
+    }
+
+    await deferredPrompt.prompt();
+
+    const { outcome } = await deferredPrompt.userChoice;
+
+    deferredPrompt = null;
+});
+
 
 // START
 next();

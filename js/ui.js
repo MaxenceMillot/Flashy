@@ -10,7 +10,8 @@ export const el = {
     card: document.getElementById("card"),
     deckContainer: document.getElementById("deckContainer"),
     menuBtn: document.getElementById("menuBtn"),
-    mobileMenu: document.getElementById("mobileMenu")
+    mobileMenu: document.getElementById("mobileMenu"),
+    btnDownload: document.getElementById("btnDownload")
 };
 
 export function initHeaderMenu() {
