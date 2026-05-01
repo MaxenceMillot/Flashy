@@ -68,7 +68,6 @@ export function setCardImage(src) {
 }
 
 export function startLoading() {
-    console.log("SKELETON ON");
     el.card.classList.add("loading");
 }
 

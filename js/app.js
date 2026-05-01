@@ -46,7 +46,6 @@ setTimeout(() => {
 }, 5000);
 
 // INIT
-console.log("after");
 initState();
 initHeaderMenu();
 renderDecks(cards, el.deckContainer);
@@ -75,7 +74,7 @@ async function next() {
     // 2. Start skeleton placeholder (delayed to avoid flash)
     const skeletonTimer = setTimeout(() => {
         startLoading();
-    }, 150);
+    }, 80);
 
     // 3. Set answer text (hidden)
     current = newCard;
@@ -84,7 +83,7 @@ async function next() {
     // 7. Fadein animation
     setTimeout(() => {
        new Promise(r => fadeIn(r));
-    }, 150);
+    }, 80);
     // await new Promise(r => fadeIn(r));
 
     // 4. Load image

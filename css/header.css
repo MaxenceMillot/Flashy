@@ -12,7 +12,6 @@
     backdrop-filter: blur(10px);
 }
 
-/* LEFT */
 .header-left {
     display: flex;
     align-items: center;
@@ -71,7 +70,6 @@
     opacity: 0.9;
 }
 
-/* hover polish */
 .nav-btn:hover svg,
 .dropdown-item:hover svg {
     opacity: 1;
@@ -98,7 +96,7 @@
 }
 
 /* =========================
-   HAMBURGER (mobile only)
+   HAMBURGER MENU (mobile only)
    ========================= */
 .hamburger {
     width: 34px;

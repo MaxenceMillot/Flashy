@@ -55,12 +55,9 @@
     );
 
     background-size: 200% 200%;
-
     animation: skeleton-shimmer 1.8s ease-in-out infinite;
-
     z-index: 2;
 }
-
 
 /* Diagonal animation */
 @keyframes skeleton-shimmer {
@@ -102,7 +99,6 @@
     transform: scale(0.98);
 }
 
-
 /* =========================
    SKELETON LOADER
    ========================= */
@@ -115,7 +111,9 @@
     }
 }
 
-/* IMAGE */
+/* =========================
+   IMAGE
+   ========================= */
 #img {
     cursor: pointer;
     opacity: 1;
