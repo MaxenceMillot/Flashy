@@ -62,11 +62,11 @@
 
 <!-- Dropdown menu (mobile only) -->
 <div class="dropdown-menu" id="mobileMenu">
-    <!-- <button class="dropdown-item">
+    <button id="btnDownload" class="dropdown-item">
         <i data-lucide="download"></i>
         Télécharger l'application
     </button>
-
+    <!--
     <button class="dropdown-item">
         <i data-lucide="info"></i>
         Infos
@@ -86,8 +86,11 @@
     <div id="study">
         <h1>Révisions Référentiel Fleuriste 2026</h1>
 
-        <h2>Choix des cartes</h2>
-        <div class="decks" id="deckContainer"></div>
+        <div class="deck-filters" id="deckContainer">
+            <button class="chip active">Fleurs & Plantes</button>
+            <button class="chip active">Orchidées</button>
+            <button class="chip active">Feuillage</button>
+        </div>
 
         <div class="card" id="card">
             <div class="image-wrapper">
@@ -104,9 +107,18 @@
             </button>
 
             <div id="gradeButtons" style="display:none;">
-                <button class="fail" data-grade="1">Raté</button>
-                <button class="partial" data-grade="3">Presque</button>
-                <button class="correct" data-grade="5">Correct</button>
+                <button class="fail" data-grade="1">
+                    <i data-lucide="circle-x"></i>
+                    Raté
+                </button>
+                <button class="partial" data-grade="3">
+                    <i data-lucide="circle-dashed"></i>
+                    Presque
+                </button>
+                <button class="correct" data-grade="5">
+                    <i data-lucide="circle-check"></i>
+                    Correct
+                </button>
             </div>
         </div>
 
@@ -115,6 +127,12 @@
     <button id="btnReset" class="btn-reset">Reset</button>
 
 </div>
+
+<footer class="app-footer">
+    <div class="footer-content">
+        <span>Flashy 2026 version 1.0</span>
+    </div>
+</footer>
 
 <script type="module" src="js/app.js"></script>
 </body>

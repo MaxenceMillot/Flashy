@@ -10,7 +10,8 @@ export const el = {
     card: document.getElementById("card"),
     deckContainer: document.getElementById("deckContainer"),
     menuBtn: document.getElementById("menuBtn"),
-    mobileMenu: document.getElementById("mobileMenu")
+    mobileMenu: document.getElementById("mobileMenu"),
+    btnDownload: document.getElementById("btnDownload")
 };
 
 export function initHeaderMenu() {
@@ -33,21 +34,33 @@ export function initHeaderMenu() {
     });
 }
 
-// =======================
-// RENDER
-// =======================
-export function render(card) {
+
+export function setAnswerText(card) {
     if (!card) return;
 
     el.answer.style.display = "none";
     el.answer.classList.remove("visible");
 
-    showNormalMode();
     el.gradeButtons.style.display = "none";
 
+    const finalText = formatAnswerText(card.text);
+
     el.answer.innerHTML = `
-        ${card.text}
+        ${finalText}
         <div class="deck-label">${getDeckLabel(card.deck)}</div>
+    `;
+}
+
+function formatAnswerText(text) {
+    const separator = " - ";
+
+    if (!text.includes(separator)) return text;
+
+    const [before, after] = text.split(separator);
+
+    return `
+        ${before} - 
+        <span class="mandatory-latin">${after}</span>
     `;
 }
 

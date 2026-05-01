@@ -63,10 +63,33 @@ button:active:not(:disabled) {
 
 /* Equal size buttons */
 #gradeButtons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
     flex: 1;
     text-align: center;
 
     padding: 12px 8px;
+}
+
+#gradeButtons button svg {
+    width: 20px;
+    height: 20px;
+
+    stroke-width: 2;
+    opacity: 0.7;
+
+    flex-shrink: 0;
+
+    transition: all 0.18s ease;
+
+}
+
+#gradeButtons button:hover svg {
+    opacity: 1;
+    transform: scale(1.05);
 }
 
 /* ===================== */
@@ -213,8 +236,105 @@ button:active:not(:disabled) {
 }
 
 /* ===================== */
+/* DECKS FILTER CHIPS */
+/* ===================== */
+.chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    color: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.05);
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+
+    cursor: pointer;
+    transition: all 0.18s ease;
+}
+
+/* ICON */
+.chip svg {
+    width: 16px;
+    height: 16px;
+
+    stroke-width: 2;
+    opacity: 0.7;
+
+    transition: all 0.18s ease;
+}
+
+/* HOVER */
+.chip:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: rgba(0, 0, 0, 0.95);
+}
+
+.chip:hover svg {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ===================== */
+/* SELECTED (PRIMARY STATE) */
+/* ===================== */
+.chip.selected {
+    background: #e8f0ff;              /* light blue */
+    color: rgba(0, 0, 0, 0.85);      /* soft black (not harsh) */
+    border-color: #c7d7ff;
+
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+
+.chip.selected svg {
+    opacity: 0.9; /* keep it readable but not too strong */
+}
+
+/* ===================== */
+/* ACTIVE PRESS */
+/* ===================== */
+.chip:active {
+    transform: scale(0.96);
+}
+
+.chip.selected:active {
+    transform: scale(0.97);
+}
+
+/* ===================== */
+/* DISABLED */
+/* ===================== */
+.chip.disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+/* 🔥 KEY FIX: selected + disabled */
+.chip.selected.disabled {
+    background: #dbe7ff;          /* slightly muted blue */
+    color: rgba(0, 0, 0, 0.65);      /* dimmed but still readable */
+    border-color: #b6ccff;
+
+    /* subtle “locked” feel */
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+}
+
+
+/* optional: slight visual cue it's locked */
+.chip.selected.disabled svg {
+    opacity: 0.9;
+}
+
+/* ===================== */
 /* QoL */
 /* ===================== */
+
+/* Prevent highlighting in blue */
 img, button, div {
     -webkit-tap-highlight-color: transparent;
 }

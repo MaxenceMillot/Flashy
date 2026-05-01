@@ -160,6 +160,11 @@
     opacity: 1;
 }
 
+.answer .mandatory-latin {
+    color: #cc1b1b;
+    font-weight: 500;
+}
+
 /* DECK LABEL INSIDE CARD */
 .deck-label {
     font-size: 12px;
