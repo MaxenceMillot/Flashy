@@ -32,9 +32,9 @@ if ("serviceWorker" in navigator) {
 lucide.createIcons();
 
 // HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
-if(isInStandaloneMode){
-    el.btnDownload.style.display = "none";
-}
+// if(isInStandaloneMode){
+//     el.btnDownload.style.display = "none";
+// }
 
 // AFTER 5s PRELOAD ALL IMAGES IF PWA
 setTimeout(() => {
