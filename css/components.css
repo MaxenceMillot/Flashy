@@ -3,7 +3,7 @@
 /* ===================== */
 .buttons {
     width: 100%;
-    margin-top: 10px;
+    margin-top: 20px;
 
     display: flex;
     flex-direction: column;
@@ -80,6 +80,9 @@ button:active:not(:disabled) {
 
     width: 150px;
     max-width: 90%;
+    
+    padding: 12px 8px;
+    margin: 1px auto;
 }
 
 .btn-skip {
@@ -96,7 +99,7 @@ button:active:not(:disabled) {
 /* ===================== */
 /* SMALL DEVICES */
 /* ===================== */
-@media (max-width: 600px) {
+@media (max-width: 600px) {    
     .buttons {
         position: sticky;
         bottom: 0;
@@ -115,22 +118,26 @@ button:active:not(:disabled) {
         z-index: 10;
     }
 
+    .buttons button {
+        height: 60px;
+        padding: 0;    
+        
+        font-size: 22px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
     .btn-show {
         width: 100%;
         max-width: 320px;
-
-        padding: 16px;
-        font-size: 16px;
-        border-radius: 14px;
     }
 
     .btn-skip {
         width: 100%;
         max-width: 320px;
-
-        padding: 16px;
-        font-size: 16px;
-        border-radius: 14px;
     }
 
     #gradeButtons {
@@ -143,9 +150,11 @@ button:active:not(:disabled) {
     #gradeButtons button {
         flex: 1;
         min-width: 0;
+    }
 
-        padding: 14px 6px;
-        font-size: 14px;
+    #gradeButtons button svg {
+        width: 24px;
+        height: 24px;
     }
 }
 
@@ -305,7 +314,7 @@ button:active:not(:disabled) {
 /* SMALLER CHIPS ON MOBILE */
 @media (max-width: 600px) {
     .chip {
-        padding: 5px 9px;
+        padding: 6px 12px;
     }
 
     .chip svg {
@@ -315,6 +324,22 @@ button:active:not(:disabled) {
 
     .decks {
         gap: 6px;
+    }
+}
+
+/* X-SMALLER CHIPS ON MOBILE */
+@media (max-width: 325px) {
+    .chip {
+        padding: 4px 9px;
+    }
+
+    .chip svg {
+        width: 13px;
+        height: 13px;
+    }
+
+    .decks {
+        gap: 4px;
     }
 }
 
