@@ -241,7 +241,7 @@ button:active:not(:disabled) {
 .chip {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 4px;
 
     padding: 8px 14px;
 
@@ -328,6 +328,22 @@ button:active:not(:disabled) {
 /* optional: slight visual cue it's locked */
 .chip.selected.disabled svg {
     opacity: 0.9;
+}
+
+/* SMALLER CHIPS ON MOBILE */
+@media (max-width: 600px) {
+    .chip {
+        padding: 5px 9px;
+    }
+
+    .chip svg {
+        width: 15px;
+        height: 15px;
+    }
+
+    .decks {
+        gap: 6px;
+    }
 }
 
 /* ===================== */

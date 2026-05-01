@@ -31,10 +31,17 @@ body {
 /* FILTERS WRAPPER */
 .deck-filters {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
-  margin: 10px 0 20px;
+  margin: 0 0 20px;
   flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .deck-filters {
+        margin: 0 0 0px;
+        gap: 6px;
+    }
 }
 
 /* =========================
