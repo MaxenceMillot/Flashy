@@ -14,14 +14,14 @@
 button {
     padding: 10px 14px;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     cursor: pointer;
 
     font-size: 15px;
 
     margin: 0;
 
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    /* transition: transform 0.1s ease, box-shadow 0.1s ease; */
 }
 
 button:disabled {
@@ -56,10 +56,6 @@ button:active:not(:disabled) {
     text-align: center;
 
     padding: 12px 8px;
-}
-
-#gradeButtons button:hover {
-    filter: brightness(1.03);
 }
 
 #gradeButtons button:active {
@@ -108,10 +104,6 @@ button:active:not(:disabled) {
     margin: 1px auto;
 }
 
-.btn-show:hover {
-    filter: brightness(1.04);
-}
-
 .btn-show:active {
     transform: scale(0.96);
     box-shadow: 0 2px 6px rgba(0,0,0,0.2) inset;
@@ -148,13 +140,6 @@ button:active:not(:disabled) {
         width: 100%;
         padding: 14px 12px;
 
-        background: linear-gradient(
-            to top,
-            rgba(246,247,251,1),
-            rgba(246,247,251,0.95),
-            rgba(246,247,251,0)
-        );
-
         backdrop-filter: blur(6px);
         z-index: 10;
     }
@@ -164,7 +149,7 @@ button:active:not(:disabled) {
         padding: 0;
         
         font-size: 18px;
-        font-weight: 500;
+        /* font-weight: 500; */
         border-radius: 16px;
 
         display: flex;
@@ -172,7 +157,7 @@ button:active:not(:disabled) {
         justify-content: center;
         gap: 6px;
 
-        transition: all 0.15s ease;
+        transition: all 0.10s ease;
     }
 
     .btn-show {
@@ -216,21 +201,18 @@ button:active:not(:disabled) {
 } */
 
 .fail {
-    background: linear-gradient(180deg, #ef5444, #e13d2f);
-    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.25);
-    color: white;
+    background: #f68275;
+    color: black;
 }
 
 .partial {
-    background: linear-gradient(180deg, #e0951c, #e08e09);
-    box-shadow: 0 4px 10px rgba(243, 156, 18, 0.25);
-    color: white;
+    background: #e8b665;
+    color: black;
 }
 
 .correct {
-    background: linear-gradient(180deg, #2fbf71, #27ae60);
-    box-shadow: 0 4px 10px rgba(39, 174, 96, 0.25);
-    color: white;
+    background: #84b799;
+    color: black;
 }
 
 /* ===================== */
@@ -287,8 +269,8 @@ button:active:not(:disabled) {
 
     padding: 8px 14px;
 
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 12px;
+    /* font-weight: 500; */
 
     color: rgba(0, 0, 0, 0.65);
     background: rgba(0, 0, 0, 0.05);
