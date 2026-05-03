@@ -4,13 +4,14 @@ import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode, isIos } from "./utilities.js";
+import { isInStandaloneMode, isIos, getAppVersion } from "./utilities.js";
 
 let current = null;
 let nextCard = null;
 let isTransitioning = false;
 let deferredPrompt = null;
 const isInStandalone = isInStandaloneMode();
+
 
 // Prevent automatic prompt to install PWA app
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -164,26 +165,32 @@ document.getElementById("btnReset").addEventListener("click", () => {
     }
 });
 
-// DOWNLOAD BUTTON
-el.btnDownload.addEventListener("click", async () => {
-    if (isIos()) {
-        alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
-        return;
-    }
+// DOWNLOAD BUTTON - COMMENTED BEFORE V1.0
+// el.btnDownload.addEventListener("click", async () => {
+//     if (isIos()) {
+//         alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
+//         return;
+//     }
 
-    if (!deferredPrompt){
-        console.error("could not trigger manual download : deferredPrompt is null")
-        alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
-        return;
-    }
+//     if (!deferredPrompt){
+//         console.error("could not trigger manual download : deferredPrompt is null")
+//         alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
+//         return;
+//     }
 
-    await deferredPrompt.prompt();
+//     await deferredPrompt.prompt();
 
-    const { outcome } = await deferredPrompt.userChoice;
+//     const { outcome } = await deferredPrompt.userChoice;
 
-    deferredPrompt = null;
+//     deferredPrompt = null;
+// });
+
+
+
+// put version number in footer
+getAppVersion().then(version => {
+    document.getElementById("appVersion").textContent += `${version}`;
 });
-
 
 // START
 next();
