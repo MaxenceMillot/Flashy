@@ -17,17 +17,13 @@ export async function getAppVersion() {
 
 // CHECK
 export async function checkForUpdate() {
-    console.log("checking for new version...");
     try {
         let newVersion = await getAppVersion();
         let isToastShowed = document.querySelector(".update-toast");
 
         if (!CURRENT_VERSION) return;
 
-        console.log("Current version: " + CURRENT_VERSION);
-        console.log("Server version : " + newVersion);
-
-        if (newVersion !== "1.1.1" && !isToastShowed) {
+        if (newVersion !== CURRENT_VERSION && !isToastShowed) {
             showUpdateToast(newVersion);
         }
 

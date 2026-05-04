@@ -8,10 +8,12 @@ function getCacheName(version) {
 const APP_SHELL = [
     "./",
     "./index.html",
+
     "./css/base.css",
-    "./css/component.css",
+    "./css/components.css",
     "./css/header.css",
     "./css/card.css",
+
     "./js/app.js",
     "./js/state.js",
     "./js/decks.js",
@@ -20,7 +22,9 @@ const APP_SHELL = [
     "./js/ui.js",
     "./js/zoom.js",
     "./js/utilities.js",
+
     "./data/cards.js",
+
     "./images/placeholder_image_not_found.png"
 ];
 
@@ -28,14 +32,25 @@ const APP_SHELL = [
 self.addEventListener("install", (event) => {
     event.waitUntil(
         (async () => {
-            const res = await fetch("./data/version.json", { cache: "no-store" });
-            const data = await res.json();
+            try{
+                const res = await fetch("./data/version.json", { cache: "no-store" });
+                const data = await res.json();
+                APP_VERSION = data.version;
+                CACHE_NAME = getCacheName(APP_VERSION);
+            }catch{
+                APP_VERSION = "unknown";
+                CACHE_NAME = "flashy-fallback";
+            }
 
-            APP_VERSION = data.version;
-            CACHE_NAME = getCacheName(APP_VERSION);
 
             const cache = await caches.open(CACHE_NAME);
-            await cache.addAll(APP_SHELL);
+            APP_SHELL.map(async (url) => {
+                try {
+                    await cache.add(url);
+                } catch (err) {
+                    console.warn("Failed to cache:", url);
+                }
+            })
         })()
     );
 

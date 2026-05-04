@@ -494,7 +494,7 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_1",
+  id: "Aloe, aloès--Aloe vera_1",
   deck: "flowers",
   img: "images/flowers/Aloe, aloès--Aloe vera_1.avif",
   text: "Aloe, aloès (Aloe vera)",
@@ -507,7 +507,7 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_2",
+  id: "Aloe, aloès--Aloe vera_2",
   deck: "flowers",
   img: "images/flowers/Aloe, aloès--Aloe vera_2.jpg",
   text: "Aloe, aloès (Aloe vera)",
@@ -520,7 +520,7 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_3",
+  id: "Aloe, aloès--Aloe vera_3",
   deck: "flowers",
   img: "images/flowers/Aloe, aloès--Aloe vera_3.webp",
   text: "Aloe, aloès (Aloe vera)",
@@ -533,7 +533,7 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe,Aloès-Aloe aristata_1",
+  id: "Aloe, Aloès--Aloe aristata_1",
   deck: "flowers",
   img: "images/flowers/Aloe, Aloès--Aloe aristata_1.jpg",
   text: "Aloe, Aloès (Aloe aristata)",
@@ -546,7 +546,7 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe,Aloès-Aloe aristata_2",
+  id: "Aloe, Aloès--Aloe aristata_2",
   deck: "flowers",
   img: "images/flowers/Aloe, Aloès--Aloe aristata_2.webp",
   text: "Aloe, Aloès (Aloe aristata)",
