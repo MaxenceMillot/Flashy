@@ -494,10 +494,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_1",
+  id: "Aloe, aloès--Aloe vera_1",
   deck: "flowers",
-  img: "images/flowers/Aloe, aloès-Aloe vera_1.avif",
-  text: "Aloe, aloès - Aloe vera",
+  img: "images/flowers/Aloe, aloès--Aloe vera_1.avif",
+  text: "Aloe, aloès (Aloe vera)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -507,10 +507,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_2",
+  id: "Aloe, aloès--Aloe vera_2",
   deck: "flowers",
-  img: "images/flowers/Aloe, aloès-Aloe vera_2.jpg",
-  text: "Aloe, aloès - Aloe vera",
+  img: "images/flowers/Aloe, aloès--Aloe vera_2.jpg",
+  text: "Aloe, aloès (Aloe vera)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -520,10 +520,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe, aloès-Aloe vera_3",
+  id: "Aloe, aloès--Aloe vera_3",
   deck: "flowers",
-  img: "images/flowers/Aloe, aloès-Aloe vera_3.webp",
-  text: "Aloe, aloès - Aloe vera",
+  img: "images/flowers/Aloe, aloès--Aloe vera_3.webp",
+  text: "Aloe, aloès (Aloe vera)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -533,10 +533,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe,Aloès-Aloe aristata_1",
+  id: "Aloe, Aloès--Aloe aristata_1",
   deck: "flowers",
-  img: "images/flowers/Aloe,Aloès-Aloe aristata_1.jpg",
-  text: "Aloe,Aloès - Aloe aristata",
+  img: "images/flowers/Aloe, Aloès--Aloe aristata_1.jpg",
+  text: "Aloe, Aloès (Aloe aristata)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -546,10 +546,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Aloe,Aloès-Aloe aristata_2",
+  id: "Aloe, Aloès--Aloe aristata_2",
   deck: "flowers",
-  img: "images/flowers/Aloe,Aloès-Aloe aristata_2.webp",
-  text: "Aloe,Aloès - Aloe aristata",
+  img: "images/flowers/Aloe, Aloès--Aloe aristata_2.webp",
+  text: "Aloe, Aloès (Aloe aristata)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -11650,8 +11650,8 @@ export const cards = [
 {
   id: "Sabot de Vénus-Cypripedium calceolus_2",
   deck: "orchids",
-  img: "images/orchids/Sabot de Vénus-Cypripedium calceolus_2.jpg",
-  text: "Sabot de Vénus - Cypripedium calceolus",
+  img: "images/orchids/Sabot de Vénus--Cypripedium calceolus_2.jpg",
+  text: "Sabot de Vénus (Cypripedium calceolus)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -11663,8 +11663,8 @@ export const cards = [
 {
   id: "Sabot de Vénus-Cypripedium calceolus_3",
   deck: "orchids",
-  img: "images/orchids/Sabot de Vénus-Cypripedium calceolus_3.jpg",
-  text: "Sabot de Vénus - Cypripedium calceolus",
+  img: "images/orchids/Sabot de Vénus--Cypripedium calceolus_3.jpg",
+  text: "Sabot de Vénus (cypripedium calceolus)",
   notes: "",
   EF: 2.5,
   interval: 0,

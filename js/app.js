@@ -4,13 +4,15 @@ import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
 import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode, isIos } from "./utilities.js";
+import { isInStandaloneMode, isIos, multiClick } from "./utilities.js";
+import { initVersion, setVersionInFooter, checkForUpdate } from "./versionManager.js";
 
 let current = null;
 let nextCard = null;
 let isTransitioning = false;
 let deferredPrompt = null;
 const isInStandalone = isInStandaloneMode();
+
 
 // Prevent automatic prompt to install PWA app
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -46,10 +48,19 @@ setTimeout(() => {
 }, 5000);
 
 // INIT
-initState();
-initHeaderMenu();
-renderDecks(cards, el.deckContainer);
-initZoom(el.img);
+(async () => {
+    initState();
+    initHeaderMenu();
+    renderDecks(cards, el.deckContainer);
+    initZoom(el.img);
+
+    // START the app
+    next();
+    
+    await initVersion();
+    setVersionInFooter();
+    checkForUpdate();
+})();
 
 setTimeout(5000)
 
@@ -60,7 +71,7 @@ async function next() {
     if (isTransitioning) return;
 
     isTransitioning = true;
-    // setButtonsDisabled(true);
+    setButtonsDisabled(true);
 
     const result = getNext(getSelectedDecks());
     if (!result) return;
@@ -105,7 +116,7 @@ async function next() {
 
     // 8. Unlock UI
     isTransitioning = false;
-    // setButtonsDisabled(false);
+    setButtonsDisabled(false);
 
     // 9. Preload next (non-blocking)
     if (nextCard?.img) {
@@ -156,34 +167,37 @@ el.btnSkip.addEventListener("click", () => {
     next();
 });
 
-// RESET BUTTON
-document.getElementById("btnReset").addEventListener("click", () => {
+// HIDDEN RESET BUTTON
+multiClick(document.getElementById("appVersion"), () => {
     if (confirm("Reset all progress?")) {
         localStorage.removeItem("cards");
         location.reload();
     }
 });
 
-// DOWNLOAD BUTTON
-el.btnDownload.addEventListener("click", async () => {
-    if (isIos()) {
-        alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
-        return;
+// DOWNLOAD BUTTON - COMMENTED BEFORE V1.0
+// el.btnDownload.addEventListener("click", async () => {
+//     if (isIos()) {
+//         alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
+//         return;
+//     }
+
+//     if (!deferredPrompt){
+//         console.error("could not trigger manual download : deferredPrompt is null")
+//         alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
+//         return;
+//     }
+
+//     await deferredPrompt.prompt();
+
+//     const { outcome } = await deferredPrompt.userChoice;
+
+//     deferredPrompt = null;
+// });
+
+// When user comes back to tab
+document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") {
+        checkForUpdate();
     }
-
-    if (!deferredPrompt){
-        console.error("could not trigger manual download : deferredPrompt is null")
-        alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
-        return;
-    }
-
-    await deferredPrompt.prompt();
-
-    const { outcome } = await deferredPrompt.userChoice;
-
-    deferredPrompt = null;
 });
-
-
-// START
-next();

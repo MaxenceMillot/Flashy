@@ -67,10 +67,14 @@
         <i data-lucide="bug"></i>
         Signaler un Bug
     </button> 
-    -->
     <button id="btnDownload" class="dropdown-item">
         <i data-lucide="download"></i>
         Télécharger l'application
+    </button>
+    -->
+    <button class="dropdown-item">
+        <i data-lucide="construction"></i>
+        En travaux...
     </button>
 </div>
 
@@ -82,7 +86,7 @@
         <div class="deck-filters" id="deckContainer">
         </div>
 
-        <div class="card" id="card">
+        <div class="card loading" id="card">
             <div class="image-wrapper">
                 <img id="img" src="images/placeholder_image_not_found.png" alt="flashcard image">
                 <div class="image-skeleton"></div>
@@ -116,13 +120,11 @@
 
     </div>
 
-    <button id="btnReset" class="btn-reset">Reset</button>
-
 </div>
 
 <footer class="app-footer">
     <div class="footer-content">
-        <span>Flashy 2026 version 1.0</span>
+        <span>Flashy 2026 version <span id="appVersion"></span></span>
     </div>
 </footer>
 
