@@ -197,17 +197,17 @@ button:active:not(:disabled) {
 
 .fail {
     background: #f68275;
-    color: black;
+    color: rgb(20, 18, 18);
 }
 
 .partial {
     background: #e8b665;
-    color: black;
+    color: rgb(20, 18, 18);
 }
 
 .correct {
     background: #84b799;
-    color: black;
+    color: rgb(20, 18, 18);
 }
 
 /* ===================== */
