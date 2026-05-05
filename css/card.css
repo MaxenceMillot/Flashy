@@ -1,0 +1,195 @@
+/* CARD CONTAINER */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    height: 375px;
+    width: calc(100% - 80px);
+    max-width: 600px;
+
+    will-change: opacity, transform;
+    transform: translateZ(0);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Skeleton active state */
+.card.loading {
+    pointer-events: none;
+}
+
+.card.loading #img {
+    opacity: 0;
+    filter: blur(6px);
+    transform: scale(1.02);
+}
+
+/* Hide content while loading */
+.card.loading img,
+.card.loading .answer {
+    opacity: 0;
+}
+
+/* SINGLE overlay skeleton */
+.card.loading::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    border-radius: inherit;
+
+    background: linear-gradient(
+        120deg,
+        #e0e0e0 0%,
+        #f2f2f2 40%,
+        #e0e0e0 80%
+    );
+
+    background-size: 200% 200%;
+    animation: skeleton-shimmer 1.8s ease-in-out infinite;
+    z-index: 2;
+}
+
+/* Diagonal animation */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -100% -100%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.card img,
+.card .answer {
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+
+.card:not(.loading) img,
+.card:not(.loading) .answer {
+    opacity: 1;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .card {
+        margin-top: 10px;
+    }
+}
+
+/* MOBILE SMALL */
+@media (max-width: 400px) {
+    .card {
+        height: 350px;
+    }
+}
+
+/* MOBILE X-SMALL */
+@media (max-width: 330px) {
+    .card {
+        /* height: 320px; */
+        width: 85%;
+        margin-top: 15px;
+    }
+
+    .container {
+        padding: 10px;
+    }
+}
+
+/* FADE ANIMATION */
+.card.fade-out {
+    opacity: 0;
+    transform: scale(0.98);
+}
+
+/* =========================
+   SKELETON LOADER
+   ========================= */
+@keyframes skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+/* =========================
+   IMAGE
+   ========================= */
+#img {
+    cursor: pointer;
+    opacity: 1;
+    /* transition: opacity 0.2s ease; */
+    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+
+    max-width: 100%;
+    height: auto;
+    max-height: 320px;
+    object-fit: contain;
+    border-radius: 14px;
+
+    will-change: opacity;
+    z-index: 1;
+}
+
+/* MOBILE IMAGE */
+@media (max-width: 600px) {
+    #img {
+        max-height: 250px;
+    }
+}
+
+/* X-SMALL MOBILE IMAGE */
+@media (max-width: 330px) {
+    #img {
+        max-height: 220px;
+    }
+}
+
+/* ANSWER */
+.answer {
+    margin-top: 10px;
+    font-size: 20px;
+    color: #111;
+
+    min-height: 50px;
+
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+/* MOBILE ANSWER */
+@media (max-width: 600px) {
+    .answer {
+        font-size: 18px;
+    }
+}
+
+/* ANSWER VISIBLE */
+.answer.visible {
+    opacity: 1;
+}
+
+.answer .mandatory-latin {
+    color: #cd3333;
+    font-weight: 500;
+}
+
+/* DECK LABEL INSIDE CARD */
+.deck-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}

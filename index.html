@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#222222">
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/card.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/icon_32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/icon_16.png">
+    <link rel="icon" href="images/icons/favicon.ico">
+    <link rel="apple-touch-icon" href="images/icons/icon_192.png">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <title>Flashy</title>
+</head>
+
+<body>
+<header class="app-header">
+    
+    <div class="header-left">
+        <img class="logo" src="images/icons/icon_192.png" alt="Flashy logo">
+        <div class="title">Flashy</div>
+    </div>
+
+    <div class="header-right">
+
+        <!-- Desktop actions -->
+        <div class="desktop-nav">
+            <!-- <button class="nav-btn">
+                <i data-lucide="book-copy"></i>
+                Mes Cartes
+            </button>
+            <button class="nav-btn">
+                <i data-lucide="chart-line"></i>
+                Mes Statistiques
+            </button>
+            <button class="nav-btn warning">
+                <i data-lucide="bug"></i>
+                Signaler un bug
+            </button> -->
+        </div>
+
+        <!-- Hamburger (mobile only) -->
+        <button class="hamburger" id="menuBtn" aria-label="menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+    </div>
+
+</header>
+
+<!-- Dropdown menu (mobile only) -->
+<div class="dropdown-menu" id="mobileMenu">
+    <!--
+    <button class="dropdown-item">
+        <i data-lucide="info"></i>
+        Infos
+    </button>
+    <button class="dropdown-item warning">
+        <i data-lucide="bug"></i>
+        Signaler un Bug
+    </button> 
+    <button id="btnDownload" class="dropdown-item">
+        <i data-lucide="download"></i>
+        Télécharger l'application
+    </button>
+    -->
+    <button class="dropdown-item">
+        <i data-lucide="construction"></i>
+        En travaux...
+    </button>
+</div>
+
+<div class="container">
+
+    <div id="study">
+        <h1>Révisions Référentiel Fleuriste 2026</h1>
+
+        <div class="deck-filters" id="deckContainer">
+        </div>
+
+        <div class="card loading" id="card">
+            <div class="image-wrapper">
+                <img id="img" src="images/placeholder_image_not_found.png" alt="flashcard image">
+                <div class="image-skeleton"></div>
+            </div>
+            <div class="answer" id="answer"></div>
+        </div>
+
+        <div class="buttons">
+            <button id="btnShow" class="btn-show" style="display:none;"">
+                Voir la réponse
+            </button>
+            <button id="btnSkip" class="btn-skip" style="display:none;">
+                Passer cette carte
+            </button>
+
+            <div id="gradeButtons" style="display:none;">
+                <button class="fail" data-grade="1">
+                    <i data-lucide="circle-x"></i>
+                    Raté
+                </button>
+                <button class="partial" data-grade="3">
+                    <i data-lucide="circle-dashed"></i>
+                    Presque
+                </button>
+                <button class="correct" data-grade="5">
+                    <i data-lucide="circle-check"></i>
+                    Correct
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="app-footer">
+    <div class="footer-content">
+        <span>Flashy 2026 version <span id="appVersion"></span></span>
+    </div>
+</footer>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
