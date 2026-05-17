@@ -14,6 +14,7 @@ export async function initState(){
     // on breaking versions (from SCHEME_VERSION and BREAKING_VERSION)
     await conditionalReset();
 
+    const saved = null;
     try {
         saved = JSON.parse(localStorage.getItem("cards") || "null");
     } catch {
