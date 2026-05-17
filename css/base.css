@@ -80,7 +80,8 @@ body {
 
     margin-top: clamp(4px, 1vh, 12px);
     margin-bottom: clamp(0px, 1vh, 18px);
-
+    
+    padding-top: 2px;
     padding-bottom: clamp(4px, 1vh, 10px);
 
     justify-content: center;

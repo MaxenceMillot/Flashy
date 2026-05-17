@@ -250,7 +250,7 @@ button:hover svg {
 
     transition: opacity 0.25s ease;
 
-    z-index: 1000;
+    z-index: 100;
 }
 
 .zoom-overlay.active {
@@ -287,10 +287,12 @@ button:hover svg {
 /* DECK FILTER CHIPS */
 /* ===================== */
 .chip {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 4px;
 
+    z-index: 0;
     flex: 0 0 auto;
 
     padding: 8px 14px;
@@ -306,6 +308,7 @@ button:hover svg {
     cursor: pointer;
 
     transition: all 0.18s ease;
+    transform: translateZ(0);
 
     scroll-snap-align: start;
 }
@@ -404,7 +407,7 @@ button:hover svg {
 
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 
-    z-index: 9999;
+    z-index: 2;
 }
 
 @media (max-width: 600px) {
