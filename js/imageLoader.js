@@ -56,7 +56,7 @@ export async function preloadAllImages() {
         return;
     }
 
-    const appVersion = getAppVersion();
+    const appVersion = await getAppVersion();
     const cache = await caches.open(`flashy-v${appVersion}`);
     let i = 0;
 
