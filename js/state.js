@@ -2,22 +2,24 @@ import { cards as baseCards } from "../data/cards.js";
 
 export let cards = [];
 
-// Increment on breaking updates
-// WARNING : delete user progression (as of version 0.2.0)
-const STORAGE_VERSION = "2"; 
+// Increment data scheme breaking updates
+// WARNING : delete user progression (which is tied to every card as of v1.0.0)
+const SCHEME_VERSION = "1"; 
+// Increment on BREAKING changes for extended cache clear
+// WARNING : 
+const BREAKING_VERSION = "1"; 
 
-export function initState(){
+export async function initState(){
+    // Reset cache/localStorage TRAGETED entries 
+    // on breaking versions (from SCHEME_VERSION and BREAKING_VERSION)
+    await conditionalReset();
 
-    const savedVersion = localStorage.getItem("storageVersion");
-
-    // FORCE RESET if schema changed
-    if (savedVersion !== STORAGE_VERSION) {
-
+    try {
+        saved = JSON.parse(localStorage.getItem("cards") || "null");
+    } catch {
+        // Failsafe to avoid corrupted data
         localStorage.removeItem("cards");
-        localStorage.setItem("storageVersion", STORAGE_VERSION);
     }
-
-    const saved = JSON.parse(localStorage.getItem("cards") || "null");
 
     if (saved && Array.isArray(saved)) {
         cards = saved;
@@ -37,4 +39,48 @@ export function initState(){
 
 export function save(){
     localStorage.setItem("cards", JSON.stringify(cards));
+}
+
+async function conditionalReset(){    
+    // HARD RESET MIGRATION
+    const savedBreaking = localStorage.getItem("flashy-breaking-version");
+
+    if (savedBreaking !== BREAKING_VERSION) {
+        // Delete TARGETED caches
+        if ("caches" in window) {
+            const keys = await caches.keys();
+
+            await Promise.all(
+                keys
+                    .filter(key => key.startsWith("flashy-v"))
+                    .map(key => caches.delete(key))
+            );
+        }
+
+        // Save migration version
+        localStorage.setItem(
+            "flashy-breaking-version",
+            BREAKING_VERSION
+        );
+
+        // Short timer to ensure cache is cleared before reload
+        await new Promise(resolve => setTimeout(resolve, 100));
+
+        window.location.reload();
+        return;
+    }
+
+    // SCHEME DATA RESET
+    const savedVersion = localStorage.getItem("flashy-scheme-version");
+
+    if (savedVersion !== SCHEME_VERSION) {
+        localStorage.removeItem("cards");
+
+        localStorage.setItem(
+            "flashy-scheme-version",
+            SCHEME_VERSION
+        );
+
+        window.location.reload();
+    }
 }

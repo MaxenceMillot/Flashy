@@ -39,7 +39,7 @@ setTimeout(() => {
 
 // INIT
 (async () => {
-    initState();
+    await initState();
     initHeaderMenu();
     initDeckSelector(cards, el.deckContainer);
     initZoom(el.img);
