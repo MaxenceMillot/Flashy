@@ -35,21 +35,29 @@ self.addEventListener("install", (event) => {
         (async () => {
             try{
                 const res = await fetch("./data/version.json", { cache: "no-store" });
+                if (!res.ok) {
+                    throw new Error("Failed to fetch version.json");
+                }
+
                 const data = await res.json();
+                if (!data.version) {
+                    throw new Error("Missing version number");
+                }
+
                 APP_VERSION = data.version;
                 CACHE_NAME = getCacheName(APP_VERSION);
-            }catch{
-                APP_VERSION = "unknown";
-                CACHE_NAME = "flashy-fallback";
+            }catch(error){
+                 console.error("Failed to initialize cache version:", error);
+                // Abort SW install completely
+                throw error;
             }
-
 
             const cache = await caches.open(CACHE_NAME);
             await Promise.all(
                 APP_SHELL.map(async (url) => {
                     try {
                         await cache.add(url);
-                    } catch (err) {
+                    } catch (error) {
                         console.warn("Failed to cache:", url);
                     }
                 })
@@ -69,10 +77,8 @@ self.addEventListener("activate", (event) => {
             }
 
             const keys = await caches.keys();
-
             if (!CACHE_NAME) {
                 CACHE_NAME = keys.find(k => k.startsWith("flashy-v"))
-                    || "flashy-fallback";
             }
 
             await Promise.all(
@@ -97,9 +103,12 @@ self.addEventListener("fetch", (event) => {
             if (!CACHE_NAME) {
                 const keys = await caches.keys();
 
-                CACHE_NAME =
-                    keys.find(k => k.startsWith("flashy-v"))
-                    || "flashy-fallback";
+                CACHE_NAME = keys.find(k => k.startsWith("flashy-v"))
+
+                if (!CACHE_NAME) {
+                    console.error("No valid flashy cache found for service worker, falling back to standard behavior")
+                    return fetch(request);
+                }
             }
 
             const cache = await caches.open(CACHE_NAME);

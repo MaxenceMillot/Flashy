@@ -54,7 +54,7 @@ export function registerServiceWorker() {
                 });
             });
         })
-        .catch(err => console.error("SW registration failed:", err));
+        .catch(error => console.error("SW registration failed:", error));
 }
 
 export async function checkForUpdate() {
@@ -69,8 +69,8 @@ export async function checkForUpdate() {
         }
 
         await registration.update();
-    } catch (err) {
-        console.warn("Update check failed:", err);
+    } catch (error) {
+        console.warn("Update check failed:", error);
     }
 }
 

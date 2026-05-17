@@ -82,8 +82,9 @@ export async function preloadAllImages() {
                 }
             }
 
-        } catch (err) {
+        } catch (error) {
             console.warn("Preload failed for:", url);
+            console.warn(error);
         }
 
         setTimeout(queue, 80);
