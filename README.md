@@ -1,7 +1,7 @@
 # 📚 Flashy - Révisions de reconnaissances végétales
 **Référentiel CAP Fleuriste 2026**
 
-Flashy est une application web de fiches révisions facile d'utilisation et sans connexion basée sur l’**algorithme de répétition espacée SM-2** pour améliorer la mémorisation sur le long terme.
+Flashy est une application web de fiches révisions facile d'utilisation basée sur l’**algorithme de répétition espacée SM-2** pour améliorer la mémorisation sur le long terme.
 
 **Tout** le référentiel de reconnaissance végétale du **CAP Fleuriste 2026** est présent de base dans l'application.
 
@@ -25,8 +25,7 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 - 📖 **Répétition espacée (algorithme SM-2)** pour un apprentissage optimisé
 
 **en cours...**
-- 📱 **Application mobile offline** pour réviser en toute circonstance ! 
-- 🪴 **UI 2.0** - refonte complète de l'interface et identité visuelle
+- 📱 **Application mobile offline** pour réviser en toute circonstance !
 
 **à venir...**
 - 📖 **Session d'étude suivie et barre de progression** pour des séances efficaces et regulières 
@@ -34,6 +33,7 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 - 🗂️ **Ajoutez vos propre cartes et créez vos propre decks**  
 - 📊 **Suivi de progression et statistiques** pour visualiser les cartes les moins maîtrisées et admirer son score !
 - 📤 **Export** pour récupérer vos cartes et les partager
+- 🪴 **UI 2.0** - refonte complète de l'interface et identité visuelle
 
 **Prévu**
 - 🚨 Notifications et rappels
