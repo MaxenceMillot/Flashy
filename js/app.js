@@ -1,7 +1,7 @@
 import { initState, cards } from "./state.js";
 import { getScheduledCards, gradeCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
-import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, fadeOut, fadeIn, el } from "./ui.js";
+import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
@@ -57,55 +57,62 @@ setTimeout(() => {
 // =======================
 async function nextCardFlow() {
     if (isTransitioning) return;
-
     isTransitioning = true;
 
-    const cards = getScheduledCards(getSelectedDecks());
-    if (!cards) return;
+    try{
+        const scheduledCards = getScheduledCards(getSelectedDecks());
+        if (!scheduledCards) {
+            console.warn("No scheduled cards available");
+            return;
+        }
 
-    const newCard = nextCard || cards.current;
-    nextCard = cards.nextCard;
+        const newCard = nextCard || scheduledCards.current;
+        nextCard = scheduledCards.nextCard;
 
-    // 1. Fadeout animation
-    await new Promise(r => fadeOut(r));
+        // 1. Fadeout animation
+        await new Promise(r => cardFadeOut(r));
 
-    // 2. Start skeleton placeholder (delayed to avoid flash)
-    const skeletonTimer = setTimeout(() => {
-        startLoading();
-    }, 80);
+        // 2. Start skeleton placeholder (delayed to avoid flash)
+        const skeletonTimer = setTimeout(() => {
+            startLoading();
+        }, 80);
 
-    // 3. Set answer text (hidden)
-    current = newCard;
-    setAnswerText(current);
-    
-    // 7. Fadein animation
-    setTimeout(() => {
-       new Promise(r => fadeIn(r));
-    }, 80);
+        // 3. Set answer text (hidden)
+        current = newCard;
+        setAnswerText(current);
+        
+        // 7. card fade in animation
+        setTimeout(() => {
+        new Promise(r => cardFadeIn(r));
+        }, 80);
 
-    // 4. Load image
-    const finalSrc = await loadImage(newCard.img);
+        // 4. Load image
+        const finalSrc = await loadImage(newCard.img);
 
-    // 5. Apply image
-    clearTimeout(skeletonTimer);
-    setTimeout(() => {
-        setCardImage(finalSrc);
+        // 5. Apply image
+        clearTimeout(skeletonTimer);
+        setTimeout(() => {
+            setCardImage(finalSrc);
+            stopLoading();
+        }, 80);
+
+        // 6. standard behavior OR skip mode 
+        if (finalSrc === PLACEHOLDER) {
+            showSkipMode();
+        } else {
+            showNormalMode();
+        }
+
+        // 9. Preload next (non-blocking)
+        if (nextCard?.img) {
+            loadImage(nextCard.img);
+        }
+    } catch(error) {
+        console.error("nextCardFlow crashed:", error);
         stopLoading();
-    }, 80);
-
-    // 6. standard behavior OR skip mode 
-    if (finalSrc === PLACEHOLDER) {
-        showSkipMode();
-    } else {
-        showNormalMode();
-    }
-
-    // 8. Unlock UI
-    isTransitioning = false;
-
-    // 9. Preload next (non-blocking)
-    if (nextCard?.img) {
-        loadImage(nextCard.img);
+    } finally {
+        // 8. Unlock UI
+        isTransitioning = false;
     }
 }
 
@@ -115,9 +122,9 @@ setDeckChangeCallback(() => {
     nextCard = null;
 
     // recompute next preloaded image
-    const cards = getScheduledCards(getSelectedDecks());
-    if (cards?.nextCard?.img) {
-        nextCard = cards.nextCard;
+    const scheduledCards = getScheduledCards(getSelectedDecks());
+    if (carscheduledCardsds?.nextCard?.img) {
+        nextCard = scheduledCards.nextCard;
 
         // preload correct image
         loadImage(nextCard.img);

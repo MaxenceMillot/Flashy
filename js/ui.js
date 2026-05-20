@@ -108,7 +108,7 @@ export function showSkipMode() {
 // =======================
 // ANIMATIONS
 // =======================
-export function fadeOut(callback){
+export function cardFadeOut(callback){
     const card = el.card;
 
     function handleEnd(e){
@@ -121,7 +121,7 @@ export function fadeOut(callback){
     card.classList.add("fade-out");
 }
 
-export function fadeIn(callback){
+export function cardFadeIn(callback){
     const card = el.card;
 
     let called = false;
