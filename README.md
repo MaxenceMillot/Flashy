@@ -19,7 +19,7 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 
 ## ✨ Fonctionnalités
 
-- 🪽 **Rapide et léger** - pas besoin de compte, de connexion ou d'accès à internet !
+- 🪽 **Rapide et léger** - pas besoin de compte ou de téléchargement !
 - 🖼️ **+1000 images de végétaux** pour les reconnaitre sous tous les angles
 - 🔀 **Fusionnez et mélangez les cartes** pour des sessions flexibles  
 - 📖 **Répétition espacée (algorithme SM-2)** pour un apprentissage optimisé
