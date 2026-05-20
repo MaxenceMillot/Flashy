@@ -5631,7 +5631,7 @@ export const cards = [
 {
   id: "Hypoestes_1",
   deck: "flowers",
-  img: "images/flowers/Hypoestes_1.jpg",
+  img: "images/flowers/Hypoestes_1_v2.webp",
   text: "Hypoestes",
   notes: "",
   EF: 2.5,
