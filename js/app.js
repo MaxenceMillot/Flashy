@@ -44,12 +44,12 @@ setTimeout(() => {
     initDeckSelector(cards, el.deckContainer);
     initZoom(el.img);
     initEventListeners();
-
-    // START the app
-    nextCardFlow();
     
     await initVersion();
     setVersionInFooter();
+
+    // START the app
+    await nextCardFlow();
 })();
 
 // =======================
