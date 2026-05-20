@@ -407,7 +407,7 @@ button:hover svg {
 
     box-shadow: 0 8px 25px rgba(0,0,0,0.2);
 
-    z-index: 2;
+    z-index: 10;
 }
 
 @media (max-width: 600px) {
