@@ -26,6 +26,8 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 
 **en cours...**
 - 📱 **Application mobile offline** pour réviser en toute circonstance !
+- 🚀 **Améliorations du préchargement des images** et de l'algorithme
+- 🐛 **Bouton pour signaler des bugs** ou des erreurs sur les cartes
 
 **à venir...**
 - 📖 **Session d'étude suivie et barre de progression** pour des séances efficaces et regulières 
@@ -44,7 +46,11 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 ## 🧑‍💻 Aperçu Technique
 
 ### 🏗️ Stack
-- TODO
+- HTML
+- CSS
+- Javascript
+- PWA app
+- python (for developement purpose)
 
 ---
 
@@ -52,14 +58,14 @@ Le **SM-2** est un algorithme qui permet de cibler votre apprentissage sur les c
 
 #### 📐 Algorithme SM-2
 
-L’application utilise l’**algorithme SM-2**, développé à l’origine pour les systèmes de répétition espacée comme SuperMemo.
+L’application utilise l’**algorithme SM-2**, développé à l’origine pour les systèmes de répétition espacée de type "flash cards" (fiches révisions).
 
 Chaque carte possède :
 - **Facteur de facilité (EF)** – niveau de difficulté perçu  
 - **Intervalle** – délai avant la prochaine révision  
 - **Nombre de répétitions**
 
-Selon votre réponse (ex : “Encore”, “Bien”, “Facile”), le système :
+Selon votre réponse (ex : “Raté”, “Presque”, “Correct”), le système :
 1. Met à jour le facteur de facilité  
 2. Ajuste l’intervalle  
 3. Planifie la prochaine révision  
@@ -68,6 +74,6 @@ Ainsi, les cartes difficiles reviennent plus souvent, tandis que les plus facile
 
 ---
 
-## 🤝 Contribution
+## 🫶 Contribution
 
 Les retours et idées sont les bienvenus !
