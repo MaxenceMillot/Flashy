@@ -13,6 +13,9 @@ export const el = {
     btnDownload: document.getElementById("btnDownload")
 };
 
+// =======================
+// UI INIT
+// =======================
 export function initHeaderMenu() {
     if (!el.menuBtn || !el.mobileMenu) return;
 
@@ -33,11 +36,12 @@ export function initHeaderMenu() {
     });
 }
 
-
+// =======================
+// UI DOM UPDATE
+// =======================
 export function setAnswerText(card) {
     if (!card) return;
 
-    el.answer.style.display = "none";
     el.answer.classList.remove("visible");
 
     el.gradeButtons.style.display = "none";
@@ -75,12 +79,7 @@ export function stopLoading() {
     el.card.classList.remove("loading");
 }
 
-// =======================
-// UI ACTIONS
-// =======================
 export function showAnswer(){
-    el.answer.style.display = "block";
-
     requestAnimationFrame(() => {
         el.answer.classList.add("visible");
     });
@@ -104,18 +103,12 @@ export function showSkipMode() {
             Erreur : image non disponible
         </div>
     `;
-    el.answer.style.display = "block";
-}
-
-export function setButtonsDisabled(disabled) {
-    const buttons = el.gradeButtons.querySelectorAll("button");
-    buttons.forEach(btn => btn.disabled = disabled);
 }
 
 // =======================
 // ANIMATIONS
 // =======================
-export function fadeOut(callback){
+export function cardFadeOut(callback){
     const card = el.card;
 
     function handleEnd(e){
@@ -128,7 +121,7 @@ export function fadeOut(callback){
     card.classList.add("fade-out");
 }
 
-export function fadeIn(callback){
+export function cardFadeIn(callback){
     const card = el.card;
 
     let called = false;

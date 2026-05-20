@@ -1,38 +1,85 @@
-let CURRENT_VERSION = null;
+let INSTALLED_VERSION = null;
 
-export async function initVersion(){
-    CURRENT_VERSION = await getAppVersion();
+export async function initVersion() {
+    const cacheKeys = await caches.keys();
+    const activeCache = cacheKeys
+        .filter(k => k.startsWith("flashy-v"))
+        .sort()
+        .at(-1);
+
+    // Fallback
+    if (!activeCache) {
+        INSTALLED_VERSION = await getAppVersion();
+        return;
+    }
+
+    INSTALLED_VERSION = activeCache.replace("flashy-v", "");
 }
 
-export function getCurrentVersion(){
-    return CURRENT_VERSION;
+export async function setVersionInFooter(){
+    if(!INSTALLED_VERSION){
+        document.getElementById("appVersion").textContent += "X";
+        return;
+    }
+    document.getElementById("appVersion").textContent += `${INSTALLED_VERSION}`;
 }
 
-// GET LATEST VERSION FROM SERVER
+// get app version from SERVER
 export async function getAppVersion() {
     const res = await fetch("./data/version.json", { cache: "no-store" });
     const data = await res.json();
     return data.version;
 }
 
-// CHECK
+export function registerServiceWorker() {
+    navigator.serviceWorker.register("./service_worker.js")
+        .then((registration) => {
+            console.log("Service Worker registered");
+
+            // already waiting
+            if (registration.waiting) {
+                showUpdateToast(registration.waiting);
+            }
+
+            // new update found
+            registration.addEventListener("updatefound", () => {
+                const newWorker = registration.installing;
+                if (!newWorker) return;
+                newWorker.addEventListener("statechange", () => {
+                    if (newWorker.state === "installed" &&
+                        navigator.serviceWorker.controller) 
+                    {
+                        showUpdateToast(newWorker);
+                    }
+                });
+            });
+        })
+        .catch(error => console.error("SW registration failed:", error));
+}
+
 export async function checkForUpdate() {
     try {
-        let newVersion = await getAppVersion();
-        let isToastShowed = document.querySelector(".update-toast");
+        const registration = await navigator.serviceWorker.getRegistration();
+        if (!registration) return;
 
-        if (!CURRENT_VERSION) return;
-
-        if (newVersion !== CURRENT_VERSION && !isToastShowed) {
-            showUpdateToast(newVersion);
+        // already waiting → show again
+        if (registration.waiting) {
+            showUpdateToast(registration.waiting);
+            return;
         }
 
-    } catch (err) {
-        console.warn("Update check failed: ", err);
+        await registration.update();
+    } catch (error) {
+        console.warn("Update check failed:", error);
     }
 }
 
-function showUpdateToast(newVersion) {
+// =======================
+// UPDATE TOAST
+// =======================
+async function showUpdateToast(worker) {
+    if (document.querySelector(".update-toast")) return;
+    const newVersion = await getAppVersion();
     const toast = document.createElement("div");
     toast.className = "update-toast";
 
@@ -46,24 +93,30 @@ function showUpdateToast(newVersion) {
 
     document.body.appendChild(toast);
 
-    document.getElementById("refreshApp").addEventListener("click", async () => {
-         if ("serviceWorker" in navigator) {
-            const reg = await navigator.serviceWorker.getRegistration();
-            if (reg) await reg.update();
-        }
+    document.getElementById("refreshApp")
+        .addEventListener("click", () => {
+            sessionStorage.setItem("updating-app", "true");
 
-        window.location.reload();
-    });
+            toast.classList.add("updating");
+            toast.innerHTML = `
+                <span>⏳ Activation</span>
+            `;
 
-    document.getElementById("dismissUpdate").addEventListener("click", () => {
-        toast.remove();
-    });
-}
+            navigator.serviceWorker.getRegistration()
+                .then((registration) => {
 
-export async function setVersionInFooter(){
-    if(!CURRENT_VERSION){
-        console.warn("could not load CURRENT_VERSION");
-        return;
-    }
-    document.getElementById("appVersion").textContent += `${CURRENT_VERSION}`;
+                    if (!registration?.waiting) {
+                        sessionStorage.removeItem("updating-app");
+                        window.location.reload();
+                        return;
+                    }
+
+                    registration.waiting.postMessage("SKIP_WAITING");
+                });
+        });
+
+    document.getElementById("dismissUpdate")
+        .addEventListener("click", () => {
+            toast.remove();
+        });
 }

@@ -32,7 +32,7 @@ export function setDeckChangeCallback(cb) {
     onDeckChange = cb;
 }
 
-export function renderDecks(cards, container){
+export function initDeckSelector(cards, container){
     const decks = [...new Set(cards.map(c => c.deck))];
 
     container.innerHTML = "";
@@ -59,6 +59,15 @@ export function renderDecks(cards, container){
     });
 
     lucide.createIcons();
+
+    requestAnimationFrame(() => {
+        updateDeckScrollbar(container);
+    });
+}
+
+export function updateDeckScrollbar(container) {
+    const isScrollable = container.scrollWidth > container.clientWidth;
+    container.classList.toggle("scrollable", isScrollable);
 }
 
 function toggleDeck(deck, chip) {
@@ -73,6 +82,13 @@ function toggleDeck(deck, chip) {
     } else {
         selectedDecks.add(deck);
         chip.classList.add("selected");
+        
+         // Center selected chip
+        chip.scrollIntoView({
+            behavior: "smooth",
+            inline: "center",
+            block: "nearest"
+        });
     }
 
     updateStateUI();
@@ -95,4 +111,6 @@ function updateStateUI() {
             chip.classList.remove("disabled");
         }
     });
+
+    updateDeckScrollbar(document.getElementById("deckContainer"));
 }

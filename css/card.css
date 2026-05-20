@@ -1,25 +1,27 @@
-/* CARD CONTAINER */
 .card {
-    background: white;
-    padding: 20px;
-    border-radius: 18px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    width: min(92vw, 600px);
 
+    min-height: min(320px, 65dvh);
+    max-height: min(480px, 72dvh);
+
+    padding: clamp(12px, 2vw, 20px);
+    gap: clamp(8px, 1.5vh, 14px);
+    overflow: hidden;
+
+    flex: 0 1 auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    height: 375px;
-    width: calc(100% - 80px);
-    max-width: 600px;
-
-    will-change: opacity, transform;
-    transform: translateZ(0);
-    transition: opacity 0.25s ease, transform 0.25s ease;
-
+    justify-content: flex-start;
+    text-align: center;
     position: relative;
-    overflow: hidden;
+
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
 }
 
 /* Skeleton active state */
@@ -33,7 +35,6 @@
     transform: scale(1.02);
 }
 
-/* Hide content while loading */
 .card.loading img,
 .card.loading .answer {
     opacity: 0;
@@ -69,27 +70,20 @@
     }
 }
 
-.card img,
-.card .answer {
-    opacity: 1;
-    transition: opacity 0.25s ease;
+.card-content {
+    flex: 1;
+
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    min-height: 0;
 }
 
 .card:not(.loading) img,
 .card:not(.loading) .answer {
     opacity: 1;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-    .card {
-        height: 320px;
-        margin-top: 20px;
-    }
-
-    .container {
-        padding: 10px;
-    }
 }
 
 /* FADE ANIMATION */
@@ -114,50 +108,63 @@
    IMAGE
    ========================= */
 #img {
-    cursor: pointer;
-    opacity: 1;
-    /* transition: opacity 0.2s ease; */
-    transition: opacity 0.25s ease, filter 0.25s ease, transform 0.25s ease;
+    flex: 1;
+    object-fit: contain;
 
+    cursor: pointer;
+
+    width: 100%;
     max-width: 100%;
     height: auto;
-    max-height: 320px;
-    object-fit: contain;
+    min-height: 0;
+    max-height: clamp(140px, 40vh, 320px);    
+
     border-radius: 14px;
 
-    will-change: opacity;
-    z-index: 1;
+    transition:
+        opacity 0.25s ease,
+        filter 0.25s ease,
+        transform 0.25s ease;
 }
 
-/* MOBILE IMAGE */
-@media (max-width: 600px) {
-    #img {
-        max-height: 250px;
-    }
-}
-
+/* ===================== */
 /* ANSWER */
+/* ===================== */
 .answer {
-    margin-top: 10px;
-    font-size: 20px;
-    color: #111;
-
-    min-height: 50px;
-
     opacity: 0;
+
+    flex-shrink: 0;
+    display: block;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    height: clamp(34px, 7vh, 64px);
+    min-height: clamp(40px, 8vh, 64px);
+    margin-top: clamp(4px, 1vh, 0px);
+    margin-bottom: clamp(4px, 1vh, 0px);
+
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    line-height: 1.2;
+
+    color: #111;
+    opacity: 0;
+    visibility: hidden;
+    overflow-wrap: break-word;
+
     transition: opacity 0.2s ease;
 }
 
-/* MOBILE ANSWER */
-@media (max-width: 600px) {
-    .answer {
-        font-size: 18px;
-    }
-}
-
-/* ANSWER VISIBLE */
 .answer.visible {
     opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .answer {
+        font-size: 1.15rem;
+    }
 }
 
 .answer .mandatory-latin {
@@ -165,9 +172,8 @@
     font-weight: 500;
 }
 
-/* DECK LABEL INSIDE CARD */
 .deck-label {
-    font-size: 12px;
+    font-size: 0.75rem;
     color: #888;
     margin-top: 5px;
 }

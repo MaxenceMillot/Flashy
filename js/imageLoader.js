@@ -1,18 +1,8 @@
 export const PLACEHOLDER = "images/placeholder_image_not_found.png";
+import { cards } from "./state.js";
+import { getAppVersion } from "./versionManager.js"
 
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
-
-export async function loadImage(src, { timeout = 5000, retries = 1 } = {}) {
-
-    // --- DEBUG ---
-    // console.log("START sleep");
-    // await sleep(300);
-    // console.log("END sleep");
-    // --- DEBUG ---
-
-
+export function loadImage(src, { timeout = 5000, retries = 1 } = {}) {
     return new Promise((resolve) => {
         let attempts = 0;
         let finished = false;
@@ -60,19 +50,45 @@ export async function loadImage(src, { timeout = 5000, retries = 1 } = {}) {
 }
 
 // PRELOAD ALL IMAGES (in cache)
-export function preloadAllImages() {
-    const images = cards.map(c => c.img);
+export async function preloadAllImages() {
+    if (!("caches" in window)) {
+        console.warn("Cache API unsupported, could not preload images for PWA");
+        return;
+    }
+
+    const appVersion = await getAppVersion();
+    const cache = await caches.open(`flashy-v${appVersion}`);
     let i = 0;
 
-    function queue() {
-        if (i >= images.length) return;
+    async function queue() {
+        if (i >= cards.length) {
+            console.log("Preloading DONE");
+            return;
+        }
 
-        const img = new Image();
-        img.src = images[i++];
+        const url = cards[i++].img;
 
-        setTimeout(queue, 15);
+        try {
+            const alreadyCached = await cache.match(url);
+
+            if (!alreadyCached) {
+
+                const response = await fetch(url, {
+                    cache: "force-cache"
+                });
+
+                if (response.ok) {
+                    await cache.put(url, response.clone());
+                }
+            }
+
+        } catch (error) {
+            console.warn("Preload failed for:", url);
+            console.warn(error);
+        }
+
+        setTimeout(queue, 80);
     }
 
     queue();
-    console.log("Preloading DONE");
 }

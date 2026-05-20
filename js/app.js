@@ -1,18 +1,17 @@
 import { initState, cards } from "./state.js";
-import { getNext, gradeCard } from "./scheduler.js";
+import { getScheduledCards, gradeCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
-import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, setButtonsDisabled, fadeOut, fadeIn, el } from "./ui.js";
-import { renderDecks, getSelectedDecks, setDeckChangeCallback } from "./decks.js";
+import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
+import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode, isIos, multiClick } from "./utilities.js";
-import { initVersion, setVersionInFooter, checkForUpdate } from "./versionManager.js";
+import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
+import { initVersion, setVersionInFooter, getAppVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
 
 let current = null;
 let nextCard = null;
 let isTransitioning = false;
 let deferredPrompt = null;
 const isInStandalone = isInStandaloneMode();
-
 
 // Prevent automatic prompt to install PWA app
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -24,20 +23,11 @@ window.addEventListener("beforeinstallprompt", (e) => {
 
 // REGISTER SERVICE WORKER
 if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service_worker.js")
-            .then(() => console.log("Service Worker registered"))
-            .catch(err => console.error("SW registration failed:", err));
-    });
+    registerServiceWorker();
 }
 
 // LOAD ICONS FROM LIBRARY
 lucide.createIcons();
-
-// HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
-if(isInStandalone){
-    el.btnDownload.style.display = "none";
-}
 
 // AFTER 5s PRELOAD ALL IMAGES IF PWA
 setTimeout(() => {
@@ -49,122 +39,97 @@ setTimeout(() => {
 
 // INIT
 (async () => {
-    initState();
+    await initState();
     initHeaderMenu();
-    renderDecks(cards, el.deckContainer);
+    initDeckSelector(cards, el.deckContainer);
     initZoom(el.img);
-
-    // START the app
-    next();
+    initEventListeners();
     
     await initVersion();
     setVersionInFooter();
-    checkForUpdate();
-})();
 
-setTimeout(5000)
+    // START the app
+    await nextCardFlow();
+})();
 
 // =======================
 // NEXT CARD FLOW
 // =======================
-async function next() {
+async function nextCardFlow() {
     if (isTransitioning) return;
-
     isTransitioning = true;
-    setButtonsDisabled(true);
 
-    const result = getNext(getSelectedDecks());
-    if (!result) return;
+    try{
+        const scheduledCards = getScheduledCards(getSelectedDecks());
+        if (!scheduledCards) {
+            console.warn("No scheduled cards available");
+            return;
+        }
 
-    const newCard = nextCard || result.current;
-    nextCard = result.nextCard;
+        const newCard = nextCard || scheduledCards.current;
+        nextCard = scheduledCards.nextCard;
 
-    // 1. Fadeout animation
-    await new Promise(r => fadeOut(r));
+        // 1. Fadeout animation
+        await new Promise(r => cardFadeOut(r));
 
-    // 2. Start skeleton placeholder (delayed to avoid flash)
-    const skeletonTimer = setTimeout(() => {
-        startLoading();
-    }, 80);
+        // 2. Start skeleton placeholder (delayed to avoid flash)
+        const skeletonTimer = setTimeout(() => {
+            startLoading();
+        }, 80);
 
-    // 3. Set answer text (hidden)
-    current = newCard;
-    setAnswerText(current);
-    
-    // 7. Fadein animation
-    setTimeout(() => {
-       new Promise(r => fadeIn(r));
-    }, 80);
-    // await new Promise(r => fadeIn(r));
+        // 3. Set answer text (hidden)
+        current = newCard;
+        setAnswerText(current);
+        
+        // 7. card fade in animation
+        setTimeout(() => {
+            new Promise(r => cardFadeIn(r));
+        }, 80);
 
-    // 4. Load image
-    const finalSrc = await loadImage(newCard.img);
+        // 4. Load image
+        const finalSrc = await loadImage(newCard.img);
 
-    // 5. Apply image
-    clearTimeout(skeletonTimer);
-    setTimeout(() => {
-        setCardImage(finalSrc);
+        // 5. Apply image
+        clearTimeout(skeletonTimer);
+        setTimeout(() => {
+            setCardImage(finalSrc);
+            stopLoading();
+        }, 80);
+
+        // 6. standard behavior OR skip mode 
+        if (finalSrc === PLACEHOLDER) {
+            showSkipMode();
+        } else {
+            showNormalMode();
+        }
+
+        // 9. Preload next (non-blocking)
+        if (nextCard?.img) {
+            loadImage(nextCard.img);
+        }
+    } catch(error) {
+        console.error("nextCardFlow crashed:", error);
         stopLoading();
-    }, 80);
-
-    // 6. standard behavior OR skip mode 
-    if (finalSrc === PLACEHOLDER) {
         showSkipMode();
-    } else {
-        showNormalMode();
-    }
-
-    // 8. Unlock UI
-    isTransitioning = false;
-    setButtonsDisabled(false);
-
-    // 9. Preload next (non-blocking)
-    if (nextCard?.img) {
-        loadImage(nextCard.img);
+    } finally {
+        // 8. Unlock UI
+        isTransitioning = false;
     }
 }
 
-// DECK CHANGE CALLBACK
+// DECK CHANGE CALLBACK (reload next image on deck change)
 setDeckChangeCallback(() => {
     // Invalidate next preloaded image
     nextCard = null;
 
     // recompute next preloaded image
-    const result = getNext(getSelectedDecks());
-    if (result?.nextCard?.img) {
-        nextCard = result.nextCard;
+    const scheduledCards = getScheduledCards(getSelectedDecks());
+    if (scheduledCards?.nextCard?.img) {
+        nextCard = scheduledCards.nextCard;
 
         // preload correct image
         loadImage(nextCard.img);
     }
-});
-
-// EVENTS
-// SHOW ANSWER BUTTON
-el.btnShow.addEventListener("click", () => {
-    if (el.card.classList.contains("loading")) return;
-    showAnswer();
-});
-
-// GRADE BUTTON
-el.gradeButtons.addEventListener("click", (e) => {
-    if (isTransitioning || !current || el.card.classList.contains("loading")) return;
-
-    const btn = e.target.closest("button");
-    if (!btn) return;
-
-    const grade = Number(btn.dataset.grade);
-
-    gradeCard(current, grade);
-    next();
-});
-
-// SKIP BUTTON
-el.btnSkip.addEventListener("click", () => {
-    if (isTransitioning) return;
-
-    el.btnSkip.style.display = "none";
-    next();
 });
 
 // HIDDEN RESET BUTTON
@@ -175,29 +140,88 @@ multiClick(document.getElementById("appVersion"), () => {
     }
 });
 
-// DOWNLOAD BUTTON - COMMENTED BEFORE V1.0
-// el.btnDownload.addEventListener("click", async () => {
-//     if (isIos()) {
-//         alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
-//         return;
-//     }
-
-//     if (!deferredPrompt){
-//         console.error("could not trigger manual download : deferredPrompt is null")
-//         alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
-//         return;
-//     }
-
-//     await deferredPrompt.prompt();
-
-//     const { outcome } = await deferredPrompt.userChoice;
-
-//     deferredPrompt = null;
-// });
-
-// When user comes back to tab
-document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "visible") {
-        checkForUpdate();
+// =======================
+// INIT EVENT LISTENERS
+// =======================
+function initEventListeners() {
+    // HIDE DOWNLOAD BUTTON IN STANDALONE (PWA)
+    if(isInStandalone){
+        el.btnDownload.style.display = "none";
     }
-});
+    
+    // "SHOW ANSWER" BUTTON
+    el.btnShow.addEventListener("click", () => {
+        if (el.card.classList.contains("loading")) return;
+        showAnswer();
+    });
+
+    // GRADE BUTTON
+    el.gradeButtons.addEventListener("click", (e) => {
+        if (isTransitioning || !current || el.card.classList.contains("loading")) return;
+
+        const btn = e.target.closest("button");
+        if (!btn) return;
+
+        const grade = Number(btn.dataset.grade);
+
+        gradeCard(current, grade);
+        nextCardFlow();
+    });
+
+    // SKIP BUTTON
+    el.btnSkip.addEventListener("click", () => {
+        if (isTransitioning) return;
+
+        el.btnSkip.style.display = "none";
+        nextCardFlow();
+    });
+
+    // DOWNLOAD BUTTON
+    el.btnDownload.addEventListener("click", async () => {
+        if (isIos()) {
+            alert("Pour installer l'application :\n\n1. Appuyez sur le bouton “Partager”\n2. Puis sur “Ajouter à l'écran d'accueil”");
+            return;
+        }
+
+        if (!deferredPrompt){
+            console.error("could not trigger manual download : deferredPrompt is null")
+            alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
+            return;
+        }
+
+        await deferredPrompt.prompt();
+
+        const { outcome } = await deferredPrompt.userChoice;
+
+        deferredPrompt = null;
+    });
+
+    window.addEventListener("resize", () =>  {
+        updateDeckScrollbar(el.deckContainer)
+    });
+
+    // When user comes back to tab
+    document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+            checkForUpdate();
+        }
+    });
+
+    // Reload when new SW controls page
+    navigator.serviceWorker.addEventListener("controllerchange", async () => {
+        const isUpdating = sessionStorage.getItem("updating-app") === "true";
+
+        if (!isUpdating) return;
+
+        sessionStorage.removeItem("updating-app");
+
+        // save newly ACTIVE version
+        const latestVersion = await getAppVersion();
+        localStorage.setItem(
+            "installedVersion",
+            latestVersion
+        );
+
+        window.location.reload();
+    });
+}

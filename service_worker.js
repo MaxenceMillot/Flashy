@@ -1,3 +1,4 @@
+// SW version 1.0.0
 let APP_VERSION = null;
 let CACHE_NAME = null;
 
@@ -34,27 +35,35 @@ self.addEventListener("install", (event) => {
         (async () => {
             try{
                 const res = await fetch("./data/version.json", { cache: "no-store" });
+                if (!res.ok) {
+                    throw new Error("Failed to fetch version.json");
+                }
+
                 const data = await res.json();
+                if (!data.version) {
+                    throw new Error("Missing version number");
+                }
+
                 APP_VERSION = data.version;
                 CACHE_NAME = getCacheName(APP_VERSION);
-            }catch{
-                APP_VERSION = "unknown";
-                CACHE_NAME = "flashy-fallback";
+            }catch(error){
+                 console.error("Failed to initialize cache version:", error);
+                // Abort SW install completely
+                throw error;
             }
 
-
             const cache = await caches.open(CACHE_NAME);
-            APP_SHELL.map(async (url) => {
-                try {
-                    await cache.add(url);
-                } catch (err) {
-                    console.warn("Failed to cache:", url);
-                }
-            })
+            await Promise.all(
+                APP_SHELL.map(async (url) => {
+                    try {
+                        await cache.add(url);
+                    } catch (error) {
+                        console.warn("Failed to cache:", url);
+                    }
+                })
+            )
         })()
     );
-
-    self.skipWaiting();
 });
 
 // ACTIVATE
@@ -68,9 +77,8 @@ self.addEventListener("activate", (event) => {
             }
 
             const keys = await caches.keys();
-
             if (!CACHE_NAME) {
-                CACHE_NAME = keys.find(k => k.startsWith("flashy-v"));
+                CACHE_NAME = keys.find(k => k.startsWith("flashy-v"))
             }
 
             await Promise.all(
@@ -80,10 +88,10 @@ self.addEventListener("activate", (event) => {
                     }
                 })
             );
+
+            await self.clients.claim();
         })()
     );
-
-    self.clients.claim();
 });
 
 // FETCH: runtime caching
@@ -94,11 +102,36 @@ self.addEventListener("fetch", (event) => {
         (async () => {
             if (!CACHE_NAME) {
                 const keys = await caches.keys();
-                CACHE_NAME = keys.find(k => k.startsWith("flashy-v"));
+
+                CACHE_NAME = keys.find(k => k.startsWith("flashy-v"))
+
+                if (!CACHE_NAME) {
+                    console.error("No valid flashy cache found for service worker, falling back to standard behavior")
+                    return fetch(request);
+                }
             }
 
             const cache = await caches.open(CACHE_NAME);
 
+            // NAVIGATE request
+            if (request.mode === "navigate") {
+                try {
+                    return await fetch(request);
+                } catch {
+                    const cached = await cache.match("./index.html");
+
+                    if (cached) {
+                        return cached;
+                    }
+
+                    return new Response("Offline", {
+                        status: 503,
+                        statusText: "Offline"
+                    });
+                }
+            }
+
+            // IMAGE request
             if (request.destination === "image") {
                 const cached = await cache.match(request);
                 if (cached) return cached;
@@ -110,7 +143,7 @@ self.addEventListener("fetch", (event) => {
                     const response = await fetch(request, { signal: controller.signal });
 
                     clearTimeout(timeout);
-                    cache.put(request, response.clone());
+                    await cache.put(request, response.clone());
 
                     return response;
                 } catch {
@@ -119,10 +152,35 @@ self.addEventListener("fetch", (event) => {
             }
 
             try {
-                return await fetch(request);
+                const fresh = await fetch(request);
+
+                if (
+                    ["script", "style"].includes(request.destination) ||
+                    request.url.includes("/data/")
+                ) {
+                    if (fresh.ok) {
+                        await cache.put(request, fresh.clone());
+                    }
+                }
+
+                return fresh;
             } catch {
-                return cache.match(request);
+                const cached = await cache.match(request);
+                if (cached) {
+                    return cached;
+                }
+
+                return new Response("Offline", {
+                    status: 503,
+                    statusText: "Offline"
+                });
             }
         })()
     );
+});
+
+self.addEventListener("message", (event) => {
+    if (event.data === "SKIP_WAITING") {
+        self.skipWaiting();
+    }
 });
