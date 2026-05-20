@@ -83,7 +83,7 @@ async function nextCardFlow() {
         
         // 7. card fade in animation
         setTimeout(() => {
-        new Promise(r => cardFadeIn(r));
+            new Promise(r => cardFadeIn(r));
         }, 80);
 
         // 4. Load image
@@ -110,6 +110,7 @@ async function nextCardFlow() {
     } catch(error) {
         console.error("nextCardFlow crashed:", error);
         stopLoading();
+        showSkipMode();
     } finally {
         // 8. Unlock UI
         isTransitioning = false;
@@ -123,7 +124,7 @@ setDeckChangeCallback(() => {
 
     // recompute next preloaded image
     const scheduledCards = getScheduledCards(getSelectedDecks());
-    if (carscheduledCardsds?.nextCard?.img) {
+    if (scheduledCards?.nextCard?.img) {
         nextCard = scheduledCards.nextCard;
 
         // preload correct image
