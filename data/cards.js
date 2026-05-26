@@ -10738,6 +10738,19 @@ export const cards = [
   custom: false
 },
 {
+  id: "Vriesea-Vriesea poelmanii_2",
+  deck: "flowers",
+  img: "images/flowers/Vriesea--Vriesea poelmanii_2_v2.webp",
+  text: "Vriesea (Vriesea poelmanii)",
+  notes: "",
+  EF: 2.5,
+  interval: 0,
+  repetitions: 0,
+  due: 0,
+  score: 0,
+  custom: false
+},
+{
   id: "Vriesea--Vriesea splendens_2",
   deck: "flowers",
   img: "images/flowers/Vriesea--Vriesea splendens_2.webp",
@@ -10755,19 +10768,6 @@ export const cards = [
   deck: "flowers",
   img: "images/flowers/Vriesea--Vriesea splendens_3.jpg",
   text: "Vriesea (Vriesea splendens)",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
-  id: "Vriesea-Vriesea poelmanii_2",
-  deck: "flowers",
-  img: "images/flowers/Vriesea-Vriesea poelmanii_2.webp",
-  text: "Vriesea - Vriesea poelmanii",
   notes: "",
   EF: 2.5,
   interval: 0,
