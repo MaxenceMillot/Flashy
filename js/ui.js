@@ -36,6 +36,12 @@ export function initHeaderMenu() {
     });
 }
 
+// SET DATE IN FOOTER
+export function setDateInFooter(){
+    let currentYear = new Date().getFullYear()
+    document.getElementById("footerYear").textContent += `${currentYear}`;
+}
+
 // =======================
 // UI DOM UPDATE
 // =======================

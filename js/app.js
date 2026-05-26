@@ -1,7 +1,7 @@
 import { initState, cards } from "./state.js";
 import { getScheduledCards, gradeCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
-import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
+import { initHeaderMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
@@ -41,6 +41,7 @@ setTimeout(() => {
 (async () => {
     await initState();
     initHeaderMenu();
+    setDateInFooter();
     initDeckSelector(cards, el.deckContainer);
     initZoom(el.img);
     initEventListeners();
