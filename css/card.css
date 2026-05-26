@@ -177,3 +177,67 @@
     color: #888;
     margin-top: 5px;
 }
+
+/* ===================== */
+/* CARD ACTIONS */
+/* ===================== */
+.card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.card-actions svg {
+    width: clamp(16px, 2vh, 20px);
+    height: clamp(16px, 2vh, 20px);
+
+    stroke-width: 2;
+    opacity: 0.85;
+
+    flex-shrink: 0;
+
+    transition:
+        transform 0.18s ease,
+        opacity 0.18s ease;
+}
+
+#card-mark,
+#card-menu {
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.035);
+
+    transition:
+        background 0.18s ease,
+        color 0.18s ease,
+        transform 0.12s ease,
+        box-shadow 0.18s ease;
+}
+
+#card-mark:hover,
+#card-menu:hover {
+    background: rgba(0,0,0,0.06);
+}
+
+#card-mark:hover svg,
+#card-menu:hover svg {
+    opacity: 1;
+}
+
+#card-mark:active,
+#card-menu:active {
+    transform: scale(0.94);
+    background: rgba(0,0,0,0.06);
+}
