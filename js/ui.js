@@ -10,7 +10,9 @@ export const el = {
     deckContainer: document.getElementById("deckContainer"),
     menuBtn: document.getElementById("menuBtn"),
     mobileMenu: document.getElementById("mobileMenu"),
-    btnDownload: document.getElementById("btnDownload")
+    btnDownload: document.getElementById("btnDownload"),
+    cardMenu: document.getElementById("cardMenu"),
+    cardDropdown: document.getElementById("cardDropdown"),
 };
 
 // =======================
@@ -32,6 +34,40 @@ export function initHeaderMenu() {
         if (!isClickInside) {
             el.mobileMenu.classList.remove("open");
             el.menuBtn.classList.remove("open");
+        }
+    });
+}
+
+export function initCardMenu() {
+    if (!el.cardMenu || !el.cardDropdown) return;
+    const isOpen = el.cardDropdown.classList.contains("open");
+    if (isOpen) {
+        el.cardDropdown.classList.remove("open");
+        el.cardMenu.classList.remove("open");
+        return;
+    }
+
+    el.cardMenu.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        const rect = el.cardMenu.getBoundingClientRect();
+
+        el.cardDropdown.style.top = `${rect.bottom + 8}px`;
+        el.cardDropdown.style.left =
+            `${rect.right - el.cardDropdown.offsetWidth}px`;
+
+        el.cardMenu.classList.toggle("open");
+        el.cardDropdown.classList.toggle("open");
+    });
+
+    document.addEventListener("click", (e) => {
+        const isInside =
+            el.cardMenu.contains(e.target) ||
+            el.cardDropdown.contains(e.target);
+
+        if (!isInside) {
+            el.cardMenu.classList.remove("open");
+            el.cardDropdown.classList.remove("open");
         }
     });
 }

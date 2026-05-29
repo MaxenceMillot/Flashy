@@ -92,10 +92,25 @@
                     </div>
                     <div class="answer" id="answer"></div>
                     <div class="card-actions">
-                        <span id="card-mark"><i data-lucide="bookmark"></i></span>
-                        <span id="card-menu"><i data-lucide="ellipsis-vertical"></i></span>
+                        <span id="cardMark"><i data-lucide="bookmark"></i></span>
+                        <div class="card-menu-wrapper">
+                            <span id="cardMenu"><i data-lucide="ellipsis-vertical"></i></span>
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            <!-- dropdown MUST be outside of card container to avoid overflow issue -->
+            <div class="card-dropdown-menu" id="cardDropdown">
+                <button id="btnReportBug" class="card-dropdown-item">
+                    <i data-lucide="bug"></i>
+                    Déclarer un bug
+                </button>
+                
+                <button id="btnReportCard" class="card-dropdown-item">
+                    <i data-lucide="flag"></i>
+                    Signaler cette carte
+                </button>
             </div>
 
             <div class="buttons">
