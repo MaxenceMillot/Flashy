@@ -13,6 +13,8 @@ export const el = {
     btnDownload: document.getElementById("btnDownload"),
     cardMenu: document.getElementById("cardMenu"),
     cardDropdown: document.getElementById("cardDropdown"),
+    btnReportBug: document.getElementById("btnReportBug"),
+    btnReportCard: document.getElementById("btnReportCard"),
 };
 
 // =======================

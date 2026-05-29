@@ -5,7 +5,7 @@ import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardIm
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
-import { initVersion, setVersionInFooter, getAppVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
 
 let current = null;
 let nextCard = null;
@@ -176,6 +176,40 @@ function initEventListeners() {
 
         el.btnSkip.style.display = "none";
         nextCardFlow();
+    });
+
+
+    // REPORT BUG BUTTON
+    el.btnReportBug.addEventListener("click", () => {
+        const title = encodeURIComponent("[Bug] ");
+        const version = getCurrentVersion();
+
+        const body = encodeURIComponent(`
+            ## Description
+            Describe the issue here.
+
+            ## Steps to reproduce
+            1.
+            2.
+            3.
+
+            ## Expected behavior
+
+            ## Device
+            - OS:
+            - Browser:
+            - App version: ${version}
+        `);
+
+        window.open(
+            `https://github.com/MaxenceMillot/Flashy/issues/new?title=${title}&body=${body}`,
+            "_blank"
+        );
+    });
+
+    // REPORT CARD BUTTON
+    el.btnReportCard.addEventListener("click", async () => {
+
     });
 
     // DOWNLOAD BUTTON

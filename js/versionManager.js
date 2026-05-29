@@ -24,6 +24,10 @@ export async function setVersionInFooter(){
     document.getElementById("appVersion").textContent += `${INSTALLED_VERSION}`;
 }
 
+export function getCurrentVersion(){
+    return INSTALLED_VERSION;
+}
+
 // get app version from SERVER
 export async function getAppVersion() {
     const res = await fetch("./data/version.json", { cache: "no-store" });

@@ -14,6 +14,7 @@ const APP_SHELL = [
     "./css/components.css",
     "./css/header.css",
     "./css/card.css",
+    "./css/modal.css",
 
     "./js/app.js",
     "./js/state.js",
