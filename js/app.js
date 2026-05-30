@@ -181,30 +181,7 @@ function initEventListeners() {
 
     // REPORT BUG BUTTON
     el.btnReportBug.addEventListener("click", () => {
-        const title = encodeURIComponent("[Bug] ");
-        const version = getCurrentVersion();
-
-        const body = encodeURIComponent(`
-            ## Description
-            Describe the issue here.
-
-            ## Steps to reproduce
-            1.
-            2.
-            3.
-
-            ## Expected behavior
-
-            ## Device
-            - OS:
-            - Browser:
-            - App version: ${version}
-        `);
-
-        window.open(
-            `https://github.com/MaxenceMillot/Flashy/issues/new?title=${title}&body=${body}`,
-            "_blank"
-        );
+       
     });
 
     // REPORT CARD BUTTON
@@ -220,7 +197,7 @@ function initEventListeners() {
         }
 
         if (!deferredPrompt){
-            console.error("could not trigger manual download : deferredPrompt is null")
+            console.warning("could not trigger manual download : deferredPrompt is null")
             alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
             return;
         }
