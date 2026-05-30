@@ -15,7 +15,9 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/icons/icon_16.png">
     <link rel="icon" href="images/icons/favicon.ico">
     <link rel="apple-touch-icon" href="images/icons/icon_192.png">
+
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script async src="https://tally.so/widgets/embed.js"></script>
 
     <title>Flashy</title>
 </head>
@@ -40,10 +42,6 @@
                 <i data-lucide="chart-line"></i>
                 Mes Statistiques
             </button>
-            <button class="nav-btn warning">
-                <i data-lucide="bug"></i>
-                Signaler un bug
-            </button> -->
         </div>
 
         <!-- Hamburger (mobile only) -->
@@ -59,12 +57,6 @@
 
 <!-- Dropdown menu (mobile only) -->
 <div class="dropdown-menu" id="mobileMenu">
-    <!--
-    <button class="dropdown-item warning">
-        <i data-lucide="bug"></i>
-        Signaler un Bug
-    </button> 
-    -->
     <button id="btnDownload" class="dropdown-item">
         <i data-lucide="download"></i>
         Télécharger l'application
@@ -103,7 +95,7 @@
 
             <!-- dropdown MUST be outside of card container to avoid overflow issue -->
             <div class="card-dropdown-menu" id="cardDropdown">
-                <button id="btnReportBug" class="card-dropdown-item">
+                <button data-tally-open="RGkL9P" data-tally-layout="modal" data-tally-hide-title="1" data-tally-emoji-text="🪲" data-tally-emoji-animation="none" data-tally-auto-close="0" data-tally-form-events-forwarding="1" id="btnReportBug" class="card-dropdown-item">
                     <i data-lucide="bug"></i>
                     Déclarer un bug
                 </button>
