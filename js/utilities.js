@@ -1,7 +1,3 @@
-export function isIos() {
-    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-}
-
 // STANDALONE = PWA APP
 export function isInStandaloneMode() {
     if (isIos()) {
@@ -9,6 +5,42 @@ export function isInStandaloneMode() {
     }
 
     return window.matchMedia("(display-mode: standalone)").matches;
+}
+
+export function getBrowserInfo() {
+    const ua = navigator.userAgent;
+
+    if (navigator.userAgentData?.brands) {
+        const browser = navigator.userAgentData.brands
+            .find(b => b.brand !== "Not=A?Brand");
+
+        return {
+            name: browser?.brand || "unknown",
+            version: browser?.version || "unknown"
+        };
+    }
+    
+    if (ua.includes("Firefox/")) {
+        return { name: "Firefox" };
+    }
+    if (ua.includes("Chrome/")) {
+        return { name: "Chrome" };
+    }
+    if (
+        ua.includes("Safari/") &&
+        !ua.includes("Chrome/")
+    ) {
+        return { name: "Safari" };
+    }
+
+    return {
+        name: "unknown",
+        version: "unknown"
+    };
+}
+
+export function isIos() {
+    return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
 }
 
 export function getOSInfo() {

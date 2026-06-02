@@ -4,7 +4,7 @@ import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode, isIos, getOSInfo, multiClick } from "./utilities.js";
+import { isInStandaloneMode, getBrowserInfo, isIos, getOSInfo, multiClick } from "./utilities.js";
 import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
 
 let current = null;
@@ -183,6 +183,7 @@ function initEventListeners() {
     el.btnReportBug.addEventListener("click", (e) => {
         e.preventDefault();
 
+        let browser = getBrowserInfo();
         let reportBugFormId = "RGkL9P";
         let os = getOSInfo();
 
@@ -216,7 +217,8 @@ function initEventListeners() {
                 app_version: getCurrentVersion(),
                 card_id: current?.id || "unknown",
                 card_image_link: current?.img || "unknown",
-                browser: navigator.userAgent,
+                browser_name: browser.name,
+                browser_version: browser.version,
                 is_standalone: window.matchMedia("(display-mode: standalone)").matches,
                 os_name: os.name,
                 os_version: os.version,
