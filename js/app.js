@@ -201,7 +201,7 @@ function initEventListeners() {
                 toast.className = "submit-report-toast toast";
 
                 toast.innerHTML = `
-                    <span>Merci pour votre retour ! 🤖</span>
+                    <span>Merci pour votre retour 🚀</span>
                 `;
                 document.body.appendChild(toast);
                 
@@ -246,7 +246,7 @@ function initEventListeners() {
                 toast.className = "submit-report-toast toast";
 
                 toast.innerHTML = `
-                    <span>Merci pour votre retour ! 🤖</span>
+                    <span>Merci pour votre retour 🚀</span>
                 `;
                 document.body.appendChild(toast);
                 
