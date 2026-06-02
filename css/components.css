@@ -73,7 +73,7 @@ button:hover svg {
 }
 
 /* ===================== */
-/* SHOW / SKIP BUTTONS */
+/* SHOW SKIP BUTTONS */
 /* ===================== */
 .btn-show,
 .btn-skip {
@@ -380,20 +380,23 @@ button:hover svg {
 /* ===================== */
 /* TOAST */
 /* ===================== */
-.update-toast {
+.toast {
     position: fixed;
 
     bottom: 40px;
     left: 50%;
 
-    width: 350px;
+    width: 95%;
+    max-width: 420px;
 
     transform: translateX(-50%);
 
-    background: #222;
     color: white;
 
-    padding: 12px 16px;
+    font-size: clamp(1.2rem, 1.9vh, 1.3rem);
+    font-weight: 530;
+
+    padding: 18px 20px;
     border-radius: 12px;
 
     display: flex;
@@ -406,13 +409,12 @@ button:hover svg {
 }
 
 @media (max-width: 600px) {
-
-    .update-toast {
-        width: 80%;
+    .toast {
+        width: 95%;
     }
 }
 
-.update-toast button {
+.toast button {
     background: #4dabf7;
 
     border: none;
@@ -424,7 +426,7 @@ button:hover svg {
     cursor: pointer;
 }
 
-.update-toast button:last-child {
+.toast button:last-child {
     background: transparent;
     color: #aaa;
 }
@@ -436,7 +438,15 @@ button:hover svg {
     margin-left: auto;
 }
 
-.update-toast.updating span::after {
+.update-toast{
+    background: #222;
+}
+
+.submit-report-toast{
+    background: #84b799;
+}
+
+.toast.updating span::after {
     content: "";
     animation: dots 1s infinite;
 }

@@ -84,8 +84,8 @@ export async function checkForUpdate() {
 async function showUpdateToast(worker) {
     if (document.querySelector(".update-toast")) return;
     const newVersion = await getAppVersion();
-    const toast = document.createElement("div");
-    toast.className = "update-toast";
+    let toast = document.createElement("div");
+    toast.className = "update-toast toast";
 
     toast.innerHTML = `
         <span>Mise à jour disponible (v${newVersion})</span>

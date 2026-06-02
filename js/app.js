@@ -4,7 +4,7 @@ import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
+import { isInStandaloneMode, isIos, getOSInfo, multiClick } from "./utilities.js";
 import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
 
 let current = null;
@@ -180,13 +180,89 @@ function initEventListeners() {
 
 
     // REPORT BUG BUTTON
-    el.btnReportBug.addEventListener("click", () => {
-       
+    el.btnReportBug.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let reportBugFormId = "RGkL9P";
+        let os = getOSInfo();
+
+        Tally.openPopup(reportBugFormId, {
+            layout: "modal",
+            width: 376,
+            hideTitle: true,
+            overlay: true,
+            emoji: {
+                text: "🪲",
+                animation: "none",
+            },
+            autoClose: 0,
+            onSubmit: (payload) => {
+                let toast = document.createElement("div");
+                toast.className = "submit-report-toast toast";
+
+                toast.innerHTML = `
+                    <span>Merci pour votre retour ! 🤖</span>
+                `;
+                document.body.appendChild(toast);
+                
+                el.cardMenu.classList.remove("open");
+                el.cardDropdown.classList.remove("open");
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            },
+            hiddenFields: {
+                app_version: getCurrentVersion(),
+                card_id: current?.id || "unknown",
+                card_image_link: current?.img || "unknown",
+                browser: navigator.userAgent,
+                is_standalone: window.matchMedia("(display-mode: standalone)").matches,
+                os_name: os.name,
+                os_version: os.version,
+                screen_size: `${innerWidth}x${innerHeight}`,
+                language: navigator.language || "unknown"
+            }
+        });
     });
 
     // REPORT CARD BUTTON
-    el.btnReportCard.addEventListener("click", async () => {
+    el.btnReportCard.addEventListener("click", (e) => {
+        e.preventDefault();
+        let reportCardFormId = "Bz0BMe";
 
+        Tally.openPopup(reportCardFormId, {
+            layout: "modal",
+            width: 376,
+            hideTitle: true,
+            overlay: true,
+            emoji: {
+                text: "🔎",
+                animation: "none",
+            },
+            autoClose: 0,
+            onSubmit: (payload) => {
+                let toast = document.createElement("div");
+                toast.className = "submit-report-toast toast";
+
+                toast.innerHTML = `
+                    <span>Merci pour votre retour ! 🤖</span>
+                `;
+                document.body.appendChild(toast);
+                
+                el.cardMenu.classList.remove("open");
+                el.cardDropdown.classList.remove("open");
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000);
+            },
+            hiddenFields: {
+                app_version: getCurrentVersion(),
+                card_id: current?.id || "unknown",
+                card_image_link: current?.img || "unknown",
+            }
+        });
     });
 
     // DOWNLOAD BUTTON
