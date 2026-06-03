@@ -48,15 +48,7 @@ async function conditionalReset(){
 
     if (savedBreaking !== BREAKING_VERSION) {
         // Delete TARGETED caches
-        if ("caches" in window) {
-            const keys = await caches.keys();
-
-            await Promise.all(
-                keys
-                    .filter(key => key.startsWith("flashy-v"))
-                    .map(key => caches.delete(key))
-            );
-        }
+        // TODO (not needed now)
 
         // Save migration version
         localStorage.setItem(
