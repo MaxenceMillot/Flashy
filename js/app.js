@@ -6,6 +6,7 @@ import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckSc
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode, getBrowserInfo, isIos, getOSInfo, multiClick } from "./utilities.js";
 import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { generateToast } from "./toaster.js";
 
 let current = null;
 let nextCard = null;
@@ -198,20 +199,9 @@ function initEventListeners() {
             },
             autoClose: 0,
             onSubmit: (payload) => {
-                let toast = document.createElement("div");
-                toast.className = "submit-report-toast toast";
-
-                toast.innerHTML = `
-                    <span>Merci pour votre retour 🚀</span>
-                `;
-                document.body.appendChild(toast);
-                
+                generateToast("submit-report-toast", "Merci pour votre retour ❤️", 3000, false);
                 el.cardMenu.classList.remove("open");
                 el.cardDropdown.classList.remove("open");
-
-                setTimeout(() => {
-                    toast.remove();
-                }, 3000);
             },
             hiddenFields: {
                 app_version: getCurrentVersion(),
@@ -244,20 +234,9 @@ function initEventListeners() {
             },
             autoClose: 0,
             onSubmit: (payload) => {
-                let toast = document.createElement("div");
-                toast.className = "submit-report-toast toast";
-
-                toast.innerHTML = `
-                    <span>Merci pour votre retour 🚀</span>
-                `;
-                document.body.appendChild(toast);
-                
+                generateToast("submit-report-toast", "Merci pour votre retour ❤️", 3000);
                 el.cardMenu.classList.remove("open");
                 el.cardDropdown.classList.remove("open");
-
-                setTimeout(() => {
-                    toast.remove();
-                }, 3000);
             },
             hiddenFields: {
                 app_version: getCurrentVersion(),

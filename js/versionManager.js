@@ -1,3 +1,5 @@
+import { showUpdateToast } from "./toaster.js";
+
 let INSTALLED_VERSION = null;
 
 export async function initVersion() {
@@ -76,51 +78,4 @@ export async function checkForUpdate() {
     } catch (error) {
         console.warn("Update check failed:", error);
     }
-}
-
-// =======================
-// UPDATE TOAST
-// =======================
-async function showUpdateToast(worker) {
-    if (document.querySelector(".update-toast")) return;
-    const newVersion = await getAppVersion();
-    let toast = document.createElement("div");
-    toast.className = "update-toast toast";
-
-    toast.innerHTML = `
-        <span>Mise à jour disponible (v${newVersion})</span>
-        <div class="toast-actions">
-            <button id="refreshApp">Activer</button>
-            <button id="dismissUpdate">✕</button>
-        </div>
-    `;
-
-    document.body.appendChild(toast);
-
-    document.getElementById("refreshApp")
-        .addEventListener("click", () => {
-            sessionStorage.setItem("updating-app", "true");
-
-            toast.classList.add("updating");
-            toast.innerHTML = `
-                <span>⏳ Activation</span>
-            `;
-
-            navigator.serviceWorker.getRegistration()
-                .then((registration) => {
-
-                    if (!registration?.waiting) {
-                        sessionStorage.removeItem("updating-app");
-                        window.location.reload();
-                        return;
-                    }
-
-                    registration.waiting.postMessage("SKIP_WAITING");
-                });
-        });
-
-    document.getElementById("dismissUpdate")
-        .addEventListener("click", () => {
-            toast.remove();
-        });
 }
