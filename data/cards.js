@@ -11752,32 +11752,6 @@ export const cards = [
   custom: false
 },
 {
-  id: "Anthurium-Anthurium andreanum_1",
-  deck: "foliages",
-  img: "images/foliages/Anthurium-Anthurium andreanum_1.jpg",
-  text: "Anthurium - Anthurium andreanum",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
-  id: "Anthurium-Anthurium andreanum_2",
-  deck: "foliages",
-  img: "images/foliages/Anthurium-Anthurium andreanum_2.avif",
-  text: "Anthurium - Anthurium andreanum",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
   id: "Asparagus-Asparagus densiflorus_1",
   deck: "foliages",
   img: "images/foliages/Asparagus-Asparagus densiflorus_1.jpg",
