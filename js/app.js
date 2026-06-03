@@ -1,11 +1,12 @@
 import { initState, cards } from "./state.js";
-import { getScheduledCards, gradeCard } from "./scheduler.js";
+import { setLastCardId, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
-import { initHeaderMenu, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
+import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
-import { isInStandaloneMode,isIos, multiClick } from "./utilities.js";
-import { initVersion, setVersionInFooter, getAppVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { isInStandaloneMode, getBrowserInfo, isIos, getOSInfo, multiClick } from "./utilities.js";
+import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { generateToast } from "./toaster.js";
 
 let current = null;
 let nextCard = null;
@@ -41,6 +42,8 @@ setTimeout(() => {
 (async () => {
     await initState();
     initHeaderMenu();
+    initCardMenu();
+    setDateInFooter();
     initDeckSelector(cards, el.deckContainer);
     initZoom(el.img);
     initEventListeners();
@@ -80,30 +83,36 @@ async function nextCardFlow() {
         // 3. Set answer text (hidden)
         current = newCard;
         setAnswerText(current);
+
+        // 4. Add current card to scheduler buffer
+        rememberShownCard(current);
+
+        // 5. Set current card id to scheduler (to avoid showing it twice)
+        setLastCardId(current.id)
         
-        // 7. card fade in animation
+        // 6. card fade in animation
         setTimeout(() => {
             new Promise(r => cardFadeIn(r));
         }, 80);
 
-        // 4. Load image
+        // 7. Load image
         const finalSrc = await loadImage(newCard.img);
 
-        // 5. Apply image
+        // 8. Apply image
         clearTimeout(skeletonTimer);
         setTimeout(() => {
             setCardImage(finalSrc);
             stopLoading();
         }, 80);
 
-        // 6. standard behavior OR skip mode 
+        // 9. standard behavior OR skip mode 
         if (finalSrc === PLACEHOLDER) {
             showSkipMode();
         } else {
             showNormalMode();
         }
 
-        // 9. Preload next (non-blocking)
+        // 10. Preload next (non-blocking)
         if (nextCard?.img) {
             loadImage(nextCard.img);
         }
@@ -112,7 +121,7 @@ async function nextCardFlow() {
         stopLoading();
         showSkipMode();
     } finally {
-        // 8. Unlock UI
+        // 11. Unlock UI
         isTransitioning = false;
     }
 }
@@ -176,6 +185,73 @@ function initEventListeners() {
         nextCardFlow();
     });
 
+
+    // REPORT BUG BUTTON
+    el.btnReportBug.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        let browser = getBrowserInfo();
+        let reportBugFormId = "RGkL9P";
+        let os = getOSInfo();
+
+        Tally.openPopup(reportBugFormId, {
+            layout: "modal",
+            width: 376,
+            hideTitle: true,
+            overlay: true,
+            emoji: {
+                text: "🪲",
+                animation: "none",
+            },
+            autoClose: 0,
+            onSubmit: (payload) => {
+                generateToast("submit-report-toast", "Merci pour votre retour ❤️", 3000, false);
+                el.cardMenu.classList.remove("open");
+                el.cardDropdown.classList.remove("open");
+            },
+            hiddenFields: {
+                app_version: getCurrentVersion(),
+                card_id: current?.id || "unknown",
+                card_image_link: current?.img || "unknown",
+                browser_name: browser.name,
+                browser_version: browser.version,
+                is_standalone: window.matchMedia("(display-mode: standalone)").matches,
+                os_name: os.name,
+                os_version: os.version,
+                screen_size: `${innerWidth}x${innerHeight}`,
+                language: navigator.language || "unknown"
+            }
+        });
+    });
+
+    // REPORT CARD BUTTON
+    el.btnReportCard.addEventListener("click", (e) => {
+        e.preventDefault();
+        let reportCardFormId = "Bz0BMe";
+
+        Tally.openPopup(reportCardFormId, {
+            layout: "modal",
+            width: 376,
+            hideTitle: true,
+            overlay: true,
+            emoji: {
+                text: "🔎",
+                animation: "none",
+            },
+            autoClose: 0,
+            onSubmit: (payload) => {
+                generateToast("submit-report-toast", "Merci pour votre retour ❤️", 3000);
+                el.cardMenu.classList.remove("open");
+                el.cardDropdown.classList.remove("open");
+            },
+            hiddenFields: {
+                app_version: getCurrentVersion(),
+                card_id: current?.id || "unknown",
+                card_image_link: current?.img || "unknown",
+            }
+        });
+    });
+
     // DOWNLOAD BUTTON
     el.btnDownload.addEventListener("click", async () => {
         if (isIos()) {
@@ -184,7 +260,7 @@ function initEventListeners() {
         }
 
         if (!deferredPrompt){
-            console.error("could not trigger manual download : deferredPrompt is null")
+            console.warn("could not trigger manual download : deferredPrompt is null")
             alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
             return;
         }
@@ -218,7 +294,7 @@ function initEventListeners() {
         // save newly ACTIVE version
         const latestVersion = await getAppVersion();
         localStorage.setItem(
-            "installedVersion",
+            "installed-version",
             latestVersion
         );
 

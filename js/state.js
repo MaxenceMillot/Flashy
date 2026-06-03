@@ -4,7 +4,7 @@ export let cards = [];
 
 // Increment data scheme breaking updates
 // WARNING : delete user progression (which is tied to every card as of v1.0.0)
-const SCHEME_VERSION = "1"; 
+const SCHEME_VERSION = "2"; 
 // Increment on BREAKING changes for extended cache clear
 // WARNING : 
 const BREAKING_VERSION = "1"; 
@@ -48,15 +48,7 @@ async function conditionalReset(){
 
     if (savedBreaking !== BREAKING_VERSION) {
         // Delete TARGETED caches
-        if ("caches" in window) {
-            const keys = await caches.keys();
-
-            await Promise.all(
-                keys
-                    .filter(key => key.startsWith("flashy-v"))
-                    .map(key => caches.delete(key))
-            );
-        }
+        // TODO (not needed now)
 
         // Save migration version
         localStorage.setItem(

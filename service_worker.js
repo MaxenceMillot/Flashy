@@ -1,4 +1,4 @@
-// SW version 1.0.0
+// SW version 1.1.0
 let APP_VERSION = null;
 let CACHE_NAME = null;
 
@@ -147,7 +147,8 @@ self.addEventListener("fetch", (event) => {
 
                     return response;
                 } catch {
-                    return cache.match("./images/placeholder_image_not_found.png");
+                    console.warn("Image fetch failed:", request.url, error);
+                    return Response.error();
                 }
             }
 
