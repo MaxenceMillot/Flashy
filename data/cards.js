@@ -1341,7 +1341,7 @@ export const cards = [
 {
   id: "Beaucarnea, Nolina_2",
   deck: "flowers",
-  img: "images/flowers/Beaucarnea, Nolina_2.jpg",
+  img: "images/flowers/Beaucarnea, Nolina_2_v2.jpg",
   text: "Beaucarnea, Nolina",
   notes: "",
   EF: 2.5,
@@ -2847,10 +2847,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Cinéraire maritime--Senecio maritima, Cineraria maritima_1",
+  id: "Cinéraire maritime-Senecio maritima, Cineraria maritima_1",
   deck: "flowers",
-  img: "images/flowers/Cinéraire maritime--Senecio maritima, Cineraria maritima_1.jpg",
-  text: "Cinéraire maritime (Senecio maritima, Cineraria maritima)",
+  img: "images/flowers/Cinéraire maritime-Senecio maritima, Cineraria maritima_1.webp",
+  text: "Cinéraire maritime - Senecio maritima, Cineraria maritima",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -2860,10 +2860,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Cinéraire maritime--Senecio maritima, Cineraria maritima_2",
+  id: "Cinéraire maritime-Senecio maritima, Cineraria maritima_2",
   deck: "flowers",
-  img: "images/flowers/Cinéraire maritime--Senecio maritima, Cineraria maritima_2.jpg",
-  text: "Cinéraire maritime (Senecio maritima, Cineraria maritima)",
+  img: "images/flowers/Cinéraire maritime-Senecio maritima, Cineraria maritima_2.jpg",
+  text: "Cinéraire maritime - Senecio maritima, Cineraria maritima",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -2873,10 +2873,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Cinéraire maritime--Senecio maritima, Cineraria maritima_3",
+  id: "Cinéraire maritime-Senecio maritima, Cineraria maritima_3",
   deck: "flowers",
-  img: "images/flowers/Cinéraire maritime--Senecio maritima, Cineraria maritima_3.jpg",
-  text: "Cinéraire maritime (Senecio maritima, Cineraria maritima)",
+  img: "images/flowers/Cinéraire maritime-Senecio maritima, Cineraria maritima_3_v2.jpg",
+  text: "Cinéraire maritime - Senecio maritima, Cineraria maritima",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -2886,10 +2886,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Cinéraire maritime--Senecio maritima, Cineraria maritima_4",
+  id: "Cinéraire maritime-Senecio maritima, Cineraria maritima_4",
   deck: "flowers",
-  img: "images/flowers/Cinéraire maritime--Senecio maritima, Cineraria maritima_4.jpg",
-  text: "Cinéraire maritime (Senecio maritima, Cineraria maritima)",
+  img: "images/flowers/Cinéraire maritime-Senecio maritima, Cineraria maritima_4.jpg",
+  text: "Cinéraire maritime - Senecio maritima, Cineraria maritima",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -3031,7 +3031,7 @@ export const cards = [
 {
   id: "Clivia, Lis de Saint Joseph_2",
   deck: "flowers",
-  img: "images/flowers/Clivia, Lis de Saint Joseph_2.jpg",
+  img: "images/flowers/Clivia, Lis de Saint Joseph_2_v2.jpg",
   text: "Clivia, Lis de Saint Joseph",
   notes: "",
   EF: 2.5,
@@ -4433,10 +4433,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Ficus_1",
+  id: "Ficus--Ficus binnendijkii_1",
   deck: "flowers",
-  img: "images/flowers/Ficus_1.png",
-  text: "Ficus",
+  img: "images/flowers/Ficus--Ficus binnendijkii_1.png",
+  text: "Ficus (Ficus binnendijkii)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -4446,10 +4446,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Ficus_2",
+  id: "Ficus--Ficus binnendijkii_2",
   deck: "flowers",
-  img: "images/flowers/Ficus_2.jpg",
-  text: "Ficus",
+  img: "images/flowers/Ficus--Ficus binnendijkii_2.jpg",
+  text: "Ficus (Ficus binnendijkii)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -4459,10 +4459,10 @@ export const cards = [
   custom: false
 },
 {
-  id: "Ficus_3",
+  id: "Ficus--Ficus binnendijkii_3",
   deck: "flowers",
-  img: "images/flowers/Ficus_3.jpg",
-  text: "Ficus",
+  img: "images/flowers/Ficus--Ficus binnendijkii_3.jpg",
+  text: "Ficus (Ficus binnendijkii)",
   notes: "",
   EF: 2.5,
   interval: 0,
@@ -5709,7 +5709,7 @@ export const cards = [
 {
   id: "Impatience de Nouvelle Guinée_3",
   deck: "flowers",
-  img: "images/flowers/Impatience de Nouvelle Guinée_3.jpg",
+  img: "images/flowers/Impatience de Nouvelle Guinée_3_v2.jpg",
   text: "Impatience de Nouvelle Guinée",
   notes: "",
   EF: 2.5,
@@ -8647,7 +8647,7 @@ export const cards = [
 {
   id: "Poinsettia, étoile de Noël_3",
   deck: "flowers",
-  img: "images/flowers/Poinsettia, étoile de Noël_3.jpg",
+  img: "images/flowers/Poinsettia, étoile de Noël_3_v2.jpg",
   text: "Poinsettia, étoile de Noël",
   notes: "",
   EF: 2.5,
@@ -9154,7 +9154,7 @@ export const cards = [
 {
   id: "Rhododendron_3",
   deck: "flowers",
-  img: "images/flowers/Rhododendron_3.jpg",
+  img: "images/flowers/Rhododendron_3.webp",
   text: "Rhododendron",
   notes: "",
   EF: 2.5,
