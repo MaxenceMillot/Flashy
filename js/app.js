@@ -1,5 +1,5 @@
 import { initState, cards } from "./state.js";
-import { getScheduledCards, gradeCard } from "./scheduler.js";
+import { setLastCardId, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
@@ -83,30 +83,36 @@ async function nextCardFlow() {
         // 3. Set answer text (hidden)
         current = newCard;
         setAnswerText(current);
+
+        // 4. Add current card to scheduler buffer
+        rememberShownCard(current);
+
+        // 5. Set current card id to scheduler (to avoid showing it twice)
+        setLastCardId(current.id)
         
-        // 7. card fade in animation
+        // 6. card fade in animation
         setTimeout(() => {
             new Promise(r => cardFadeIn(r));
         }, 80);
 
-        // 4. Load image
+        // 7. Load image
         const finalSrc = await loadImage(newCard.img);
 
-        // 5. Apply image
+        // 8. Apply image
         clearTimeout(skeletonTimer);
         setTimeout(() => {
             setCardImage(finalSrc);
             stopLoading();
         }, 80);
 
-        // 6. standard behavior OR skip mode 
+        // 9. standard behavior OR skip mode 
         if (finalSrc === PLACEHOLDER) {
             showSkipMode();
         } else {
             showNormalMode();
         }
 
-        // 9. Preload next (non-blocking)
+        // 10. Preload next (non-blocking)
         if (nextCard?.img) {
             loadImage(nextCard.img);
         }
@@ -115,7 +121,7 @@ async function nextCardFlow() {
         stopLoading();
         showSkipMode();
     } finally {
-        // 8. Unlock UI
+        // 11. Unlock UI
         isTransitioning = false;
     }
 }

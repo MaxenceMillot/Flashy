@@ -8088,7 +8088,7 @@ export const cards = [
 {
   id: "Persil_1",
   deck: "flowers",
-  img: "images/flowers/Persil_1.jpg",
+  img: "images/flowers/Persil_1_v2.jpg",
   text: "Persil",
   notes: "",
   EF: 2.5,
