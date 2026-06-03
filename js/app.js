@@ -288,7 +288,7 @@ function initEventListeners() {
         // save newly ACTIVE version
         const latestVersion = await getAppVersion();
         localStorage.setItem(
-            "installedVersion",
+            "installed-version",
             latestVersion
         );
 
