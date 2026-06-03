@@ -254,7 +254,7 @@ function initEventListeners() {
         }
 
         if (!deferredPrompt){
-            console.warning("could not trigger manual download : deferredPrompt is null")
+            console.warn("could not trigger manual download : deferredPrompt is null")
             alert("Pour installer l'application : utilisez le menu du navigateur ( ⋮ ) puis “Ajouter à l'écran d'accueil”")
             return;
         }
