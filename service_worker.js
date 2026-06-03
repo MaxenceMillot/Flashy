@@ -14,7 +14,6 @@ const APP_SHELL = [
     "./css/components.css",
     "./css/header.css",
     "./css/card.css",
-    "./css/modal.css",
 
     "./js/app.js",
     "./js/state.js",
@@ -148,7 +147,8 @@ self.addEventListener("fetch", (event) => {
 
                     return response;
                 } catch {
-                    return cache.match("./images/placeholder_image_not_found.png");
+                    console.warn("Image fetch failed:", request.url, error);
+                    return Response.error();
                 }
             }
 
