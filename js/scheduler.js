@@ -1,10 +1,10 @@
 import { cards, save } from "./state.js";
 
-let current = null;
-let nextCard = null;
+let recentSpecies = [];
+const RECENT_BUFFER_SIZE = 5;
 
 export function getScheduledCards(selectedDecks){
-    let now = Date.now();
+    const now = Date.now();
 
     let pool = cards.filter(c =>
         selectedDecks.includes(c.deck) && c.due <= now
@@ -16,13 +16,30 @@ export function getScheduledCards(selectedDecks){
 
     if(pool.length === 0) return null;
 
-    let next = nextCard || pool[Math.floor(Math.random() * pool.length)];
-    let preload = pool[Math.floor(Math.random() * pool.length)];
+    // Avoid recently shown species
+    let available = pool.filter(
+        c => !recentSpecies.includes(
+            c.text.trim().toLowerCase()
+        )
+    );
 
-    return { current: next, nextCard: preload };
+    // Fallback if pool becomes too small
+    if (available.length < RECENT_BUFFER_SIZE) {
+        available = pool;
+    }
+
+    const current = available[Math.floor(Math.random() * available.length)];
+    const preloadPool = available.filter(c => c.id !== current.id);
+    const preload = preloadPool.length > 0
+        ? preloadPool[Math.floor(Math.random() * preloadPool.length)]
+        : current;
+
+    return {current, nextCard: preload};
 }
 
 export function gradeCard(card, q){
+    rememberCard(card);
+
     if(q <= 2){
         card.repetitions = 0;
         card.interval = 1;
@@ -44,4 +61,12 @@ export function gradeCard(card, q){
     card.due = Date.now() + card.interval * 86400000;
 
     save();
+}
+
+function rememberCard(card) {
+    recentSpecies.push(card.text.trim().toLowerCase());
+
+    while (recentSpecies.length > RECENT_BUFFER_SIZE) {
+        recentSpecies.shift();
+    }
 }
