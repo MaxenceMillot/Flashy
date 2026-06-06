@@ -1,4 +1,4 @@
-import { initState, cards } from "./state.js";
+import { initState, cards, DATA_CARDS_STORAGE_KEY } from "./state.js";
 import { setLastCardId, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
@@ -144,7 +144,7 @@ setDeckChangeCallback(() => {
 // HIDDEN RESET BUTTON
 multiClick(document.getElementById("appVersion"), () => {
     if (confirm("Reset all progress?")) {
-        localStorage.removeItem("cards");
+        localStorage.removeItem(DATA_CARDS_STORAGE_KEY);
         location.reload();
     }
 });
