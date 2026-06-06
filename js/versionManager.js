@@ -1,6 +1,7 @@
 import { showUpdateToast } from "./toaster.js";
 
 let INSTALLED_VERSION = null;
+export const INSTALLED_VERSION_STORAGE_KEY = "flashy-installed-version";
 
 export async function initVersion() {
     const cacheKeys = await caches.keys();

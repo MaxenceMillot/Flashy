@@ -5,7 +5,7 @@ import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardIm
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode, getBrowserInfo, isIos, getOSInfo, multiClick } from "./utilities.js";
-import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate, INSTALLED_VERSION_STORAGE_KEY } from "./versionManager.js";
 import { generateToast } from "./toaster.js";
 
 let current = null;
@@ -294,7 +294,7 @@ function initEventListeners() {
         // save newly ACTIVE version
         const latestVersion = await getAppVersion();
         localStorage.setItem(
-            "installed-version",
+            INSTALLED_VERSION_STORAGE_KEY,
             latestVersion
         );
 
