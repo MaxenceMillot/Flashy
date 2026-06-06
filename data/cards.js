@@ -11651,7 +11651,7 @@ export const cards = [
   id: "Sabot de Vénus-Cypripedium calceolus_3",
   deck: "orchids",
   img: "images/orchids/Sabot de Vénus--Cypripedium calceolus_3.jpg",
-  text: "Sabot de Vénus (cypripedium calceolus)",
+  text: "Sabot de Vénus (Cypripedium calceolus)",
   notes: "",
   EF: 2.5,
   interval: 0,

@@ -1,5 +1,5 @@
 import { initState, cards, DATA_CARDS_STORAGE_KEY } from "./state.js";
-import { setLastCardId, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
+import { setLastCard, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
@@ -63,7 +63,7 @@ async function nextCardFlow() {
     isTransitioning = true;
 
     try{
-        const scheduledCards = getScheduledCards(getSelectedDecks());
+        const scheduledCards = getScheduledCards(getSelectedDecks(), nextCard);
         if (!scheduledCards) {
             console.warn("No scheduled cards available");
             return;
@@ -88,7 +88,7 @@ async function nextCardFlow() {
         rememberShownCard(current);
 
         // 5. Set current card id to scheduler (to avoid showing it twice)
-        setLastCardId(current.id)
+        setLastCard(current)
         
         // 6. card fade in animation
         setTimeout(() => {
