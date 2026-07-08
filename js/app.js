@@ -187,7 +187,11 @@ function initEventListeners() {
 
 
     // REPORT BUG BUTTON
-    el.btnReportBug.addEventListener("click", (e) => {
+    el.btnReportBugList.forEach(button => {
+        button.addEventListener("click", openBugReport);
+    });
+
+    function openBugReport(e) {
         e.preventDefault();
 
         let browser = getBrowserInfo();
@@ -222,7 +226,7 @@ function initEventListeners() {
                 language: navigator.language || "unknown"
             }
         });
-    });
+    }
 
     // REPORT CARD BUTTON
     el.btnReportCard.addEventListener("click", (e) => {

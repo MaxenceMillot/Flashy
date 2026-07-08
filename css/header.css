@@ -171,10 +171,14 @@
 }
 
 .dropdown-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+
     padding: 14px 16px;
     border: none;
     background: white;
-    text-align: left;
     font-size: 14px;
     cursor: pointer;
 
