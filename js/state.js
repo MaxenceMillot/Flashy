@@ -9,7 +9,7 @@ export let cards = [];
 
 // Increment data scheme breaking updates
 // WARNING : delete user progression (which is tied to every card as of v1.0.0)
-const SCHEME_VERSION = "2"; 
+const SCHEME_VERSION = "3"; 
 // Increment on BREAKING changes for extended cache clear
 // WARNING : 
 const BREAKING_VERSION = "1"; 
