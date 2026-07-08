@@ -2329,7 +2329,7 @@ export const cards = [
 {
   id: "Camélia-Camellia japonica_4",
   deck: "flowers",
-  img: "images/flowers/Camélia-Camellia japonica_4.jpg",
+  img: "images/flowers/Camélia-Camellia japonica_4_v2.jpg",
   text: "Camélia - Camellia japonica",
   notes: "",
   EF: 2.5,
@@ -3759,7 +3759,7 @@ export const cards = [
 {
   id: "Dieffenbachia-Dieffenbachia picta_2",
   deck: "flowers",
-  img: "images/flowers/Dieffenbachia-Dieffenbachia picta_2.jpg",
+  img: "images/flowers/Dieffenbachia-Dieffenbachia picta_2_v2.jpg",
   text: "Dieffenbachia - Dieffenbachia picta",
   notes: "",
   EF: 2.5,
@@ -5228,7 +5228,7 @@ export const cards = [
 {
   id: "Génévrier-Juniperus squamata_1",
   deck: "flowers",
-  img: "images/flowers/Génévrier-Juniperus squamata_1.jpg",
+  img: "images/flowers/Génévrier-Juniperus squamata_1_v2.jpg",
   text: "Génévrier - Juniperus squamata",
   notes: "",
   EF: 2.5,
@@ -7878,9 +7878,9 @@ export const cards = [
   custom: false
 },
 {
-  id: "Papyrus_3",
+  id: "Papyrus_2",
   deck: "flowers",
-  img: "images/flowers/Papyrus_3.jpg",
+  img: "images/flowers/Papyrus_2.webp",
   text: "Papyrus",
   notes: "",
   EF: 2.5,
@@ -7894,19 +7894,6 @@ export const cards = [
   id: "Papyrus_3",
   deck: "flowers",
   img: "images/flowers/Papyrus_3.webp",
-  text: "Papyrus",
-  notes: "",
-  EF: 2.5,
-  interval: 0,
-  repetitions: 0,
-  due: 0,
-  score: 0,
-  custom: false
-},
-{
-  id: "Papyrus_4",
-  deck: "flowers",
-  img: "images/flowers/Papyrus_4.webp",
   text: "Papyrus",
   notes: "",
   EF: 2.5,
@@ -10922,7 +10909,7 @@ export const cards = [
 {
   id: "Xanadu_2",
   deck: "flowers",
-  img: "images/flowers/Xanadu_2.jpg",
+  img: "images/flowers/Xanadu_2_v2.jpg",
   text: "Xanadu",
   notes: "",
   EF: 2.5,
@@ -10935,7 +10922,7 @@ export const cards = [
 {
   id: "Xanadu_3",
   deck: "flowers",
-  img: "images/flowers/Xanadu_3.jpg",
+  img: "images/flowers/Xanadu_3_v2.jpg",
   text: "Xanadu",
   notes: "",
   EF: 2.5,
@@ -11676,7 +11663,7 @@ export const cards = [
 {
   id: "Sabot de Vénus-Paphiopedilum hybride_2",
   deck: "orchids",
-  img: "images/orchids/Sabot de Vénus-Paphiopedilum hybride_2.jpg",
+  img: "images/orchids/Sabot de Vénus-Paphiopedilum hybride_2_v2.webp",
   text: "Sabot de Vénus - Paphiopedilum hybride",
   notes: "",
   EF: 2.5,
@@ -12664,7 +12651,7 @@ export const cards = [
 {
   id: "Lentisque, Pistachier_3",
   deck: "foliages",
-  img: "images/foliages/Lentisque, Pistachier_3.jpg",
+  img: "images/foliages/Lentisque, Pistachier_3_v2.jpg",
   text: "Lentisque, Pistachier",
   notes: "",
   EF: 2.5,
