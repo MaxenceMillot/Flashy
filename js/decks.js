@@ -1,3 +1,4 @@
+export const SELECTED_DECKS_STORAGE_KEY = "flashy-selected-decks";
 const deckNames = {
     flowers: "Fleurs & Plantes",
     orchids: "Orchidées",
@@ -17,6 +18,7 @@ const deckConfig = {
         icon: "leaf"
     }
 };
+
 let selectedDecks = new Set();
 let onDeckChange = null;
 
@@ -33,15 +35,28 @@ export function setDeckChangeCallback(cb) {
 }
 
 export function initDeckSelector(cards, container){
+    const savedDecks = loadSelectedDecks();
     const decks = [...new Set(cards.map(c => c.deck))];
 
-    container.innerHTML = "";
-    selectedDecks = new Set([decks[0]]);
+    // Keep decks that still exist
+    selectedDecks = new Set(
+        [...savedDecks].filter(deck => decks.includes(deck))
+    );
+    // Fallback if nothing valid remains
+    if (selectedDecks.size === 0) {
+        selectedDecks = new Set([decks[0]]);
+        saveSelectedDecks();
 
-    decks.forEach((deck, index) => {
+    }
+
+    container.innerHTML = "";
+
+    decks.forEach((deck) => {
         const chip = document.createElement("button");
          // Only first chip is "selected"
-        chip.className = index === 0 ? "chip selected disabled" : "chip";
+        chip.className = selectedDecks.has(deck)
+            ? "chip selected"
+            : "chip";
         chip.dataset.deck = deck;
 
         const config = deckConfig[deck] || { label: deck, icon: "tag" };
@@ -59,6 +74,8 @@ export function initDeckSelector(cards, container){
     });
 
     lucide.createIcons();
+
+    updateStateUI();
 
     requestAnimationFrame(() => {
         updateDeckScrollbar(container);
@@ -91,10 +108,28 @@ function toggleDeck(deck, chip) {
         });
     }
 
+    saveSelectedDecks();
     updateStateUI();
 
     if (onDeckChange) {
         onDeckChange([...selectedDecks]);
+    }
+}
+
+function saveSelectedDecks() {
+    localStorage.setItem(
+        SELECTED_DECKS_STORAGE_KEY,
+        JSON.stringify([...selectedDecks])
+    );
+}
+
+function loadSelectedDecks() {
+    try {
+        return new Set(
+            JSON.parse(localStorage.getItem(SELECTED_DECKS_STORAGE_KEY) || "[]")
+        );
+    } catch {
+        return new Set();
     }
 }
 
@@ -112,5 +147,9 @@ function updateStateUI() {
         }
     });
 
-    updateDeckScrollbar(document.getElementById("deckContainer"));
+    const deckContainer = document.getElementById("deckContainer");
+
+    if (deckContainer) {
+        updateDeckScrollbar(deckContainer);
+    }
 }

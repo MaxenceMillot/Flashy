@@ -1,14 +1,14 @@
 import { cards, save } from "./state.js";
 
-let lastCardId = null;
+let lastCard = null;
 let recentSpecies = [];
-const RECENT_BUFFER_SIZE = 5;
+const RECENT_BUFFER_SIZE = 3;
 
-export function setLastCardId(id = null){
-    lastCardId = id;
+export function setLastCard(card = null){
+    lastCard = card;
 }
 
-export function getScheduledCards(selectedDecks){
+export function getScheduledCards(selectedDecks, reservedCard = null){
     const now = Date.now();
 
     let pool = cards.filter(c =>
@@ -26,16 +26,18 @@ export function getScheduledCards(selectedDecks){
         c => !recentSpecies.includes(
             c.text.trim().toLowerCase()
         ) &&
-        c.id !== lastCardId
+        c.id !== lastCard?.id &&
+        c.id !== reservedCard?.id
     );
 
     // Fallback if pool becomes too small
-    if (available.length <= 5) {
+    if (available.length <= 3) {
         available = pool.filter(
-            c => c.id !== lastCardId
+            c =>
+                c.id !== lastCard?.id &&
+                c.id !== reservedCard?.id
         );
 
-        // Single-card deck safety
         if (available.length === 0) {
             available = pool;
         }
@@ -45,7 +47,8 @@ export function getScheduledCards(selectedDecks){
     const preloadPool = available.filter(
         c =>
             c.id !== current.id &&
-            c.id !== lastCardId
+            c.id !== lastCard?.id &&
+            c.id !== reservedCard?.id
     );
     const preload = preloadPool.length > 0
         ? preloadPool[Math.floor(Math.random() * preloadPool.length)]

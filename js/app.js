@@ -1,11 +1,11 @@
-import { initState, cards } from "./state.js";
-import { setLastCardId, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
+import { initState, cards, DATA_CARDS_STORAGE_KEY } from "./state.js";
+import { setLastCard, getScheduledCards, gradeCard, rememberShownCard } from "./scheduler.js";
 import { loadImage, preloadAllImages, PLACEHOLDER } from "./imageLoader.js";
 import { initHeaderMenu, initCardMenu, setDateInFooter, setAnswerText, setCardImage, startLoading, stopLoading, showAnswer, showNormalMode, showSkipMode, cardFadeOut, cardFadeIn, el } from "./ui.js";
 import { initDeckSelector, getSelectedDecks, setDeckChangeCallback, updateDeckScrollbar } from "./decks.js";
 import { initZoom } from "./zoom.js";
 import { isInStandaloneMode, getBrowserInfo, isIos, getOSInfo, multiClick } from "./utilities.js";
-import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate } from "./versionManager.js";
+import { initVersion, setVersionInFooter, getAppVersion, getCurrentVersion, registerServiceWorker, checkForUpdate, INSTALLED_VERSION_STORAGE_KEY } from "./versionManager.js";
 import { generateToast } from "./toaster.js";
 
 let current = null;
@@ -63,7 +63,7 @@ async function nextCardFlow() {
     isTransitioning = true;
 
     try{
-        const scheduledCards = getScheduledCards(getSelectedDecks());
+        const scheduledCards = getScheduledCards(getSelectedDecks(), nextCard);
         if (!scheduledCards) {
             console.warn("No scheduled cards available");
             return;
@@ -88,7 +88,7 @@ async function nextCardFlow() {
         rememberShownCard(current);
 
         // 5. Set current card id to scheduler (to avoid showing it twice)
-        setLastCardId(current.id)
+        setLastCard(current)
         
         // 6. card fade in animation
         setTimeout(() => {
@@ -144,7 +144,7 @@ setDeckChangeCallback(() => {
 // HIDDEN RESET BUTTON
 multiClick(document.getElementById("appVersion"), () => {
     if (confirm("Reset all progress?")) {
-        localStorage.removeItem("cards");
+        localStorage.removeItem(DATA_CARDS_STORAGE_KEY);
         location.reload();
     }
 });
@@ -187,7 +187,11 @@ function initEventListeners() {
 
 
     // REPORT BUG BUTTON
-    el.btnReportBug.addEventListener("click", (e) => {
+    el.btnReportBugList.forEach(button => {
+        button.addEventListener("click", openBugReport);
+    });
+
+    function openBugReport(e) {
         e.preventDefault();
 
         let browser = getBrowserInfo();
@@ -222,7 +226,7 @@ function initEventListeners() {
                 language: navigator.language || "unknown"
             }
         });
-    });
+    }
 
     // REPORT CARD BUTTON
     el.btnReportCard.addEventListener("click", (e) => {
@@ -294,7 +298,7 @@ function initEventListeners() {
         // save newly ACTIVE version
         const latestVersion = await getAppVersion();
         localStorage.setItem(
-            "installed-version",
+            INSTALLED_VERSION_STORAGE_KEY,
             latestVersion
         );
 
